@@ -4,14 +4,17 @@ using UnityEngine;
 
 public class PlayerManager : MonoBehaviour
 {
-    public StatBlock playerStats;
     public static PlayerManager pM;
+    public PlayerController pC;
 
-
+    private void Awake()
+    {
+        pC = GetComponent<PlayerController>();
+    }
     // Start is called before the first frame update
     void Start()
     {
-        
+        pC.SetOnLoad(PlayerData.playerStats);
     }
 
     // Update is called once per frame
@@ -19,4 +22,11 @@ public class PlayerManager : MonoBehaviour
     {
         
     }
+
+    public void LoadPlayer()
+    {
+
+    }
+
+
 }

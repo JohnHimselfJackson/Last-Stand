@@ -21,7 +21,7 @@ public class StatBlock
     #region stats
     static readonly float[] baseMeleeValues = { 20, 0, 4 , 0.3f, 0.9f, 3 }; // damage, attack class, damage type, attack speed, attack cooldown, consectutive attacks
     float[] modMeleeValues = new float[6];
-    static readonly float[] baseRifleValues = {8, 0, 1, 30, 0.6f, 0.1f, 20, 30, 0}; // damage, attack class, damage type, ammo, reload, firerate, range, Spread, penertration
+    static readonly float[] baseRifleValues = {8, 0, 1, 30, 1.6f, 0.1f, 20, 30, 0}; // damage, attack class, damage type, ammo, reload, firerate, range, Spread, penertration
     float[] modRifleValues = new float[9];
     static readonly float[] baseSniperValues = { 20, 0, 4, 6, 2.5f, 1.2f, 35, 0, 0 }; // damage, attack class, damage type, ammo, reload, firerate, range, Spread, penertration
     float[] modSniperValues = new float[9];
@@ -326,22 +326,6 @@ public class StatBlock
                         for (int vv = 0; vv < baseDefenceValues.Length; vv++)
                         {
                             finalReturn[vv] = baseDefenceValues[vv] + modDefenceValues[vv];
-                        }
-                        return finalReturn;
-                }
-                break;
-            case "tran":
-                switch (stage)
-                {
-                    case "base":
-                        return baseTranValues;
-                    case "mod":
-                        return modTranValues;
-                    case "final":
-                        float[] finalReturn = new float[4];
-                        for (int vv = 0; vv < baseTranValues.Length; vv++)
-                        {
-                            finalReturn[vv] = baseTranValues[vv] + modTranValues[vv];
                         }
                         return finalReturn;
                 }

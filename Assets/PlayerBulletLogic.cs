@@ -11,6 +11,7 @@ public class PlayerBulletLogic : MonoBehaviour
     Vector3 originPoint;
     Vector3 endPoint;
     Vector3 DirectionVector;
+    Vector3[] newLinePos;
     DamagePackage BulletDamage;
 
     public void StartBullet(Vector3 playerPos, Vector3 shootPoint, float range, DamagePackage myDamagePackage)
@@ -36,12 +37,18 @@ public class PlayerBulletLogic : MonoBehaviour
     {
         if ((startPoint - originPoint).magnitude < (endPoint-originPoint).magnitude)
         {
-            Vector3[] newLinePos = new Vector3[2];
+            newLinePos = new Vector3[2];
             newLinePos[0] = startPoint;
-            newLinePos[1] = startPoint + DirectionVector * 0.3f;
+            newLinePos[1] = startPoint + DirectionVector * 0.5f;
             startPoint = newLinePos[1];
             lR.SetPositions(newLinePos);
             //needs line cast and damage logic
+            RaycastHit hit;
+            Physics.Linecast(newLinePos[0], newLinePos[0],out hit, 1 << 9);
+            if (hit.collider != null)
+            {
+                print("hit " + hit.collider.name);
+            }
         }
         else
         {
@@ -49,7 +56,10 @@ public class PlayerBulletLogic : MonoBehaviour
         }
     }
 
-
+    private void OnDrawGizmos()
+    {
+        Gizmos.DrawLine(newLinePos[0], newLinePos[0]);
+    }
 
 
 
