@@ -43,8 +43,9 @@ public class PlayerBulletLogic : MonoBehaviour
             startPoint = newLinePos[1];
             lR.SetPositions(newLinePos);
             //needs line cast and damage logic
+
             RaycastHit hit;
-            Physics.Linecast(newLinePos[0], newLinePos[0],out hit, 1 << 9);
+            Physics.Linecast(newLinePos[0], newLinePos[0],out hit, 1<<9);
             if (hit.collider != null)
             {
                 print("hit " + hit.collider.name);
@@ -55,12 +56,6 @@ public class PlayerBulletLogic : MonoBehaviour
             gameObject.SetActive(false);
         }
     }
-
-    private void OnDrawGizmos()
-    {
-        Gizmos.DrawLine(newLinePos[0], newLinePos[0]);
-    }
-
 
 
 
