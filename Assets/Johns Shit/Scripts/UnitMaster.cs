@@ -5,9 +5,10 @@ using UnityEngine;
 public class UnitMaster : MonoBehaviour
 {
     #region Base StatBLock
-    float health;
+    float healthTotal;
+    float healthCurrent;
     int evasion;
-    int armor;
+    int armour;
     enum unitClass {heavy, light};
     unitClass myClass;
     float movespeed;
@@ -322,4 +323,61 @@ public class UnitMaster : MonoBehaviour
         underFire = false;
     }
     #endregion
+
+    public void PlayerDamageResolution(DamagePackage incomingDamage)
+    {
+        #region VariableCalculations
+        int  tempEvasion = evasion;
+        switch (incomingDamage.myClass)
+        {
+            case DamagePackage.damageClass.heavy:
+                if(myClass == unitClass.light)
+                {
+                    tempEvasion *= 2;
+                }
+                break;
+            case DamagePackage.damageClass.light:
+                if (myClass == unitClass.heavy)
+                {
+                    tempEvasion = (int)(tempEvasion/2);
+                }
+                break;
+        }
+
+        #endregion
+        //divides incoming damage up according to type
+        switch (incomingDamage.myType)
+        {
+            #region Standard Damage
+            case DamagePackage.damageType.standard:
+                int finalDamage = incomingDamage.damage;
+                finalDamage -= (armour + tempEvasion);
+                break;
+            #endregion
+            #region Direct Damage
+            case DamagePackage.damageType.direct:
+                
+                break;
+            #endregion
+            #region AP Damage
+            case DamagePackage.damageType.AP:
+                
+                break;
+            #endregion
+            #region True Damage
+            case DamagePackage.damageType.trueDamage:
+
+                break;
+                #endregion
+        }
+        //checks if the player is dead
+        if (healthCurrent < 1)
+        {
+            UnitDead();
+        }
+    }
+    void UnitDead()
+    {
+
+    }    
 }
