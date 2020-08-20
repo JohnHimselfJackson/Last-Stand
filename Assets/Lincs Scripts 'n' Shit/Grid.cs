@@ -8,26 +8,28 @@ public class Grid : MonoBehaviour{
     
     public LayerMask obstacleLayer; //the obstacle layer
     public LayerMask playerLayer; //the obstacle layer
+    public LayerMask buildingLayer; //the obstacle layer
     public Vector2 gridWorldSize; //the size of the grid 
     public float nodeRadius; // size of the nodes
     public float distance; //distance of nodes
     int gridX; //how many nodes on x axis
     int gridY; //how many nodes on y axis
     Node[,] grid; //an array of nodes
-                  // public List<Node> OptimalPath; //the path
-    public Transform[] enemy;
+    public List<Node> OptimalPath; //the path
+    
 
     void Awake() //create the grid
     {
 
         gridX = Mathf.RoundToInt(gridWorldSize.x / (2 * nodeRadius));
         gridY = Mathf.RoundToInt(gridWorldSize.y / (2 * nodeRadius));
-       
+        GridCreation();
     }
 
     public void Update()
     {
         GridCreation();
+    
     }
 
     public void GridCreation() //function that creates grid over an area, checks for obstacles
@@ -45,6 +47,7 @@ public class Grid : MonoBehaviour{
                 Vector3 worldPoint = bottomLeft + Vector3.right * (x * nodeRadius * 2 + nodeRadius) + Vector3.forward * (y * nodeRadius * 2 + nodeRadius); //to check every node point
                 bool isObstacle = false;
                 bool isAgent = false;
+                bool isBuilding = false;
                 if (Physics.CheckSphere(worldPoint, nodeRadius, playerLayer))
                 { //if the node is on a obstacle layerd gameobject
                     isAgent = true; //sets node to an obstacle
@@ -53,8 +56,12 @@ public class Grid : MonoBehaviour{
                 if (Physics.CheckSphere(worldPoint, nodeRadius, obstacleLayer)){ //if the node is on a obstacle layerd gameobject
                     isObstacle = true; //sets node to an obstacle
                 }
-          
-                grid[x, y] = new Node(isAgent,isObstacle, worldPoint, x, y); //add the node to the array
+                if (Physics.CheckSphere(worldPoint, nodeRadius, buildingLayer))
+                { //if the node is on a obstacle layerd gameobject
+                    isBuilding = true; //sets node to an obstacle
+                }
+
+                grid[x, y] = new Node(isAgent,isObstacle,isBuilding, worldPoint, x, y); //add the node to the array
             }
            
         }
@@ -72,7 +79,23 @@ public class Grid : MonoBehaviour{
 
 
         return grid[x, y]; //return the node
-    }  
+    }
+
+    public Node[] NodeArea(Vector3 worldPoint , GameObject objectCheck) //function to find the node from the world posistion
+    {
+        Node[] nodeAreaArray = new Node[2];
+        MeshRenderer renderer = objectCheck.GetComponent<MeshRenderer>();
+        Vector3 size = renderer.bounds.size;
+        //
+        for(int i=0;i<= 2; i++)
+        {
+            nodeAreaArray[i] = NodePoint(new Vector3(size.x, worldPoint.y, worldPoint.z));
+        }
+       
+     
+
+        return nodeAreaArray; //return the node array
+    }
 
     public List<Node> FindNeighbours(Node node) //function to find the neighbours of any given node
     {
@@ -99,9 +122,8 @@ public class Grid : MonoBehaviour{
     
     private void OnDrawGizmos() //draws the grid
     {
-        Astar astar; //astar logic reference
-        astar = GetComponent<Astar>();  //astar logic reference
-        Gizmos.DrawWireCube(transform.position, new Vector3(gridWorldSize.x, 1, gridWorldSize.y)); //draw a wire grid with correct dimensions
+ 
+        Gizmos.DrawWireCube(transform.position, new Vector3(gridWorldSize.x, 0, gridWorldSize.y)); //draw a wire grid with correct dimensions
 
         if (grid != null ) //if the grid is not empty
         {
@@ -111,6 +133,9 @@ public class Grid : MonoBehaviour{
             foreach (Node node in grid) //iterate through all nodes
             {
              
+               
+
+          
                 if (!node.isObstacle) //if node is not an obstacle
                 {
                     Gizmos.color = Color.white;  //set the colour to white      
@@ -118,46 +143,28 @@ public class Grid : MonoBehaviour{
         
                 else
                 {
+                   
                     Gizmos.color = Color.red; //if it is obstacle set the nodes colour to red
                 }
-                if (node.isAgent) //if node is not an obstacle
+            
+                if (node.isBuilding) //if node is not an obstacle
                 {
-                    Gizmos.color = Color.green;  //set the colour to white      
+                    Gizmos.color = Color.blue;  //set the colour to white      
                 }
-                //if (playerNode == node)
+                //for (int i = 0; i < OptimalPath.Count; i++)
                 //{
-                //    Gizmos.color = Color.cyan; //make the player or start node cyan
-                //}
-                //foreach (Transform t in enemy)
-                //{
-                //    if (node == NodePoint(t.position))
+                //    if (node.nodePos == OptimalPath[i].nodePos)
                 //    {
-                //        Gizmos.color = Color.yellow; //make the goal yellow
+                //        Gizmos.color = Color.green;
                 //    }
                 //}
-              
-                //if(OptimalPath != null) //if the optimal path has been found
-                //{
-                //    if (OptimalPath.Contains(node))
-                //    {
-                //        Gizmos.color = Color.green; //make it green
-                //    }                  
-                //}
-         
-                //if (endNode == node)
-                //{
-                //    
-                //}
-                //if (astar.closedList.Contains(node))
-                //{
-                //   //Gizmos.color = Color.black;
-                //}
-                //if (astar.openList.Contains(node))
-                //{
-                //    //Gizmos.color = Color.grey;
-                //}
+
+
                 Gizmos.DrawWireCube(node.nodePos, Vector3.one * (nodeRadius * 2 - distance)); //draw the node
             }
+          
+            
+            
         }
     }
 }

@@ -7,9 +7,9 @@ public class PlayerCam : MonoBehaviour
 {
     public GameObject playerCam;//a reference to the player\
     public int height = 45;//height of the cam above the player
-    float xMove = 0f;
-    float yMove = 0f;
-    float speed = 10f;
+    readonly float xMove = 0f;
+    readonly float yMove = 0f;
+    readonly float speed = 10f;
 
     private void Update()//every update moves the camera to the players position and height varible
     {

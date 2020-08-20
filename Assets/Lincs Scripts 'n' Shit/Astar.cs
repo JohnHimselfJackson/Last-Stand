@@ -10,8 +10,8 @@ public class Astar : MonoBehaviour
    // public GameObject endPos; //end posisition of path
     public List<Node> openList = new List<Node>(); //openlist of possible path nodes
     public List<Node> closedList = new List<Node>(); //closed list of path nodes
-    Grid grid; //grid reference
-
+   public Grid grid; //grid reference
+    
     private void Awake()
     {
         grid = FindObjectOfType<Grid>().GetComponent<Grid>(); //get the grid attached
@@ -59,7 +59,7 @@ public class Astar : MonoBehaviour
             {
                
                 
-                if (neighbour.isObstacle || closedList.Contains(neighbour)) //if the neighbour node is an obnstacle or not in close list
+                if (neighbour.isObstacle || neighbour.isBuilding || closedList.Contains(neighbour)) //if the neighbour node is an obnstacle or not in close list
                 {
                     
                     continue;
@@ -88,8 +88,10 @@ public class Astar : MonoBehaviour
         int mx = Mathf.Abs(node1.xVal - node2.xVal);
         int my = Mathf.Abs(node1.yVal - node2.yVal);
 
+       int h = 10 * (mx + my) - 6 * Mathf.Min(mx, my);
        
-       return Mathf.Max(mx , my);
+       //return Mathf.Max(mx , my);
+       return h;
     }
   
 
@@ -104,6 +106,7 @@ public class Astar : MonoBehaviour
             CurrentNode = CurrentNode.Parent;
         }
         OptimalPath.Reverse(); // reverse the chain
+      
 
         //grid.OptimalPath = OptimalPath; //show the path
         return OptimalPath;
