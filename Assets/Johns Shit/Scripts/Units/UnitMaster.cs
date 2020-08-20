@@ -5,17 +5,17 @@ using UnityEngine;
 public class UnitMaster : MonoBehaviour
 {
     #region Base StatBLock
-    float healthTotal;
-    float healthCurrent;
-    int evasion;
-    int armour;
-    enum unitClass {heavy, light};
-    unitClass myClass;
-    float movespeed;
-    float lineOfSight;
-    float attackRange;
-    DamagePackage damage;
-    float attackCooldown;
+    protected float healthTotal;
+    protected float healthCurrent;
+    protected int evasion;
+    protected int armour;
+    public enum unitClass {heavy, light};
+    protected unitClass myClass;
+    protected float movespeed;
+    protected float lineOfSight;
+    protected float attackRange;
+    protected DamagePackage damage;
+    protected float attackCooldown;
     #endregion
 
     #region Unit Consts
@@ -25,22 +25,22 @@ public class UnitMaster : MonoBehaviour
 
     #region nav variables
     //TODO replaced with navmesh locations    
-    Vector3 myPos; 
-    Vector3 activeRally;
-    List<Vector3> rallyPos; // will be set on unit creation
-    Vector3 activeFlare;    // will be set when a flare is used
+    protected Vector3 myPos;
+    protected Vector3 activeRally;
+    protected List<Vector3> rallyPos; // will be set on unit creation
+    protected Vector3 activeFlare;    // will be set when a flare is used
     #endregion
 
     #region Shooting Variables    
-    GameObject activeTarget;
-    bool attacking;
-    float attackTime;
+    protected GameObject activeTarget;
+    protected bool attacking;
+    protected float attackTime;
     #endregion
 
     #region Combat Variables
-    bool underFire;
+    protected bool underFire;
     public bool inCover;
-    bool MovToCover;
+    protected bool MovToCover;
     #endregion
     
     void Start()
