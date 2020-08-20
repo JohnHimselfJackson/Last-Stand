@@ -105,7 +105,7 @@ public class PlayerController : MonoBehaviour
         #region Setting Rifle Stats
         #region setting damage class
         rifleDmgPkg = new DamagePackage();
-        rifleDmgPkg.damage = rifleStats[0];
+        rifleDmgPkg.damage = (int)rifleStats[0];
         switch (rifleStats[2])
         {
             case 0: // standard
@@ -142,7 +142,7 @@ public class PlayerController : MonoBehaviour
         #region Setting Sniper Stats
         #region setting damage class
         sniperDmgPkg = new DamagePackage();
-        sniperDmgPkg.damage = sniperStats[0];
+        sniperDmgPkg.damage = (int)sniperStats[0];
         switch (sniperStats[2])
         {
             case 0: // standard

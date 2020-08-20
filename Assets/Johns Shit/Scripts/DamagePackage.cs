@@ -8,17 +8,19 @@ public struct DamagePackage
     public damageClass myClass;
     public enum damageType  { standard, AP, direct, trueDamage}
     public damageType myType;
-    public float damage;
+    public int damage;
+    public float UFD;
     /// <summary>
     /// damage class, damage type, damage
     /// </summary>
     /// <param name="tempDC"></param>
     /// <param name="tempDT"></param>
     /// <param name="tempDamage"></param>
-    public DamagePackage(damageClass tempDC, damageType tempDT, float tempDamage)
+    public DamagePackage(damageClass tempDC, damageType tempDT, int tempDamage, float _UFD)
     {
         damage = tempDamage;
         myClass = tempDC;
         myType = tempDT;
+        UFD = _UFD;
     }
 }
