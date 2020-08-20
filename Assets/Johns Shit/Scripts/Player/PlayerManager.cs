@@ -80,11 +80,13 @@ public class PlayerManager : MonoBehaviour
         //checks to see if incoming attack is a heavy attack for heavy vs light bonus
         if(incomingDamage.myClass == DamagePackage.damageClass.heavy)
         {
-            //doubles evasion and grazxe chance as lvh bonus
+            //doubles evasion and graze chance as lvh bonus
             tempEvasionChance *= 2;
             tempGrazeChance *= 2;
         }
         #endregion
+
+
         //divides incoming damage up according to type
         switch (incomingDamage.myType)
         {
@@ -92,7 +94,7 @@ public class PlayerManager : MonoBehaviour
             case DamagePackage.damageType.standard:
                 int finalDamage;
                 //rng number for if attack hits
-                hitNo = Random.Range(0, 100);
+                hitNo = Random.Range(0, 101);
                 // if number is greater than the graze chance it is a full hit
                 if (hitNo > tempGrazeChance)
                 {
@@ -112,9 +114,10 @@ public class PlayerManager : MonoBehaviour
                 {
                     finalDamage = 0;
                     //rpojectile has missed the player
-                    projectileResolved = true;
+                    projectileResolved = false;
                     //dodged
                 }
+
                 //calucation after final damage found 
                 healthCurrent -= finalDamage;
                 if (healthCurrent < 0)

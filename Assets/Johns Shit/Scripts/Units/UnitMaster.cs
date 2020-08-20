@@ -310,11 +310,11 @@ public class UnitMaster : MonoBehaviour
     /// </summary>
     /// <param name="dp"></param>
     /// <param name="UFDelay"></param>
-    public void DamageUnit(DamagePackage dp, float UFDelay)
+    public void DamageUnit(DamagePackage dp)
     {
         underFire = true;
-        Invoke("NUF", UFDelay);
-        //insert damage caluclations here
+        Invoke("NUF", dp.UFD);
+        DamageResolution(dp);
     }
 
     //invoked to set underFire bool to false
@@ -324,10 +324,11 @@ public class UnitMaster : MonoBehaviour
     }
     #endregion
 
-    public void PlayerDamageResolution(DamagePackage incomingDamage)
+    public void DamageResolution(DamagePackage incomingDamage)
     {
         #region VariableCalculations
-        int  tempEvasion = evasion;
+        int finalDamage = 0;
+        int tempEvasion = evasion;
         switch (incomingDamage.myClass)
         {
             case DamagePackage.damageClass.heavy:
@@ -350,34 +351,54 @@ public class UnitMaster : MonoBehaviour
         {
             #region Standard Damage
             case DamagePackage.damageType.standard:
-                int finalDamage = incomingDamage.damage;
+                finalDamage= incomingDamage.damage;
                 finalDamage -= (armour + tempEvasion);
+                if(finalDamage < 0)
+                {
+                    finalDamage = 0;
+                }
                 break;
             #endregion
             #region Direct Damage
             case DamagePackage.damageType.direct:
-                
+                finalDamage = incomingDamage.damage;
+                finalDamage -= armour;
+                if (finalDamage < 0)
+                {
+                    finalDamage = 0;
+                }
                 break;
             #endregion
             #region AP Damage
             case DamagePackage.damageType.AP:
-                
+                finalDamage = incomingDamage.damage;
+                finalDamage -=tempEvasion;
+                if (finalDamage < 0)
+                {
+                    finalDamage = 0;
+                }
                 break;
             #endregion
             #region True Damage
             case DamagePackage.damageType.trueDamage:
-
+                finalDamage = incomingDamage.damage;
+                if (finalDamage < 0)
+                {
+                    finalDamage = 0;
+                }
                 break;
                 #endregion
         }
+        healthCurrent -= finalDamage;
         //checks if the player is dead
         if (healthCurrent < 1)
         {
             UnitDead();
         }
     }
+
     void UnitDead()
     {
-
+        Destroy(gameObject);
     }    
 }

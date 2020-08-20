@@ -190,8 +190,23 @@ public class PlayerController : MonoBehaviour
         AimShoot();
     }
 
+    void FixedUpdate()
+    {
+
+    }
+
+    void move()
+    {
+        //get direction
+        //raycast from sky in that direction
+        //ray cast from to ankles
+        //check if hit collider
+        //move to that collider
+    }
+
+
     //returns movement direction as vector 3
-    Vector3 DirectionalMovement()
+    Vector3 GetDirection()
     {
         Vector3 returnThis = Vector3.zero;
 
