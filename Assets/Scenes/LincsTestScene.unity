@@ -253,7 +253,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 2048
   gridWorldSize: {x: 10, y: 10}
-  nodeRadius: 0.1
+  nodeRadius: 0.2
   distance: 0
 --- !u!4 &94353704
 Transform:
@@ -311,6 +311,8 @@ MonoBehaviour:
   grid: {fileID: 94353703}
   goOne: {fileID: 4057090334682645775, guid: cc8917f22c878d84d9b8716acee9f80a, type: 3}
   goTwo: {fileID: 0}
+  flareActive: 0
+  flare: {fileID: 2060803032425759783, guid: d7e087c850df97448b39b40a4a6eb94e, type: 3}
   RallyPoint: {fileID: 0}
 --- !u!114 &177330452
 MonoBehaviour:
@@ -1104,7 +1106,7 @@ GameObject:
   - component: {fileID: 1457613631}
   m_Layer: 12
   m_Name: Plane
-  m_TagString: Untagged
+  m_TagString: Plane
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

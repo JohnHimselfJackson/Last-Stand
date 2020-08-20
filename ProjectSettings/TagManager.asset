@@ -8,6 +8,8 @@ TagManager:
   - aStar
   - Rally0
   - Building
+  - Flare
+  - Plane
   layers:
   - Default
   - TransparentFX
