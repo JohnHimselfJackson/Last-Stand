@@ -5,6 +5,9 @@ TagManager:
   serializedVersion: 2
   tags:
   - SubMenuComponent
+  - aStar
+  - Rally0
+  - Building
   layers:
   - Default
   - TransparentFX
@@ -14,11 +17,11 @@ TagManager:
   - UI
   - 
   - 
-  - Ground
+  - Obstacle
+  - Player
   - Enemy
-  - 
-  - 
-  - 
+  - Building
+  - Plane
   - 
   - 
   - 
