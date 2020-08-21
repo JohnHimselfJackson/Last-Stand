@@ -181,29 +181,77 @@ public class PlayerController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        selectedWeapon = Weapon.sniper;
+        moveSpeed = 4;
+        selectedWeapon = Weapon.rifle;
     }
 
     // Update is called once per frame
     void Update()
     {
         AimShoot();
+        Move();
     }
 
     void FixedUpdate()
     {
+    }
+    
+    void OnDrawGizmos()
+    {
+        Vector3 movDirection = GetDirection() * moveSpeed * Time.fixedDeltaTime;
+        Vector3 movWorldPos = new Vector3(transform.position.x, transform.position.y, transform.position.z) + movDirection;
+        Gizmos.DrawLine(new Vector3(transform.position.x, transform.position.y, transform.position.z) + movDirection + Vector3.up * 15f, new Vector3(transform.position.x, transform.position.y, transform.position.z) + movDirection - Vector3.up * 15f);
 
     }
 
-    void move()
+
+    void Move()
     {
         //get direction
+        Vector3 movDirection = GetDirection() * moveSpeed * Time.fixedDeltaTime;
+        Vector3 movWorldPos = new Vector3(transform.position.x, transform.position.y, transform.position.z) + movDirection;
         //raycast from sky in that direction
+
+        //print(movWorldPos - transform.position);
+
+        RaycastHit movPos;
+        //raycasts the floor in the direction that the player is moving from the sky. this should alayws return true
+        if(Physics.Raycast(new Vector3(transform.position.x, transform.position.y, transform.position.z) + movDirection + Vector3.up *15f,Vector3.down,out movPos, 30f, 1 << 12))
+        {
+            //ray cast from to ankles
+            //check if hit collider
+            RaycastHit objCheck;
+            Ray ankleRay = new Ray(transform.position - Vector3.up * 0.5f, movPos.point - transform.position);
+            if (!Physics.SphereCast(transform.position - Vector3.up * 0.5f, 0.1f, (movPos.point + Vector3.up - transform.position), out objCheck, moveSpeed * Time.deltaTime * 12, 1 << 8))
+            {
+                Debug.DrawRay(transform.position - Vector3.up * 0.5f, (movPos.point + Vector3.up - transform.position) * 20f, Color.green);
+                transform.position = movPos.point + Vector3.up;
+            }
+            else
+            {
+                Debug.DrawRay(transform.position - Vector3.up * 0.5f, (movPos.point + Vector3.up - transform.position) * 20f, Color.red);
+                //      smoothiung based on normal bump
+                //float moveAngle = Mathf.Rad2Deg * Mathf.Atan2(movDirection.z, movDirection.x);
+                //float smoothAngle = Mathf.Rad2Deg * Mathf.Atan2(objCheck.normal.z, objCheck.normal.x) + 180;
+                //if (smoothAngle > 360)
+                //{
+                //    smoothAngle -= 360;
+                //}
+                //if (smoothAngle < moveAngle - 35 || smoothAngle > moveAngle + 35)
+                //{
+                //    transform.position = transform.position + new Vector3(objCheck.normal.x, 0, objCheck.normal.z) * 0.01f;
+                //}
+
+                Vector3 adjustedNormal = Quaternion.Euler(0,90, 0) * objCheck.normal;
+                transform.position = transform.position + Vector3.Project(movDirection,adjustedNormal) * Time.deltaTime * 50f;                
+            }
+
+
+        }
         //ray cast from to ankles
         //check if hit collider
         //move to that collider
     }
-
 
     //returns movement direction as vector 3
     Vector3 GetDirection()
@@ -304,7 +352,7 @@ public class PlayerController : MonoBehaviour
                 if (shooting && rifleAmmoCount > 0 && rifleShootCooldown < 0)
                 {
                     RaycastHit camCast;
-                    Physics.Raycast(cam.ScreenPointToRay(Input.mousePosition, Camera.MonoOrStereoscopicEye.Mono), out camCast, 40, 1 << 8);
+                    Physics.Raycast(cam.ScreenPointToRay(Input.mousePosition, Camera.MonoOrStereoscopicEye.Mono), out camCast, 40, 1 << 12);
                     // position off grid
                     Vector3 shootPoint = camCast.point + Vector3.up;
                     Debug.DrawLine(transform.position, shootPoint, Color.red, 0.1f);
@@ -335,7 +383,7 @@ public class PlayerController : MonoBehaviour
                 if (shooting && sniperAmmoCount > 0 && sniperShootCooldown < 0)
                 {
                     RaycastHit camCast;
-                    Physics.Raycast(cam.ScreenPointToRay(Input.mousePosition, Camera.MonoOrStereoscopicEye.Mono), out camCast, 40, 1 << 8);
+                    Physics.Raycast(cam.ScreenPointToRay(Input.mousePosition, Camera.MonoOrStereoscopicEye.Mono), out camCast, 40, 1 << 12);
                     // position off grid
                     Vector3 shootPoint = camCast.point + Vector3.up;
                     Debug.DrawLine(transform.position, shootPoint, Color.red, 0.1f);
