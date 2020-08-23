@@ -5,6 +5,8 @@ using TMPro;
 
 public class PlayerController : MonoBehaviour
 {
+    public bool groundBool;
+
     [SerializeField]
     TMP_Text ammoTB;
 
@@ -68,6 +70,11 @@ public class PlayerController : MonoBehaviour
 
     private enum Weapon {sword, rifle, sniper }
     private Weapon selectedWeapon;
+
+    List<Weapon> availableWeapons = new List<Weapon>();
+    float swapTimer;
+    float swapDelay = 1;
+
 
     #region Weapon Public Variables
     public DamagePackage rifleDmgPkg;
@@ -181,6 +188,9 @@ public class PlayerController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        availableWeapons.Add(Weapon.sniper);
+        availableWeapons.Add(Weapon.rifle);
+
         moveSpeed = 4;
         selectedWeapon = Weapon.rifle;
     }
@@ -188,12 +198,15 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (groundBool)
+        {
+            groundBool = false;
+            GroundPlayer();
+        }
+
+        SwitchWeapon();
         AimShoot();
         Move();
-    }
-
-    void FixedUpdate()
-    {
     }
     
     void OnDrawGizmos()
@@ -204,7 +217,7 @@ public class PlayerController : MonoBehaviour
 
     }
 
-
+    #region Player Movement
     void Move()
     {
         //get direction
@@ -229,28 +242,19 @@ public class PlayerController : MonoBehaviour
             }
             else
             {
-                Debug.DrawRay(transform.position - Vector3.up * 0.5f, (movPos.point + Vector3.up - transform.position) * 20f, Color.red);
-                //      smoothiung based on normal bump
-                //float moveAngle = Mathf.Rad2Deg * Mathf.Atan2(movDirection.z, movDirection.x);
-                //float smoothAngle = Mathf.Rad2Deg * Mathf.Atan2(objCheck.normal.z, objCheck.normal.x) + 180;
-                //if (smoothAngle > 360)
-                //{
-                //    smoothAngle -= 360;
-                //}
-                //if (smoothAngle < moveAngle - 35 || smoothAngle > moveAngle + 35)
-                //{
-                //    transform.position = transform.position + new Vector3(objCheck.normal.x, 0, objCheck.normal.z) * 0.01f;
-                //}
+                Debug.DrawRay(transform.position - Vector3.up * 0.5f, (movPos.point + Vector3.up - transform.position) * 40f, Color.red);
 
                 Vector3 adjustedNormal = Quaternion.Euler(0,90, 0) * objCheck.normal;
-                transform.position = transform.position + Vector3.Project(movDirection,adjustedNormal) * Time.deltaTime * 50f;                
+                Debug.DrawRay(transform.position - Vector3.up * 0.5f, (adjustedNormal), Color.yellow);
+                Vector3 normalBasedMovePos = transform.position + Vector3.Project(movDirection,adjustedNormal) * Time.deltaTime * 50f;
+                RaycastHit testPos;
+                if(!Physics.SphereCast(transform.position - Vector3.up * 0.5f, 0.1f, (adjustedNormal), out testPos, moveSpeed * Time.deltaTime * 12, 1 << 8))
+                {
+                    transform.position = normalBasedMovePos;
+                }
+                GroundPlayer();
             }
-
-
         }
-        //ray cast from to ankles
-        //check if hit collider
-        //move to that collider
     }
 
     //returns movement direction as vector 3
@@ -333,6 +337,15 @@ public class PlayerController : MonoBehaviour
         returnThis = returnThis.normalized;
         return returnThis;
     }
+    void GroundPlayer()
+    {
+        RaycastHit ground;
+        if (Physics.Raycast(new Vector3(transform.position.x, transform.position.y, transform.position.z), Vector3.down, out ground, 30f, 1 << 12))
+        {
+            transform.position = ground.point + Vector3.up;
+        }
+    }
+    #endregion
 
     void AimShoot()
     {
@@ -411,6 +424,41 @@ public class PlayerController : MonoBehaviour
         }        
     }
 
+    void SwitchWeapon()
+    {
+        if (Input.GetKeyDown(KeyCode.Tab) && swapTimer <= 0)
+        {
+            for (int ww = 0; ww < availableWeapons.Count; ww++)
+            {
+                if(availableWeapons[ww] != selectedWeapon)
+                {
+                    selectedWeapon = availableWeapons[ww];
+                    switch (selectedWeapon)
+                    {
+                        case Weapon.sniper:
+                            sniperAmmoCount = sniperAmmoCount;
+                            print("now selected sniper");
+                            break;
+                        case Weapon.rifle:
+                            rifleAmmoCount = rifleAmmoCount;
+                            print("now selected rifle");
+                            break;
+                        case Weapon.sword:
+                            print("now selected sword");
+                            break;
+                    }
+                    break;
+                }
+            }
+            swapTimer = swapDelay;
+            print(selectedWeapon);
+        }
+        if(swapTimer > 0)
+        {
+            swapTimer -= Time.deltaTime;
+        }
+    }
+
     #region Reloads
     IEnumerator ReloadRifleCoro()
     {
@@ -453,7 +501,6 @@ public class PlayerController : MonoBehaviour
         reloadingSword = false;
     }
     #endregion
-
 
 
 }
