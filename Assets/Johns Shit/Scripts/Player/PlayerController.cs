@@ -1,10 +1,19 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using TMPro;
 
 public class PlayerController : MonoBehaviour
 {
+    #region Layer Masks
+    int groundLayerMask = 1 << 12;
+    int nonTraversableLayerMask = (1 << 8) | (1 << 11) | (1 << 12);
+
+
+    #endregion
+
+    public bool playerLocked;
     public bool groundBool;
 
     [SerializeField]
@@ -25,7 +34,7 @@ public class PlayerController : MonoBehaviour
         set
         {
             _rifleAmmoCount = value;
-            if (selectedWeapon == Weapon.rifle) ammoTB.text = _rifleAmmoCount.ToString() + "/" + rifleAmmoMax.ToString();
+            if (selectedWeapon == Weapon.rifle) ammoTB.text = "Rifle:  " + _rifleAmmoCount.ToString() + "/" + rifleAmmoMax.ToString();
         }
     }
     private float rifleShootCooldown;
@@ -43,7 +52,7 @@ public class PlayerController : MonoBehaviour
         set
         {
             _sniperAmmoCount = value;
-            if(selectedWeapon == Weapon.sniper) ammoTB.text = _sniperAmmoCount.ToString() + "/" + sniperAmmoMax.ToString();
+            if(selectedWeapon == Weapon.sniper) ammoTB.text = "Rifle:  " + _sniperAmmoCount.ToString() + "/" + sniperAmmoMax.ToString();
         }
     }
     private float sniperShootCooldown;
@@ -107,6 +116,7 @@ public class PlayerController : MonoBehaviour
     /// <param name="newPlayerStats"></param>
     public void SetOnLoad(StatBlock newPlayerStats)
     {
+        moveSpeed = newPlayerStats.ReturnValues("base", "final")[1];
         float[] rifleStats = newPlayerStats.ReturnValues("rifle", "final");
         float[] sniperStats = newPlayerStats.ReturnValues("sniper", "final");
         #region Setting Rifle Stats
@@ -137,6 +147,7 @@ public class PlayerController : MonoBehaviour
                 rifleDmgPkg.myClass = DamagePackage.damageClass.heavy;
                 break;
         }
+        rifleDmgPkg.UFD = rifleReload * 1.3f;
         #endregion
         rifleAmmoMax = rifleStats[3];
         rifleAmmoCount = rifleAmmoMax;
@@ -174,6 +185,7 @@ public class PlayerController : MonoBehaviour
                 sniperDmgPkg.myClass = DamagePackage.damageClass.heavy;
                 break;
         }
+        sniperDmgPkg.UFD = sniperReload * 1.3f;
         #endregion
         sniperAmmoMax = sniperStats[3];
         sniperAmmoCount = sniperAmmoMax;
@@ -198,15 +210,19 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+
         if (groundBool)
         {
             groundBool = false;
             GroundPlayer();
         }
-
-        SwitchWeapon();
-        AimShoot();
-        Move();
+        if (!playerLocked)
+        {
+            SwitchWeapon();
+            AimShoot();
+            Move();
+            LoadStatScreen();
+        }
     }
     
     void OnDrawGizmos()
@@ -229,13 +245,13 @@ public class PlayerController : MonoBehaviour
 
         RaycastHit movPos;
         //raycasts the floor in the direction that the player is moving from the sky. this should alayws return true
-        if(Physics.Raycast(new Vector3(transform.position.x, transform.position.y, transform.position.z) + movDirection + Vector3.up *15f,Vector3.down,out movPos, 30f, 1 << 12))
+        if(Physics.Raycast(new Vector3(transform.position.x, transform.position.y, transform.position.z) + movDirection + Vector3.up *15f,Vector3.down,out movPos, 30f, groundLayerMask))
         {
             //ray cast from to ankles
             //check if hit collider
             RaycastHit objCheck;
             Ray ankleRay = new Ray(transform.position - Vector3.up * 0.5f, movPos.point - transform.position);
-            if (!Physics.SphereCast(transform.position - Vector3.up * 0.5f, 0.1f, (movPos.point + Vector3.up - transform.position), out objCheck, moveSpeed * Time.deltaTime * 12, 1 << 8))
+            if (!Physics.SphereCast(transform.position - Vector3.up * 0.5f, 0.1f, (movPos.point + Vector3.up - transform.position), out objCheck, moveSpeed * Time.deltaTime * 12, nonTraversableLayerMask))
             {
                 Debug.DrawRay(transform.position - Vector3.up * 0.5f, (movPos.point + Vector3.up - transform.position) * 20f, Color.green);
                 transform.position = movPos.point + Vector3.up;
@@ -248,7 +264,7 @@ public class PlayerController : MonoBehaviour
                 Debug.DrawRay(transform.position - Vector3.up * 0.5f, (adjustedNormal), Color.yellow);
                 Vector3 normalBasedMovePos = transform.position + Vector3.Project(movDirection,adjustedNormal) * Time.deltaTime * 50f;
                 RaycastHit testPos;
-                if(!Physics.SphereCast(transform.position - Vector3.up * 0.5f, 0.1f, (adjustedNormal), out testPos, moveSpeed * Time.deltaTime * 12, 1 << 8))
+                if(!Physics.SphereCast(transform.position - Vector3.up * 0.5f, 0.1f, (adjustedNormal), out testPos, moveSpeed * Time.deltaTime * 12, nonTraversableLayerMask))
                 {
                     transform.position = normalBasedMovePos;
                 }
@@ -423,7 +439,6 @@ public class PlayerController : MonoBehaviour
                 break;
         }        
     }
-
     void SwitchWeapon()
     {
         if (Input.GetKeyDown(KeyCode.Tab) && swapTimer <= 0)
@@ -458,7 +473,6 @@ public class PlayerController : MonoBehaviour
             swapTimer -= Time.deltaTime;
         }
     }
-
     #region Reloads
     IEnumerator ReloadRifleCoro()
     {
@@ -502,5 +516,24 @@ public class PlayerController : MonoBehaviour
     }
     #endregion
 
+
+    void LoadStatScreen()
+    {
+        //print(StatScreenLoader.playerInZone);
+        if (StatScreenLoader.playerInZone && Input.GetKeyDown(KeyCode.BackQuote))
+        {
+            playerLocked = true;
+            SceneManager.LoadScene(1,LoadSceneMode.Additive);
+            cam.gameObject.SetActive(false);
+        }
+    }
+    
+    public void UnlockPlayer()
+    {
+        if (playerLocked)
+        {
+            playerLocked = false;
+        }
+    }
 
 }

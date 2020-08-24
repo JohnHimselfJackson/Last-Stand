@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.SceneManagement;
 
 public class CharacterMenuManager : MonoBehaviour
 {
@@ -21,12 +22,13 @@ public class CharacterMenuManager : MonoBehaviour
          movingRight = false,
          draggingCamera = false;
     private Vector2 playerInput;
-    private Vector3 mousePosition;
-    private int camSizeMin = 3, camSizeMax = 30;
+    private Vector3 mouseStartPosition;
+    private int camSizeMin = 3, camSizeMax = 10;
 
     private void Start()
     {
         // sets the game state to the stats menu
+        SceneManager.SetActiveScene(SceneManager.GetSceneByBuildIndex(1));
         upgradeBackground.SetActive(false);
         upgradeCanvas.SetActive(false);
         upgradeGO.SetActive(false);
@@ -53,14 +55,18 @@ public class CharacterMenuManager : MonoBehaviour
             upgradeCanvas.SetActive(false);
             upgradeGO.SetActive(false);
             gameState = 0;
+            playerCamera.orthographicSize = 6;
         }
     }
 
     private void Update()
     {
-        CameraZoom();
-        Movement();
-        CameraDrag();
+        if (upgradeBackground.activeInHierarchy)
+        {
+            CameraZoom();
+            Movement();
+            CameraDrag();
+        }
     }
 
     void CameraZoom()
@@ -72,9 +78,12 @@ public class CharacterMenuManager : MonoBehaviour
         }
     }
 
-    void Movement()
+    //returns movement direction as vector 3
+    Vector3 GetDirection()
     {
-        #region Getting Input
+        Vector3 returnThis = Vector3.zero;
+
+        //gets keys down and sets values true/false according
         if (Input.GetKeyDown(KeyCode.W))
         {
             movingUp = true;
@@ -82,64 +91,77 @@ public class CharacterMenuManager : MonoBehaviour
         }
         if (Input.GetKeyDown(KeyCode.S))
         {
-            movingUp = false;
             movingDown = true;
+            movingUp = false;
+        }
+        if (Input.GetKeyDown(KeyCode.D))
+        {
+            movingRight = true;
+            movingLeft = false;
         }
         if (Input.GetKeyDown(KeyCode.A))
         {
             movingLeft = true;
             movingRight = false;
         }
-        if (Input.GetKeyDown(KeyCode.D))
-        {
-            movingLeft = false;
-            movingRight = true;
-        }
 
+        //sets values to false on key up
         if (Input.GetKeyUp(KeyCode.W))
         {
             movingUp = false;
+            if (Input.GetKey(KeyCode.S))
+            {
+                movingDown = true;
+            }
         }
         if (Input.GetKeyUp(KeyCode.S))
         {
             movingDown = false;
-        }
-        if (Input.GetKeyUp(KeyCode.A))
-        {
-            movingLeft = false;
+            if (Input.GetKey(KeyCode.W))
+            {
+                movingUp = true;
+            }
         }
         if (Input.GetKeyUp(KeyCode.D))
         {
             movingRight = false;
+            if (Input.GetKey(KeyCode.A))
+            {
+                movingLeft = true;
+            }
         }
-        #endregion
-        #region Sort Input
-        playerInput = new Vector2(0, 0);
-        if (movingUp)
+        if (Input.GetKeyUp(KeyCode.A))
         {
-            playerInput += new Vector2(0, 1);
-        }
-        else if (movingDown)
-        {
-            playerInput += new Vector2(0, -1);
+            movingLeft = false;
+            if (Input.GetKey(KeyCode.D))
+            {
+                movingRight = true;
+            }
         }
 
-        if (movingLeft & movingRight)
+        if (movingUp)
         {
-            //does nothings
+            returnThis += transform.forward;
         }
-        else if (movingLeft)
+        if (movingDown)
         {
-            playerInput += new Vector2(-1, 0);
+            returnThis -= transform.forward;
         }
-        else if (movingRight)
+        if (movingRight)
         {
-            playerInput += new Vector2(1, 0);
+            returnThis += transform.right;
         }
-        playerInput = playerInput.normalized;
-        #endregion
+        if (movingLeft)
+        {
+            returnThis -= transform.right;
+        }
+        returnThis = returnThis.normalized;
+        return returnThis;
+    }
+    void Movement()
+    {
         #region Moving
-        GetComponent<Rigidbody2D>().velocity = playerInput * movementStrength;
+        playerCamera.transform.position += (GetDirection() * movementStrength);
         #endregion
     }
 
@@ -149,22 +171,29 @@ public class CharacterMenuManager : MonoBehaviour
         if (Input.GetMouseButtonDown(1) || Input.GetMouseButtonDown(2))
         {
             draggingCamera = true;
-            mousePosition = playerCamera.ScreenToWorldPoint(Input.mousePosition);
+            mouseStartPosition = playerCamera.ScreenToWorldPoint(Input.mousePosition);
         }
 
         if (draggingCamera)
         {
-            transform.position += mousePosition - playerCamera.ScreenToWorldPoint(Input.mousePosition);
+            transform.position -= mouseStartPosition - playerCamera.ScreenToWorldPoint(Input.mousePosition);
+            mouseStartPosition = playerCamera.ScreenToWorldPoint(Input.mousePosition);
             transform.position = new Vector3(transform.position.x, transform.position.y, -10);
         }
         if ((Input.GetMouseButtonUp(1) && !Input.GetMouseButton(2)) || (Input.GetMouseButtonUp(2) && !Input.GetMouseButton(1)))
         {
             draggingCamera = false;
-            mousePosition = playerCamera.ScreenToWorldPoint(Input.mousePosition);
+            mouseStartPosition = playerCamera.ScreenToWorldPoint(Input.mousePosition);
         }
     }
-    
 
+    public void BackToGame()
+    {
+        SceneManager.SetActiveScene(SceneManager.GetSceneByBuildIndex(0));
+        SceneManager.UnloadSceneAsync(SceneManager.GetSceneByBuildIndex(1));
+        PlayerManager.pM.pC.cam.gameObject.SetActive(true);
+        PlayerManager.pM.LoadPlayer();
+    }
 
 
 

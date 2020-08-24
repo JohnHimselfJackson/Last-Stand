@@ -21,11 +21,11 @@ public class StatBlock
     #region stats
     static readonly float[] baseMeleeValues = { 20, 0, 4 , 0.3f, 0.9f, 3 }; // damage, attack class, damage type, attack speed, attack cooldown, consectutive attacks
     float[] modMeleeValues = new float[6];
-    static readonly float[] baseRifleValues = {8, 0, 1, 30, 1.6f, 0.1f, 20, 30, 0}; // damage, attack class, damage type, ammo, reload, firerate, range, Spread, penertration
+    static readonly float[] baseRifleValues = {8, 0, 1, 30, 1.6f, 0.2f, 20, 30, 0}; // damage, attack class, damage type, ammo, reload, firerate, range, Spread, penertration
     float[] modRifleValues = new float[9];
     static readonly float[] baseSniperValues = { 20, 0, 4, 6, 2.5f, 1.2f, 35, 0, 0 }; // damage, attack class, damage type, ammo, reload, firerate, range, Spread, penertration
     float[] modSniperValues = new float[9];
-    static readonly float[] baseStatValues = {100, 5, 40, 10}; // HP, move speed, veiw range, enviromental protection
+    static readonly float[] baseStatValues = {100, 3, 40, 10}; // HP, move speed, veiw range, enviromental protection
     float[] modStatValues = new float[4];
     static readonly float[] baseDefenceValues = {10, 15, 8, 4, 2, 70}; //evasion chance, graze chance, evasion number, armor decrease, negation value, armor hp
     float[] modDefenceValues = new float[6];
@@ -178,7 +178,7 @@ public class StatBlock
         }
         else
         {
-            Debug.Log("pleasse enter a correct size array for Stat modification **" + array.Length + " incorrect");
+            Debug.Log("please enter a correct size array for Stat modification **" + array.Length + " incorrect");
         }
         if (StatsDisplayController.main != null) StatsDisplayController.main.AlterStatsDisplay(this);
     } //UTD

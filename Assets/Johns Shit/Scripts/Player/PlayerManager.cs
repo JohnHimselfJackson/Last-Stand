@@ -25,6 +25,7 @@ public class PlayerManager : MonoBehaviour
 
     private void Awake()
     {
+        pM = this;
         pC = GetComponent<PlayerController>();
     }
     // Start is called before the first frame update
@@ -63,6 +64,7 @@ public class PlayerManager : MonoBehaviour
         armourTotal = defenceStats[5];
         armourCurrent = armourTotal;
         #endregion
+        pC.UnlockPlayer();
 
 
     }
