@@ -29,6 +29,13 @@ public class UnitMaster : MonoBehaviour
     protected Vector3 activeRally;
     protected List<Vector3> rallyPos; // will be set on unit creation
     protected Vector3 activeFlare;    // will be set when a flare is used
+
+    protected List<Node> myPath;
+    public Astar a;
+    public Grid g;
+
+    bool atEnd = false;
+    public int pathIndex;
     #endregion
 
     #region Shooting Variables    
@@ -45,6 +52,9 @@ public class UnitMaster : MonoBehaviour
     
     void Start()
     {
+        a = GameObject.FindGameObjectWithTag("aStar").GetComponent<Astar>();
+        g = GameObject.FindGameObjectWithTag("aStar").GetComponent<Grid>();
+
         InvokeRepeating("ActionLoop", 0, 0.25f);
     }
     
@@ -52,6 +62,8 @@ public class UnitMaster : MonoBehaviour
     {
         myPos = transform.position;
         UpdateAttack();
+        if (!atEnd && myPath != null)
+            MoveAgent();
     }
 
     #region Unit Functions
@@ -212,13 +224,43 @@ public class UnitMaster : MonoBehaviour
                 if (activeFlare != null)
                 {
                     //adds current location to start of list so when flare ends will continue to previous point
-                    rallyPos.Insert(0, activeRally);
+                    //rallyPos.Insert(0, activeRally);
 
                     //set path to active flare
                     activeRally = activeFlare;
                 }
-
             }
+        FindNewPath();
+     
+       // Debug.Log(activeRally);
+    }
+    public void FindNewPath()
+    {
+        atEnd = false;
+
+        myPath = a.FindPath(transform.position, activeRally);
+       // Debug.Log(myPath.Count);
+    }
+    public void MoveAgent() //the move function that takes the calculated vector and adjusts entities movement
+    {
+        
+        Vector3 targetPos = (myPath[pathIndex].nodePos);
+
+        if (Vector3.Distance(transform.position, targetPos) > g.nodeRadius)
+        {
+            Vector3 direction = (targetPos - transform.position).normalized;
+            transform.position = transform.position + direction * 8f * Time.deltaTime;
+        }
+        else
+        {
+            pathIndex++;
+            if (pathIndex >= myPath.Count)
+            {
+                
+                atEnd = true;
+                pathIndex = 0;
+            }
+        }
     }
 
     //code to dectect if there are any attack enemies in range and set activeTarget accordingly

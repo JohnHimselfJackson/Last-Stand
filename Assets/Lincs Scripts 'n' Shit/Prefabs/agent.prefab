@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 7620251526142223907}
   - component: {fileID: 7620251526142223906}
   - component: {fileID: 7620251526142223909}
-  - component: {fileID: 7620251526142223908}
+  - component: {fileID: -1082014378393055918}
   m_Layer: 0
   m_Name: agent
   m_TagString: Untagged
@@ -95,7 +95,7 @@ CapsuleCollider:
   m_Height: 2
   m_Direction: 1
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &7620251526142223908
+--- !u!114 &-1082014378393055918
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -104,11 +104,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 7620251526142223911}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 601ed4daa7afea5409c254b34f553013, type: 3}
+  m_Script: {fileID: 11500000, guid: 1c280ca1d4983f9498ebcd482830571f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   a: {fileID: 0}
   g: {fileID: 0}
-  end: {fileID: 0}
-  ui: {fileID: 0}
   pathIndex: 0
+  inCover: 0
