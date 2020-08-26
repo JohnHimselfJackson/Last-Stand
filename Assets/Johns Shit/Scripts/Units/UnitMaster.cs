@@ -19,20 +19,21 @@ public class UnitMaster : MonoBehaviour
     #endregion
 
     #region Unit Consts
-    const int enemyLayer = 9;
+    const int enemyLayer = 10;
     const int coverLayer = 10;
     #endregion
 
     #region nav variables
     //TODO replaced with navmesh locations    
     protected Vector3 myPos;
-    protected Vector3 activeRally;
+     protected Vector3 activeRally;
     protected List<Vector3> rallyPos; // will be set on unit creation
     protected Vector3 activeFlare;    // will be set when a flare is used
 
     protected List<Node> myPath;
     public Astar a;
     public Grid g;
+    public int tally;
 
     bool atEnd = false;
     public int pathIndex;
@@ -48,13 +49,14 @@ public class UnitMaster : MonoBehaviour
     protected bool underFire;
     public bool inCover;
     protected bool MovToCover;
+    BulletManager b;
     #endregion
     
     void Start()
     {
         a = GameObject.FindGameObjectWithTag("aStar").GetComponent<Astar>();
         g = GameObject.FindGameObjectWithTag("aStar").GetComponent<Grid>();
-
+        b = GameObject.FindGameObjectWithTag("BM").GetComponent<BulletManager>();
         InvokeRepeating("ActionLoop", 0, 0.25f);
     }
     
@@ -62,7 +64,7 @@ public class UnitMaster : MonoBehaviour
     {
         myPos = transform.position;
         UpdateAttack();
-        if (!atEnd && myPath != null)
+        if (!atEnd )
             MoveAgent();
     }
 
@@ -109,11 +111,12 @@ public class UnitMaster : MonoBehaviour
                 //for attack delay and handling attack rate
 
                 //checks if time for attack
-                if (attackTime < attackCooldown)
+                if (attackTime > attackCooldown)
                 {
                     Invoke("Attack", 0f);
+                    attackTime = 0;
                 }
-                //if not time yet alters attacktime float 
+                //if not time yet alters attacktime float          
                 else
                 {
                     attackTime += Time.deltaTime;
@@ -136,7 +139,10 @@ public class UnitMaster : MonoBehaviour
     //function for when unit commits to attack
     void Attack()
     {
+
+        b.CreateBullet(this.transform.position,activeTarget.transform.position);
         //ETS attack code here
+        Debug.Log("attacked");
     }
 
     //core action loop for all non buildings
@@ -151,7 +157,7 @@ public class UnitMaster : MonoBehaviour
             myClass == unitClass.light &&
             !MovToCover)
         {
-            DetectCover();
+          // DetectCover();
         }
         
         // if needs to move to cover
@@ -165,6 +171,7 @@ public class UnitMaster : MonoBehaviour
         //if attacking and not getting shot
         else if(activeTarget)
         {
+            atEnd = false;
             //TODO: stop movement of unit
             //sets attacking bool true so that in update the full UpdateAttack(); will run
             attacking = true;
@@ -182,85 +189,94 @@ public class UnitMaster : MonoBehaviour
     //code for all unit movement other than moving to cover
     void UnitMove()
     {
+       
         //standard move logic        
-            if (activeRally == null)
+        if (activeRally == null)
+        {
+
+
+            //if a flare is active
+            if (activeFlare != null)
             {
-                //if a flare is active
-                if (activeFlare != null)
-                {
-                    //set path to active flare
-                    activeRally = activeFlare;
-                }
-                //if still has rally location
-                else if (rallyPos.Count != 0)
-                {
-                    //sets first index in the list to the active rally and then removes it from rally point list
-                    activeRally = rallyPos[0];
-                    rallyPos.RemoveAt(0);
-                }
-                // if no other rally to set auto targets the main buildings
-                else
-                {
-                    // if first base alive target that
-                    if (EnemySingleton.main.firstBaseAlive)
-                    {
-                        activeRally = EnemySingleton.main.firstLoc;
-                    }
-                    // if second base alive target that
-                    else if (EnemySingleton.main.secondBaseAlive)
-                    {
-                        activeRally = EnemySingleton.main.secondLoc;
-                    }
-                    // if third base alive target that. This is the last call for all units as there is no need to path to something after the third is destroyed.
-                    else
-                    {
-                        activeRally = EnemySingleton.main.thirdLoc;
-                    }
-                }
+                //set path to active flare
+                activeRally = activeFlare;
             }
+            //if still has rally location
+            else if (rallyPos.Count != 0)
+            {
+                //sets first index in the list to the active rally and then removes it from rally point list
+                activeRally = rallyPos[0];
+                rallyPos.RemoveAt(0);
+            }
+            // if no other rally to set auto targets the main buildings
             else
             {
-                //if a flare is active
-                if (activeFlare != null)
+                // activeRally = GameObject.FindGameObjectWithTag("Rally0").transform.position;
+                // if first base alive target that
+                if (EnemySingleton.main.firstBaseAlive)
                 {
-                    //adds current location to start of list so when flare ends will continue to previous point
-                    //rallyPos.Insert(0, activeRally);
-
-                    //set path to active flare
-                    activeRally = activeFlare;
+                    activeRally = EnemySingleton.main.firstLoc;
+                }
+                // if second base alive target that
+                else if (EnemySingleton.main.secondBaseAlive)
+                {
+                    activeRally = EnemySingleton.main.secondLoc;
+                }
+                // if third base alive target that. This is the last call for all units as there is no need to path to something after the third is destroyed.
+                else
+                {
+                    activeRally = EnemySingleton.main.thirdLoc;
                 }
             }
-        FindNewPath();
-     
-       // Debug.Log(activeRally);
-    }
-    public void FindNewPath()
-    {
-        atEnd = false;
-
-        myPath = a.FindPath(transform.position, activeRally);
-       // Debug.Log(myPath.Count);
-    }
-    public void MoveAgent() //the move function that takes the calculated vector and adjusts entities movement
-    {
-        
-        Vector3 targetPos = (myPath[pathIndex].nodePos);
-
-        if (Vector3.Distance(transform.position, targetPos) > g.nodeRadius)
-        {
-            Vector3 direction = (targetPos - transform.position).normalized;
-            transform.position = transform.position + direction * 8f * Time.deltaTime;
         }
         else
         {
-            pathIndex++;
-            if (pathIndex >= myPath.Count)
-            {
-                
-                atEnd = true;
-                pathIndex = 0;
-            }
+            activeRally = GameObject.FindGameObjectWithTag("Rally0").transform.position;
+            //if a flare is active
+            //if (activeFlare != null)
+            //{
+            //    //adds current location to start of list so when flare ends will continue to previous point
+            //    //rallyPos.Insert(0, activeRally);
+
+            //    //set path to active flare
+            //    activeRally = activeFlare;
+            //}
+            
         }
+       FindNewPath();
+
+        // Debug.Log(activeRally);
+    }
+    public void FindNewPath()
+    {
+
+
+        atEnd = false;
+      
+        
+    }
+    public void MoveAgent() //the move function that takes the calculated vector and adjusts entities movement
+    {
+
+        myPath = a.FindPath(transform.position, activeRally);
+
+        Vector3 targetPos = (myPath[0].nodePos);
+        if (myPath.Count < 2)
+        {
+            // targetPos = (myPath[0].nodePos);
+            //Vector3 direction = (targetPos - transform.position).normalized;
+            //transform.position = transform.position + direction * Time.deltaTime;
+            atEnd = true;
+        }
+        else if (Vector3.Distance(transform.position, targetPos) > g.nodeRadius)
+        {
+            Vector3 direction = (targetPos - transform.position).normalized;
+            transform.position = transform.position + direction  * Time.deltaTime;
+            
+        }
+
+        
+
     }
 
     //code to dectect if there are any attack enemies in range and set activeTarget accordingly
@@ -275,19 +291,26 @@ public class UnitMaster : MonoBehaviour
             }
         }
         if (activeTarget == null)
-        {
+        {           
             //checks attack range for enemies
-            Collider[] targets = Physics.OverlapCapsule(transform.position + Vector3.down * 3, transform.position + Vector3.up * 3, attackRange, 1 << enemyLayer);
+            Collider[] targets = Physics.OverlapCapsule(transform.position + Vector3.down * 3, transform.position + Vector3.up * 3, attackRange,  1 << enemyLayer);
+            
             if (targets.Length != 0)
             {
+               // 
                 activeTarget = targets[0].gameObject;
             }
             else
             {
-                print("no targets in range");
+               // print("no targets in range");
             }
         }
     }
+    //private void OnDrawGizmos()
+    //{
+    //    Gizmos.color = Color.cyan;
+    //    Gizmos.DrawWireSphere(transform.position, attackRange);
+    //}
 
     //check if any cover in range
     void DetectCover()
@@ -343,7 +366,7 @@ public class UnitMaster : MonoBehaviour
         }
         else
         {
-            print("no targets in range");
+            //print("no targets in range");
         }
     }
 

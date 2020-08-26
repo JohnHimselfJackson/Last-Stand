@@ -10,6 +10,7 @@ TagManager:
   - Building
   - Flare
   - Plane
+  - BM
   layers:
   - Default
   - TransparentFX
@@ -24,8 +25,7 @@ TagManager:
   - Enemy
   - Building
   - Plane
-  - 
-  - 
+  - Agent
   - 
   - 
   - 

@@ -14,7 +14,7 @@ public class Node
     public bool isAgent;
     public bool isBuilding;
     public Node Parent; //each node has a parent which they are connected too
-
+    public bool occupied;
     public int gVal; //the g cost
 
     public int hVal; //the h cost

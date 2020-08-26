@@ -8,8 +8,7 @@ public class Astar : MonoBehaviour
 
     //public GameObject startPos; //start posistion of path
    // public GameObject endPos; //end posisition of path
-    public List<Node> openList = new List<Node>(); //openlist of possible path nodes
-    public List<Node> closedList = new List<Node>(); //closed list of path nodes
+   
    public Grid grid; //grid reference
     
     private void Awake()
@@ -25,8 +24,10 @@ public class Astar : MonoBehaviour
 
     public List<Node> FindPath(Vector3 startPos, Vector3 endPos)
     {
-        openList.Clear(); //clear the open list
-        closedList.Clear(); //clear the closed list
+        List<Node> openList = new List<Node>();
+        List<Node> closedList = new List<Node>();
+        //openList.Clear(); //clear the open list
+        //closedList.Clear(); //clear the closed list
         Node startNode = grid.NodePoint(startPos); //get the node of the start point
         Node endNode = grid.NodePoint(endPos); //get the node of the end point
       
@@ -50,8 +51,7 @@ public class Astar : MonoBehaviour
             closedList.Add(currentNode); //add the current node to closed list
 
             if (currentNode == endNode) //if the current node is the end node
-            {               
-                 
+            {                               
                 return FindOptimalPath(startNode, endNode);//our pathfind is complete and we show path 
             }
 
@@ -59,7 +59,7 @@ public class Astar : MonoBehaviour
             {
                
                 
-                if (neighbour.isObstacle || neighbour.isBuilding || closedList.Contains(neighbour)) //if the neighbour node is an obnstacle or not in close list
+                if (neighbour.isObstacle || neighbour.isAgent || neighbour.isBuilding || closedList.Contains(neighbour)) //if the neighbour node is an obnstacle or not in close list
                 {
                     
                     continue;

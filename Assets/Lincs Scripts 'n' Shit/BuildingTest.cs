@@ -27,17 +27,16 @@ public class BuildingTest : MonoBehaviour
         {
             if (Time.time > nextActionTime)
             {
-                nextActionTime += period;
+                nextActionTime += period + Time.time;
 
+                GameObject go = (GameObject) Instantiate(unit, spawnPont.position, Quaternion.identity);
 
-                Instantiate(unit, spawnPont.position, Quaternion.identity);
-
+                go.GetComponent<UnitMaster>().CallOnCreation();
 
                 spawn++;
             }
         }
-
-
+        
     }
 
 

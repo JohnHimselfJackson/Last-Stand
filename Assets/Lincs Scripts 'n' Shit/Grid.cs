@@ -8,6 +8,7 @@ public class Grid : MonoBehaviour{
     
     public LayerMask obstacleLayer; //the obstacle layer
     public LayerMask playerLayer; //the obstacle layer
+    public LayerMask unitLayer; //the obstacle layer
     public LayerMask buildingLayer; //the obstacle layer
     public Vector2 gridWorldSize; //the size of the grid 
     public float nodeRadius; // size of the nodes
@@ -16,11 +17,10 @@ public class Grid : MonoBehaviour{
     int gridY; //how many nodes on y axis
     Node[,] grid; //an array of nodes
     public List<Node> OptimalPath; //the path
-    
-
+    public Vector3 nodeBox;
     void Awake() //create the grid
     {
-
+        nodeBox = new Vector3(nodeRadius, nodeRadius, nodeRadius);
         gridX = Mathf.RoundToInt(gridWorldSize.x / (2 * nodeRadius));
         gridY = Mathf.RoundToInt(gridWorldSize.y / (2 * nodeRadius));
         GridCreation();
@@ -48,10 +48,7 @@ public class Grid : MonoBehaviour{
                 bool isObstacle = false;
                 bool isAgent = false;
                 bool isBuilding = false;
-                if (Physics.CheckSphere(worldPoint, nodeRadius, playerLayer))
-                { //if the node is on a obstacle layerd gameobject
-                    isAgent = true; //sets node to an obstacle
-                }
+              
 
                 if (Physics.CheckSphere(worldPoint, nodeRadius, obstacleLayer)){ //if the node is on a obstacle layerd gameobject
                     isObstacle = true; //sets node to an obstacle
@@ -59,6 +56,10 @@ public class Grid : MonoBehaviour{
                 if (Physics.CheckSphere(worldPoint, nodeRadius, buildingLayer))
                 { //if the node is on a obstacle layerd gameobject
                     isBuilding = true; //sets node to an obstacle
+                }
+                if (Physics.CheckBox(worldPoint,  nodeBox*0.55f, Quaternion.identity, unitLayer))
+                { //if the node is on a obstacle layerd gameobject
+                    isAgent = true; //sets node to an obstacle
                 }
 
                 grid[x, y] = new Node(isAgent,isObstacle,isBuilding, worldPoint, x, y); //add the node to the array
@@ -81,21 +82,7 @@ public class Grid : MonoBehaviour{
         return grid[x, y]; //return the node
     }
 
-    public Node[] NodeArea(Vector3 worldPoint , GameObject objectCheck) //function to find the node from the world posistion
-    {
-        Node[] nodeAreaArray = new Node[2];
-        MeshRenderer renderer = objectCheck.GetComponent<MeshRenderer>();
-        Vector3 size = renderer.bounds.size;
-        //
-        for(int i=0;i<= 2; i++)
-        {
-            nodeAreaArray[i] = NodePoint(new Vector3(size.x, worldPoint.y, worldPoint.z));
-        }
-       
-     
 
-        return nodeAreaArray; //return the node array
-    }
 
     public List<Node> FindNeighbours(Node node) //function to find the neighbours of any given node
     {
@@ -132,25 +119,26 @@ public class Grid : MonoBehaviour{
           
             foreach (Node node in grid) //iterate through all nodes
             {
-             
-               
+                Gizmos.color = Color.white;
 
-          
-                if (!node.isObstacle) //if node is not an obstacle
+                if (node.isAgent) //if node is not an obstacle
                 {
-                    Gizmos.color = Color.white;  //set the colour to white      
+                    Gizmos.color = Color.black;  //set the colour to white      
                 }
-        
-                else
+
+
+                if (node.isObstacle ) //if node is not an obstacle
                 {
-                   
-                    Gizmos.color = Color.red; //if it is obstacle set the nodes colour to red
+                    Gizmos.color = Color.red;  //set the colour to white      
                 }
+              
             
                 if (node.isBuilding) //if node is not an obstacle
                 {
                     Gizmos.color = Color.blue;  //set the colour to white      
                 }
+
+              
                 //for (int i = 0; i < OptimalPath.Count; i++)
                 //{
                 //    if (node.nodePos == OptimalPath[i].nodePos)

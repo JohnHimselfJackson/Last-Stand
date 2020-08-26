@@ -13,10 +13,10 @@ public class DemoUnit : UnitMaster
         myClass = unitClass.light;
         movespeed = 4;
         lineOfSight = 10;
-        attackRange = 8;
+        attackRange = 1; //8
         attackCooldown = 1;
         damage = new DamagePackage(DamagePackage.damageClass.light, DamagePackage.damageType.standard, 7, attackCooldown *1.2f );
-
+        
 
         //rallyPos.Add()
     }

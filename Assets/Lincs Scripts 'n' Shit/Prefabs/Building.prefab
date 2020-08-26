@@ -109,11 +109,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   unit: {fileID: 7620251526142223911, guid: 59e6edaf6eb3a754686811645704a1a4, type: 3}
-  maxSpawn: 6
+  maxSpawn: 3
   spawn: 0
   spawnPont: {fileID: 485211566639005885}
   rallyPoint: {fileID: 5493577776185911415}
-  period: 3
+  period: 5
 --- !u!1 &4069450466417825273
 GameObject:
   m_ObjectHideFlags: 0
