@@ -29,7 +29,7 @@ public class UpgradeLogic : MonoBehaviour
         }
         ButtonClickable();
         FindMyUpgrade();
-
+        
     }
     
     //runs on button click
@@ -54,7 +54,6 @@ public class UpgradeLogic : MonoBehaviour
                         temp = new float[myUpgrade.statChanges[ii].Length]; 
                         for(int jj = 0; jj < myUpgrade.statChanges[ii].Length; jj++)
                         {
-                            print(myUpgrade.statChanges[ii][jj]);
                             temp[jj] = myUpgrade.statChanges[ii][jj];
                         }
                         PlayerData.playerStats.ChangeMeleeValues(temp);
@@ -67,7 +66,7 @@ public class UpgradeLogic : MonoBehaviour
                         }
                         PlayerData.playerStats.ChangeRifleValues(temp);
                         break;
-                    case 2:
+                    case 2://sniper logic
                         temp = new float[myUpgrade.statChanges[ii].Length];
                         for (int jj = 0; jj < myUpgrade.statChanges[ii].Length; jj++)
                         {
@@ -75,7 +74,7 @@ public class UpgradeLogic : MonoBehaviour
                         }
                         PlayerData.playerStats.ChangeSniperValues(temp);
                         break;
-                    case 3:
+                    case 3://base logic
                         temp = new float[myUpgrade.statChanges[ii].Length];
                         for (int jj = 0; jj < myUpgrade.statChanges[ii].Length; jj++)
                         {
@@ -83,7 +82,7 @@ public class UpgradeLogic : MonoBehaviour
                         }
                         PlayerData.playerStats.ChangeStatValues(temp);
                         break;
-                    case 4:
+                    case 4://defence logic
                         temp = new float[myUpgrade.statChanges[ii].Length];
                         for (int jj = 0; jj < myUpgrade.statChanges[ii].Length; jj++)
                         {
@@ -210,6 +209,7 @@ public class UpgradeLogic : MonoBehaviour
                 startButtonPos = gameObject.GetComponent<RectTransform>().anchoredPosition + new Vector2(/*gameObject.GetComponent<Image>().flexibleWidth/2*/ 80, 0);
                 endButtonPos = ul.GetComponent<RectTransform>().anchoredPosition - new Vector2(/*ul.GetComponent<Image>().flexibleWidth / 2*/ 80, 0);
                 length = (endButtonPos - startButtonPos).magnitude;
+
 
                 midpoint = (new Vector2((endButtonPos.x - startButtonPos.x) / 2, (endButtonPos.y - startButtonPos.y) / 2) + new Vector2(/*gameObject.GetComponent<Image>().flexibleWidth/2*/ 80, 0));
                 

@@ -5,7 +5,7 @@ using UnityEngine;
 public class Upgrades : MonoBehaviour
 {
     float[] list1, list2, list3, list4, list5, list6;
-    float[][] tempStatHolder;
+    float[][] tempStatHolder = new float[6][];
 
 
     public static List<Upgrade> upgradeList = new List<Upgrade>();
@@ -572,7 +572,7 @@ public class Upgrades : MonoBehaviour
         newUpgrade = new Upgrade();
         newUpgrade.SetName("Percission Kinetics");
         newUpgrade.SetDescription("RND and improved both the power and range of kinetics weapons \n Unlocks Sniper");
-        newUpgrade.myType = Upgrade.type.stats;
+        newUpgrade.myType = Upgrade.type.multi;
         #region stat Changes
         list1 = new float[] { 0, 0, 0, 0, 0, 0 }; // sword stat changes : damage, attack class, damage type, attack speed, attack cooldown, consectutive attacks
         list2 = new float[] { 2, 0, 0, 0, 0, 0, 1, 0, 0 }; // rifle stat changes : damage, attack class, damage type, ammo, reload, firerate, range, Spread, penertration
@@ -599,10 +599,11 @@ public class Upgrades : MonoBehaviour
         #region stat Changes
         list1 = new float[] { 0, 0, 0, 0, 0, 0 }; // sword stat changes : damage, attack class, damage type, attack speed, attack cooldown, consectutive attacks
         list2 = new float[] { 0, 0, 0, 0, -0.2f, 0, 0.5f, -2, 0 }; // rifle stat changes : damage, attack class, damage type, ammo, reload, firerate, range, Spread, penertration
-        list3 = new float[] { 0, 0, 0, 0, -0.4f, 0, 1, -1, 0 }; // sniper stat changes : damage, attack class, damage type, ammo, reload, firerate, range, Spread, penertration
+        list3 = new float[] { 0, 0, 0, 0, -0.4f, 0, 1, 0, 0 }; // sniper stat changes : damage, attack class, damage type, ammo, reload, firerate, range, Spread, penertration
         list4 = new float[] { 0, 0, 0, 0 }; // base stat changes : HP, move speed, veiw range, enviromental protection
         list5 = new float[] { 0, 0, 0, 0, 0, 0 }; // defence stat changes : evasion chance, graze chance, evasion number, armor decrease, negation value, armor hp
         list6 = new float[] { 0, 0, 0, 0 }; // tran stat changes : 
+        tempStatHolder = new float[6][];
         tempStatHolder[0] = list1;
         tempStatHolder[1] = list2;
         tempStatHolder[2] = list3;
@@ -625,6 +626,7 @@ public class Upgrades : MonoBehaviour
         list4 = new float[] { 0, 0, 0, 0 }; // base stat changes : HP, move speed, veiw range, enviromental protection
         list5 = new float[] { 0, 0, 0, 0, 0, 0 }; // defence stat changes : evasion chance, graze chance, evasion number, armor decrease, negation value, armor hp
         list6 = new float[] { 0, 0, 0, 0 }; // tran stat changes : 
+        tempStatHolder = new float[6][];
         tempStatHolder[0] = list1;
         tempStatHolder[1] = list2;
         tempStatHolder[2] = list3;
@@ -647,6 +649,7 @@ public class Upgrades : MonoBehaviour
         list4 = new float[] { 0, 0, 0, 0 }; // base stat changes : HP, move speed, veiw range, enviromental protection
         list5 = new float[] { 0, 0, 0, 0, 0, 0 }; // defence stat changes : evasion chance, graze chance, evasion number, armor decrease, negation value, armor hp
         list6 = new float[] { 0, 0, 0, 0 }; // tran stat changes : 
+        tempStatHolder = new float[6][];
         tempStatHolder[0] = list1;
         tempStatHolder[1] = list2;
         tempStatHolder[2] = list3;
@@ -669,6 +672,7 @@ public class Upgrades : MonoBehaviour
         list4 = new float[] { 0, 0, 0, 0 }; // base stat changes : HP, move speed, veiw range, enviromental protection
         list5 = new float[] { 0, 0, 0, 0, 0, 0 }; // defence stat changes : evasion chance, graze chance, evasion number, armor decrease, negation value, armor hp
         list6 = new float[] { 0, 0, 0, 0 }; // tran stat changes : 
+        tempStatHolder = new float[6][];
         tempStatHolder[0] = list1;
         tempStatHolder[1] = list2;
         tempStatHolder[2] = list3;
@@ -681,7 +685,7 @@ public class Upgrades : MonoBehaviour
         upgradeList.Add(newUpgrade);
         /*------------------------------------*/
         newUpgrade = new Upgrade();
-        newUpgrade.SetName("Energised Bullets");
+        newUpgrade.SetName("Energised Projectiles");
         newUpgrade.SetDescription("Projectiles develop a front layer of plasma that increases stopping power and allows armour penertraion");
         newUpgrade.myType = Upgrade.type.stats;
         #region stat Changes
@@ -690,6 +694,7 @@ public class Upgrades : MonoBehaviour
         list3 = new float[] { 20, 0, 0, 0, 0, 0, 0, 0, 0 }; // sniper stat changes : damage, attack class, damage type, ammo, reload, firerate, range, Spread, penertration
         list4 = new float[] { 0, 0, 0, 0 }; // base stat changes : HP, move speed, veiw range, enviromental protection
         list5 = new float[] { 0, 0, 0, 0, 0, 0 }; // defence stat changes : evasion chance, graze chance, evasion number, armor decrease, negation value, armor hp
+        tempStatHolder = new float[6][]; 
         list6 = new float[] { 0, 0, 0, 0 }; // tran stat changes : 
         tempStatHolder[0] = list1;
         tempStatHolder[1] = list2;
@@ -712,7 +717,8 @@ public class Upgrades : MonoBehaviour
         list3 = new float[] { 0, 0, 0, 0, 0, 0, 0, 0, 0 }; // sniper stat changes : damage, attack class, damage type, ammo, reload, firerate, range, Spread, penertration
         list4 = new float[] { 0, 0, 0, 0 }; // base stat changes : HP, move speed, veiw range, enviromental protection
         list5 = new float[] { 0, 0, 0, 0, 0, 0 }; // defence stat changes : evasion chance, graze chance, evasion number, armor decrease, negation value, armor hp
-        list6 = new float[] { 0, 0, 0, 0 }; // tran stat changes : 
+        list6 = new float[] { 0, 0, 0, 0 }; // tran stat changes :
+        tempStatHolder = new float[6][]; 
         tempStatHolder[0] = list1;
         tempStatHolder[1] = list2;
         tempStatHolder[2] = list3;
@@ -734,6 +740,7 @@ public class Upgrades : MonoBehaviour
         list3 = new float[] { 0, 0, 0, 0, 0, 0, 2, 0, 0 }; // sniper stat changes : damage, attack class, damage type, ammo, reload, firerate, range, Spread, penertration
         list4 = new float[] { 0, 0, 4, 0 }; // base stat changes : HP, move speed, minimap range, enviromental protection
         list5 = new float[] { 0, 0, 0, 0, 0, 0 }; // defence stat changes : evasion chance, graze chance, evasion number, armor decrease, negation value, armor hp
+        tempStatHolder = new float[6][]; 
         list6 = new float[] { 0, 0, 0, 0 }; // tran stat changes : 
         tempStatHolder[0] = list1;
         tempStatHolder[1] = list2;
@@ -747,7 +754,7 @@ public class Upgrades : MonoBehaviour
         upgradeList.Add(newUpgrade);
         /*------------------------------------*/
         newUpgrade = new Upgrade();
-        newUpgrade.SetName("Aim Assitors");
+        newUpgrade.SetName("Aim Assistors");
         newUpgrade.SetDescription("minature motors within the rifle massively decrease sway and recoil from the weapon as well as assiting the user to aim via sight");
         newUpgrade.myType = Upgrade.type.stats;
         #region stat Changes
@@ -757,6 +764,7 @@ public class Upgrades : MonoBehaviour
         list4 = new float[] { 0, 0, 0, 0 }; // base stat changes : HP, move speed, veiw range, enviromental protection
         list5 = new float[] { 0, 0, 0, 0, 0, 0 }; // defence stat changes : evasion chance, graze chance, evasion number, armor decrease, negation value, armor hp
         list6 = new float[] { 0, 0, 0, 0 }; // tran stat changes : 
+        tempStatHolder = new float[6][];
         tempStatHolder[0] = list1;
         tempStatHolder[1] = list2;
         tempStatHolder[2] = list3;
@@ -779,6 +787,7 @@ public class Upgrades : MonoBehaviour
         list4 = new float[] { 0, 0, 0, 0 }; // base stat changes : HP, move speed, veiw range, enviromental protection
         list5 = new float[] { 0, 0, 0, 0, 0, 0 }; // defence stat changes : evasion chance, graze chance, evasion number, armor decrease, negation value, armor hp
         list6 = new float[] { 0, 0, 0, 0 }; // tran stat changes : 
+        tempStatHolder = new float[6][];
         tempStatHolder[0] = list1;
         tempStatHolder[1] = list2;
         tempStatHolder[2] = list3;
@@ -791,7 +800,30 @@ public class Upgrades : MonoBehaviour
         upgradeList.Add(newUpgrade);
         /*------------------------------------*/
         newUpgrade = new Upgrade();
-        newUpgrade.SetName("Ap Rifle");
+        newUpgrade.SetName("Extended Magazine");
+        newUpgrade.SetDescription("Modified magazines now have more ammo in them");
+        newUpgrade.myType = Upgrade.type.stats;
+        #region stat Changes
+        list1 = new float[] { 0, 0, 0, 0, 0, 0 }; // sword stat changes : damage, attack class, damage type, attack speed, attack cooldown, consectutive attacks
+        list2 = new float[] { 0, 0, 0, 15, 0, 0, 0, 0, 0 }; // rifle stat changes : damage, attack class, damage type, ammo, reload, firerate, range, Spread, penertration
+        list3 = new float[] { 0, 0, 0, 4, 0, 0, 0, 0, 0 }; // sniper stat changes : damage, attack class, damage type, ammo, reload, firerate, range, Spread, penertration
+        list4 = new float[] { 0, 0, 0, 0 }; // base stat changes : HP, move speed, veiw range, enviromental protection
+        list5 = new float[] { 0, 0, 0, 0, 0, 0 }; // defence stat changes : evasion chance, graze chance, evasion number, armor decrease, negation value, armor hp
+        list6 = new float[] { 0, 0, 0, 0 }; // tran stat changes : 
+        tempStatHolder = new float[6][];
+        tempStatHolder[0] = list1;
+        tempStatHolder[1] = list2;
+        tempStatHolder[2] = list3;
+        tempStatHolder[3] = list4;
+        tempStatHolder[4] = list5;
+        tempStatHolder[5] = list6;
+        #endregion
+        newUpgrade.SetStatChanges(tempStatHolder);
+        newUpgrade.upgraded = false;
+        upgradeList.Add(newUpgrade);
+        /*------------------------------------*/
+        newUpgrade = new Upgrade();
+        newUpgrade.SetName("AP Rifle");
         newUpgrade.SetDescription("The introduction of cobium tipped bullet allow rifle rounds to practically ignore armour");
         newUpgrade.myType = Upgrade.type.stats;
         #region stat Changes
@@ -801,6 +833,7 @@ public class Upgrades : MonoBehaviour
         list4 = new float[] { 0, 0, 0, 0 }; // base stat changes : HP, move speed, veiw range, enviromental protection
         list5 = new float[] { 0, 0, 0, 0, 0, 0 }; // defence stat changes : evasion chance, graze chance, evasion number, armor decrease, negation value, armor hp
         list6 = new float[] { 0, 0, 0, 0 }; // tran stat changes : 
+        tempStatHolder = new float[6][];
         tempStatHolder[0] = list1;
         tempStatHolder[1] = list2;
         tempStatHolder[2] = list3;
@@ -823,6 +856,214 @@ public class Upgrades : MonoBehaviour
         list4 = new float[] { 0, 0, 0, 0 }; // base stat changes : HP, move speed, veiw range, enviromental protection
         list5 = new float[] { 0, 0, 0, 0, 0, 0 }; // defence stat changes : evasion chance, graze chance, evasion number, armor decrease, negation value, armor hp
         list6 = new float[] { 0, 0, 0, 0 }; // tran stat changes : 
+        tempStatHolder = new float[6][];
+        tempStatHolder[0] = list1;
+        tempStatHolder[1] = list2;
+        tempStatHolder[2] = list3;
+        tempStatHolder[3] = list4;
+        tempStatHolder[4] = list5;
+        tempStatHolder[5] = list6;
+        #endregion
+        newUpgrade.SetStatChanges(tempStatHolder);
+        newUpgrade.upgraded = false;
+        upgradeList.Add(newUpgrade);
+        /*------------------------------------*/
+        newUpgrade = new Upgrade();
+        newUpgrade.SetName("Rapid Reload");
+        newUpgrade.SetDescription("Having build up years of muscle memory you can reload your weapons ");
+        newUpgrade.myType = Upgrade.type.stats;
+        #region stat Changes
+        list1 = new float[] { 0, 0, 0, 0, 0, 0 }; // sword stat changes : damage, attack class, damage type, attack speed, attack cooldown, consectutive attacks
+        list2 = new float[] { 0, 0, 0, 0, -0.5f, 0, 0, 0, 0 }; // rifle stat changes : damage, attack class, damage type, ammo, reload, firerate, range, Spread, penertration
+        list3 = new float[] { 0, 0, 0, 0, -1f, 0, 0, 0, 0 }; // sniper stat changes : damage, attack class, damage type, ammo, reload, firerate, range, Spread, penertration
+        list4 = new float[] { 0, 0, 0, 0 }; // base stat changes : HP, move speed, veiw range, enviromental protection
+        list5 = new float[] { 0, 0, 0, 0, 0, 0 }; // defence stat changes : evasion chance, graze chance, evasion number, armor decrease, negation value, armor hp
+        list6 = new float[] { 0, 0, 0, 0 }; // tran stat changes : 
+        tempStatHolder = new float[6][];
+        tempStatHolder[0] = list1;
+        tempStatHolder[1] = list2;
+        tempStatHolder[2] = list3;
+        tempStatHolder[3] = list4;
+        tempStatHolder[4] = list5;
+        tempStatHolder[5] = list6;
+        #endregion
+        newUpgrade.SetStatChanges(tempStatHolder);
+        newUpgrade.upgraded = false;
+        upgradeList.Add(newUpgrade);
+        /*------------------------------------*/
+        newUpgrade = new Upgrade();
+        newUpgrade.SetName("Fast Swap");
+        newUpgrade.SetDescription("Muscle memory allows you to swap near instantly");
+        newUpgrade.myType = Upgrade.type.passive;
+        #region stat Changes
+        list1 = new float[] { 0, 0, 0, 0, 0, 0 }; // sword stat changes : damage, attack class, damage type, attack speed, attack cooldown, consectutive attacks
+        list2 = new float[] { 0, 0, 0, 0, 0, 0, 0, 0, 0 }; // rifle stat changes : damage, attack class, damage type, ammo, reload, firerate, range, Spread, penertration
+        list3 = new float[] { 0, 0, 0, 0, 0, 0, 0, 0, 0 }; // sniper stat changes : damage, attack class, damage type, ammo, reload, firerate, range, Spread, penertration
+        list4 = new float[] { 0, 0, 0, 0 }; // base stat changes : HP, move speed, veiw range, enviromental protection
+        list5 = new float[] { 0, 0, 0, 0, 0, 0 }; // defence stat changes : evasion chance, graze chance, evasion number, armor decrease, negation value, armor hp
+        list6 = new float[] { 0, 0, 0, 0 }; // tran stat changes : 
+        tempStatHolder = new float[6][];
+        tempStatHolder[0] = list1;
+        tempStatHolder[1] = list2;
+        tempStatHolder[2] = list3;
+        tempStatHolder[3] = list4;
+        tempStatHolder[4] = list5;
+        tempStatHolder[5] = list6;
+        #endregion
+        newUpgrade.SetStatChanges(tempStatHolder);
+        newUpgrade.upgraded = false;
+        upgradeList.Add(newUpgrade);
+        /*------------------------------------*/
+        newUpgrade = new Upgrade();
+        newUpgrade.SetName("Close Combat");
+        newUpgrade.SetDescription("Through training in CQC you have reached a level of skill to be granted use of an energy sword ");
+        newUpgrade.myType = Upgrade.type.multi;
+        #region stat Changes
+        list1 = new float[] { 0, 0, 0, 0, 0, 0 }; // sword stat changes : damage, attack class, damage type, attack speed, attack cooldown, consectutive attacks
+        list2 = new float[] { 0, 0, 0, 0, 0, 0, 0, 0, 0 }; // rifle stat changes : damage, attack class, damage type, ammo, reload, firerate, range, Spread, penertration
+        list3 = new float[] { 0, 0, 0, 0, 0, 0, 0, 0, 0 }; // sniper stat changes : damage, attack class, damage type, ammo, reload, firerate, range, Spread, penertration
+        list4 = new float[] { 0, 1, 0, 0 }; // base stat changes : HP, move speed, veiw range, enviromental protection
+        list5 = new float[] { 3, 3, 3, 0, 0, 0 }; // defence stat changes : evasion chance, graze chance, evasion number, armor decrease, negation value, armor hp
+        list6 = new float[] { 0, 0, 0, 0 }; // tran stat changes : 
+        tempStatHolder = new float[6][];
+        tempStatHolder[0] = list1;
+        tempStatHolder[1] = list2;
+        tempStatHolder[2] = list3;
+        tempStatHolder[3] = list4;
+        tempStatHolder[4] = list5;
+        tempStatHolder[5] = list6;
+        #endregion
+        newUpgrade.SetStatChanges(tempStatHolder);
+        newUpgrade.upgraded = false;
+        upgradeList.Add(newUpgrade);
+        /*------------------------------------*/
+        newUpgrade = new Upgrade();
+        newUpgrade.SetName("Molecular Blade");
+        newUpgrade.SetDescription("Use of stronger and harder materials have allowed the sharpness of the sword's blade to increase to the molecular level");
+        newUpgrade.myType = Upgrade.type.stats;
+        #region stat Changes
+        list1 = new float[] { 20, 0, 0, 0, 0, 0 }; // sword stat changes : damage, attack class, damage type, attack speed, attack cooldown, consectutive attacks
+        list2 = new float[] { 0, 0, 0, 0, 0, 0, 0, 0, 0 }; // rifle stat changes : damage, attack class, damage type, ammo, reload, firerate, range, Spread, penertration
+        list3 = new float[] { 0, 0, 0, 0, 0, 0, 0, 0, 0 }; // sniper stat changes : damage, attack class, damage type, ammo, reload, firerate, range, Spread, penertration
+        list4 = new float[] { 0, 0, 0, 0 }; // base stat changes : HP, move speed, veiw range, enviromental protection
+        list5 = new float[] { 0, 0, 0, 0, 0, 0 }; // defence stat changes : evasion chance, graze chance, evasion number, armor decrease, negation value, armor hp
+        list6 = new float[] { 0, 0, 0, 0 }; // tran stat changes : 
+        tempStatHolder = new float[6][];
+        tempStatHolder[0] = list1;
+        tempStatHolder[1] = list2;
+        tempStatHolder[2] = list3;
+        tempStatHolder[3] = list4;
+        tempStatHolder[4] = list5;
+        tempStatHolder[5] = list6;
+        #endregion
+        newUpgrade.SetStatChanges(tempStatHolder);
+        newUpgrade.upgraded = false;
+        upgradeList.Add(newUpgrade);
+        /*------------------------------------*/
+        newUpgrade = new Upgrade();
+        newUpgrade.SetName("Close Quarters Expert");
+        newUpgrade.SetDescription("Continued refinement of your skills has greated you even better control of the blade");
+        newUpgrade.myType = Upgrade.type.stats;
+        #region stat Changes
+        list1 = new float[] { 10, 0, 0, -0.1f, -0.3f, 2 }; // sword stat changes : damage, attack class, damage type, attack speed, attack cooldown, consectutive attacks
+        list2 = new float[] { 0, 0, 0, 0, 0, 0, 0, 0, 0 }; // rifle stat changes : damage, attack class, damage type, ammo, reload, firerate, range, Spread, penertration
+        list3 = new float[] { 0, 0, 0, 0, 0, 0, 0, 0, 0 }; // sniper stat changes : damage, attack class, damage type, ammo, reload, firerate, range, Spread, penertration
+        list4 = new float[] { 0, 0.5f, 0, 0 }; // base stat changes : HP, move speed, veiw range, enviromental protection
+        list5 = new float[] { 3, 3, 3, 0, 0, 0 }; // defence stat changes : evasion chance, graze chance, evasion number, armor decrease, negation value, armor hp
+        list6 = new float[] { 0, 0, 0, 0 }; // tran stat changes : 
+        tempStatHolder = new float[6][];
+        tempStatHolder[0] = list1;
+        tempStatHolder[1] = list2;
+        tempStatHolder[2] = list3;
+        tempStatHolder[3] = list4;
+        tempStatHolder[4] = list5;
+        tempStatHolder[5] = list6;
+        #endregion
+        newUpgrade.SetStatChanges(tempStatHolder);
+        newUpgrade.upgraded = false;
+        upgradeList.Add(newUpgrade);
+        /*------------------------------------*/
+        newUpgrade = new Upgrade();
+        newUpgrade.SetName("Slay");
+        newUpgrade.SetDescription("Instantly kill all unit hit with a melee attack if they are under 20% health");
+        newUpgrade.myType = Upgrade.type.passive;
+        #region stat Changes
+        list1 = new float[] { 0, 0, 0, 0, 0, 0 }; // sword stat changes : damage, attack class, damage type, attack speed, attack cooldown, consectutive attacks
+        list2 = new float[] { 0, 0, 0, 0, 0, 0, 0, 0, 0 }; // rifle stat changes : damage, attack class, damage type, ammo, reload, firerate, range, Spread, penertration
+        list3 = new float[] { 0, 0, 0, 0, 0, 0, 0, 0, 0 }; // sniper stat changes : damage, attack class, damage type, ammo, reload, firerate, range, Spread, penertration
+        list4 = new float[] { 0, 0, 0, 0 }; // base stat changes : HP, move speed, veiw range, enviromental protection
+        list5 = new float[] { 0, 0, 0, 0, 0, 0 }; // defence stat changes : evasion chance, graze chance, evasion number, armor decrease, negation value, armor hp
+        list6 = new float[] { 0, 0, 0, 0 }; // tran stat changes : 
+        tempStatHolder = new float[6][];
+        tempStatHolder[0] = list1;
+        tempStatHolder[1] = list2;
+        tempStatHolder[2] = list3;
+        tempStatHolder[3] = list4;
+        tempStatHolder[4] = list5;
+        tempStatHolder[5] = list6;
+        #endregion
+        newUpgrade.SetStatChanges(tempStatHolder);
+        newUpgrade.upgraded = false;
+        upgradeList.Add(newUpgrade);
+        /*------------------------------------*/
+        newUpgrade = new Upgrade();
+        newUpgrade.SetName("Energy Projection");
+        newUpgrade.SetDescription("Advanced plasma control allows you to temporary extend the length of the blase through the addition of a plasma tip");
+        newUpgrade.myType = Upgrade.type.active;
+        #region stat Changes
+        list1 = new float[] { 0, 0, 0, 0, 0, 0 }; // sword stat changes : damage, attack class, damage type, attack speed, attack cooldown, consectutive attacks
+        list2 = new float[] { 0, 0, 0, 0, 0, 0, 0, 0, 0 }; // rifle stat changes : damage, attack class, damage type, ammo, reload, firerate, range, Spread, penertration
+        list3 = new float[] { 0, 0, 0, 0, 0, 0, 0, 0, 0 }; // sniper stat changes : damage, attack class, damage type, ammo, reload, firerate, range, Spread, penertration
+        list4 = new float[] { 0, 0, 0, 0 }; // base stat changes : HP, move speed, veiw range, enviromental protection
+        list5 = new float[] { 0, 0, 0, 0, 0, 0 }; // defence stat changes : evasion chance, graze chance, evasion number, armor decrease, negation value, armor hp
+        list6 = new float[] { 0, 0, 0, 0 }; // tran stat changes : 
+        tempStatHolder = new float[6][];
+        tempStatHolder[0] = list1;
+        tempStatHolder[1] = list2;
+        tempStatHolder[2] = list3;
+        tempStatHolder[3] = list4;
+        tempStatHolder[4] = list5;
+        tempStatHolder[5] = list6;
+        #endregion
+        newUpgrade.SetStatChanges(tempStatHolder);
+        newUpgrade.upgraded = false;
+        upgradeList.Add(newUpgrade);
+        /*------------------------------------*/
+        newUpgrade = new Upgrade();
+        newUpgrade.SetName("Super Nova");
+        newUpgrade.SetDescription("Super nova is a show of having perfected the sword. it allows the user to attack dozens of times a second with no need to stop. while doing so they practioner is able to slice incoming projecitles in half, negating them ");
+        newUpgrade.myType = Upgrade.type.active;
+        #region stat Changes
+        list1 = new float[] { 0, 0, 0, 0, 0, 0 }; // sword stat changes : damage, attack class, damage type, attack speed, attack cooldown, consectutive attacks
+        list2 = new float[] { 0, 0, 0, 0, 0, 0, 0, 0, 0 }; // rifle stat changes : damage, attack class, damage type, ammo, reload, firerate, range, Spread, penertration
+        list3 = new float[] { 0, 0, 0, 0, 0, 0, 0, 0, 0 }; // sniper stat changes : damage, attack class, damage type, ammo, reload, firerate, range, Spread, penertration
+        list4 = new float[] { 0, 0, 0, 0 }; // base stat changes : HP, move speed, veiw range, enviromental protection
+        list5 = new float[] { 0, 0, 0, 0, 0, 0 }; // defence stat changes : evasion chance, graze chance, evasion number, armor decrease, negation value, armor hp
+        list6 = new float[] { 0, 0, 0, 0 }; // tran stat changes : 
+        tempStatHolder = new float[6][];
+        tempStatHolder[0] = list1;
+        tempStatHolder[1] = list2;
+        tempStatHolder[2] = list3;
+        tempStatHolder[3] = list4;
+        tempStatHolder[4] = list5;
+        tempStatHolder[5] = list6;
+        #endregion
+        newUpgrade.SetStatChanges(tempStatHolder);
+        newUpgrade.upgraded = false;
+        upgradeList.Add(newUpgrade);
+        /*------------------------------------*/
+        newUpgrade = new Upgrade();
+        newUpgrade.SetName("test");
+        newUpgrade.SetDescription("Super nova is a show of having perfected the sword. it allows the user to attack dozens of times a second with no need to stop. while doing so they practioner is able to slice incoming projecitles in half, negating them ");
+        newUpgrade.myType = Upgrade.type.active;
+        #region stat Changes
+        list1 = new float[] { 0, 0, 0, 0, 0, 0 }; // sword stat changes : damage, attack class, damage type, attack speed, attack cooldown, consectutive attacks
+        list2 = new float[] { 800, 0, 0, 0, 0, 0, 0, 0, 0 }; // rifle stat changes : damage, attack class, damage type, ammo, reload, firerate, range, Spread, penertration
+        list3 = new float[] { 0, 0, 0, 0, 0, 0, 0, 0, 0 }; // sniper stat changes : damage, attack class, damage type, ammo, reload, firerate, range, Spread, penertration
+        list4 = new float[] { 0, 0, 0, 0 }; // base stat changes : HP, move speed, veiw range, enviromental protection
+        list5 = new float[] { 0, 0, 0, 0, 0, 0 }; // defence stat changes : evasion chance, graze chance, evasion number, armor decrease, negation value, armor hp
+        list6 = new float[] { 0, 0, 0, 0 }; // tran stat changes : 
+        tempStatHolder = new float[6][];
         tempStatHolder[0] = list1;
         tempStatHolder[1] = list2;
         tempStatHolder[2] = list3;
@@ -837,8 +1078,16 @@ public class Upgrades : MonoBehaviour
         #endregion
     }
 
+    void Start()
+    {
+
+    }
 }
-  public class Upgrade
+
+
+
+
+public class Upgrade
 {
     public bool upgraded;
     public enum type { stats, passive, active, multi }
@@ -865,6 +1114,7 @@ public class Upgrades : MonoBehaviour
     public ActiveAbility aA;
     public PassiveAbility pA;
 }
+
 
 public class Ability
 {

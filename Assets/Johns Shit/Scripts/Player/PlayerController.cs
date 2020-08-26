@@ -16,6 +16,13 @@ public class PlayerController : MonoBehaviour
     public bool playerLocked;
     public bool groundBool;
 
+    public bool diving;
+    public enum diveState {not, started, end }
+    public diveState currentDiveState = diveState.not;
+    Vector3 diveStartPos;
+    Vector3 divePos;
+    Vector3 diveDirection;
+
     [SerializeField]
     TMP_Text ammoTB;
 
@@ -52,7 +59,7 @@ public class PlayerController : MonoBehaviour
         set
         {
             _sniperAmmoCount = value;
-            if(selectedWeapon == Weapon.sniper) ammoTB.text = "Rifle:  " + _sniperAmmoCount.ToString() + "/" + sniperAmmoMax.ToString();
+            if(selectedWeapon == Weapon.sniper) ammoTB.text = "Sniper:  " + _sniperAmmoCount.ToString() + "/" + sniperAmmoMax.ToString();
         }
     }
     private float sniperShootCooldown;
@@ -216,12 +223,26 @@ public class PlayerController : MonoBehaviour
             groundBool = false;
             GroundPlayer();
         }
+        InputMaster();
+    }
+
+    void InputMaster()
+    {
         if (!playerLocked)
         {
-            SwitchWeapon();
-            AimShoot();
-            Move();
-            LoadStatScreen();
+            if (currentDiveState == diveState.not)
+            {
+                SwitchWeapon();
+                AimShoot();
+                Move();
+                LoadStatScreen();
+                Dive();
+            }
+            else
+            {
+                Dive();
+                GetDirection();
+            }
         }
     }
     
@@ -230,14 +251,15 @@ public class PlayerController : MonoBehaviour
         Vector3 movDirection = GetDirection() * moveSpeed * Time.fixedDeltaTime;
         Vector3 movWorldPos = new Vector3(transform.position.x, transform.position.y, transform.position.z) + movDirection;
         Gizmos.DrawLine(new Vector3(transform.position.x, transform.position.y, transform.position.z) + movDirection + Vector3.up * 15f, new Vector3(transform.position.x, transform.position.y, transform.position.z) + movDirection - Vector3.up * 15f);
-
+        Gizmos.color = Color.red;
+        Gizmos.DrawSphere(divePos, 0.3f);
     }
 
     #region Player Movement
     void Move()
     {
         //get direction
-        Vector3 movDirection = GetDirection() * moveSpeed * Time.fixedDeltaTime;
+        Vector3 movDirection = GetDirection() * moveSpeed * Time.deltaTime;
         Vector3 movWorldPos = new Vector3(transform.position.x, transform.position.y, transform.position.z) + movDirection;
         //raycast from sky in that direction
 
@@ -270,6 +292,7 @@ public class PlayerController : MonoBehaviour
                 }
                 GroundPlayer();
             }
+
         }
     }
 
@@ -353,6 +376,7 @@ public class PlayerController : MonoBehaviour
         returnThis = returnThis.normalized;
         return returnThis;
     }
+
     void GroundPlayer()
     {
         RaycastHit ground;
@@ -361,6 +385,64 @@ public class PlayerController : MonoBehaviour
             transform.position = ground.point + Vector3.up;
         }
     }
+
+    void Dive()
+    {
+        switch (currentDiveState)
+        {
+            case diveState.not:
+                if (Input.GetKeyDown(KeyCode.Space))
+                {
+                    currentDiveState = diveState.started;
+                }
+                if(currentDiveState == diveState.started)
+                {
+                    diveDirection = GetDirection();
+                    RaycastHit divePosHit;
+                    //sky to ground raycast to get desired move location
+                    if (Physics.Raycast(new Vector3(transform.position.x, transform.position.y, transform.position.z) + (diveDirection * moveSpeed * 0.8f) + Vector3.up * 15f, Vector3.down, out divePosHit, 30f, groundLayerMask))
+                    {
+                        print(divePosHit.point);
+                        //ray cast from to ankles
+                        //check if hit collider
+                        RaycastHit objCheck;
+                        Ray ankleRay = new Ray(transform.position - Vector3.up * 0.5f, divePosHit.point - transform.position);
+                        //checkcs if path is free
+                        if (!Physics.SphereCast(transform.position - Vector3.up * 0.5f, 0.1f, (divePosHit.point + Vector3.up - transform.position), out objCheck, moveSpeed * 0.8f, nonTraversableLayerMask))
+                        {
+                            print("nothing in dive path");
+                            //since path was free sets the start location to the dive pos
+                            divePos = divePosHit.point + Vector3.up;
+                        }
+                        //path was not free
+                        else
+                        {
+                            print("something in dive path");
+                            //sets the dive to pos to a point half a unit back from the point where the raycast hit the obstacle
+                            divePos = objCheck.point - (objCheck.point - transform.position).normalized *1f;
+                        }
+                    }
+                    diveStartPos = transform.position;
+                }
+                
+                break;
+            case diveState.started:
+                if ((divePos- diveStartPos).normalized != (divePos - transform.position).normalized || diveDirection == Vector3.zero)
+                {
+                    currentDiveState = diveState.end;
+                }
+                else
+                {
+                    transform.position = transform.position + diveDirection * 10 * Time.deltaTime;
+                }
+
+                break;
+            case diveState.end:
+                currentDiveState = diveState.not;
+                break;
+        }
+    }
+
     #endregion
 
     void AimShoot()

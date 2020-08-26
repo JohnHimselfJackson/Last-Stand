@@ -73,7 +73,6 @@ public class StatBlock
         {
             Debug.Log("pleasse enter a correct size array for melee modification ** " + array.Length + "incorrect");
         }
-        Debug.Log(" new mod values : " + modMeleeValues[0] + ", " + modMeleeValues[1] + ", " + modMeleeValues[2] + ", " + modMeleeValues[3] + ", " + modMeleeValues[4] + ", " + modMeleeValues[5]);
         if (StatsDisplayController.main != null) StatsDisplayController.main.AlterStatsDisplay(this);
     } // UTD
     /// <summary>
