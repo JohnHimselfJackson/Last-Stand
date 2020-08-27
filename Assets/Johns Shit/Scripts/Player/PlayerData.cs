@@ -19,7 +19,7 @@ public class StatBlock
 {
     //melee, rifle, sniper, durability, transcendal, basic
     #region stats
-    static readonly float[] baseMeleeValues = { 20, 0, 4 , 0.3f, 0.9f, 3 }; // damage, attack class, damage type, attack speed, attack cooldown, consectutive attacks
+    static readonly float[] baseMeleeValues = { 35, 0, 4 , 0.3f, 0.9f, 3 }; // damage, attack class, damage type, attack speed, attack cooldown, consectutive attacks
     float[] modMeleeValues = new float[6];
     static readonly float[] baseRifleValues = {8, 0, 1, 30, 1.6f, 0.2f, 20, 30, 0}; // damage, attack class, damage type, ammo, reload, firerate, range, Spread, penertration
     float[] modRifleValues = new float[9];
