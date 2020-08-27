@@ -22,13 +22,16 @@ public class PlayerController : MonoBehaviour
     Vector3 diveStartPos;
     Vector3 divePos;
     Vector3 diveDirection;
+    float diveStandDelay;
+    float standtime = 0.6f;
 
     [SerializeField]
     TMP_Text ammoTB;
 
     public Camera cam;
 
-    private bool forwards, backwards, left, right;
+    private bool forwards, backwards, left, right, sprinting;
+    private float sprintSpeedChange = 2f;
 
     #region Weapon Privates Variables
     private float _rifleAmmoCount;
@@ -230,6 +233,7 @@ public class PlayerController : MonoBehaviour
     {
         if (!playerLocked)
         {
+            SprintCheck();
             if (currentDiveState == diveState.not)
             {
                 SwitchWeapon();
@@ -237,6 +241,7 @@ public class PlayerController : MonoBehaviour
                 Move();
                 LoadStatScreen();
                 Dive();
+                
             }
             else
             {
@@ -258,8 +263,13 @@ public class PlayerController : MonoBehaviour
     #region Player Movement
     void Move()
     {
+        float moveSpeedTemp = moveSpeed;
+        if (sprinting)
+        {
+            moveSpeedTemp *= sprintSpeedChange;
+        }
         //get direction
-        Vector3 movDirection = GetDirection() * moveSpeed * Time.deltaTime;
+        Vector3 movDirection = GetDirection() * moveSpeedTemp * Time.deltaTime;
         Vector3 movWorldPos = new Vector3(transform.position.x, transform.position.y, transform.position.z) + movDirection;
         //raycast from sky in that direction
 
@@ -273,20 +283,16 @@ public class PlayerController : MonoBehaviour
             //check if hit collider
             RaycastHit objCheck;
             Ray ankleRay = new Ray(transform.position - Vector3.up * 0.5f, movPos.point - transform.position);
-            if (!Physics.SphereCast(transform.position - Vector3.up * 0.5f, 0.1f, (movPos.point + Vector3.up - transform.position), out objCheck, moveSpeed * Time.deltaTime * 12, nonTraversableLayerMask))
+            if (!Physics.SphereCast(transform.position - Vector3.up * 0.5f, 0.1f, (movPos.point + Vector3.up - transform.position), out objCheck, moveSpeedTemp * Time.deltaTime * 12, nonTraversableLayerMask))
             {
-                Debug.DrawRay(transform.position - Vector3.up * 0.5f, (movPos.point + Vector3.up - transform.position) * 20f, Color.green);
                 transform.position = movPos.point + Vector3.up;
             }
             else
             {
-                Debug.DrawRay(transform.position - Vector3.up * 0.5f, (movPos.point + Vector3.up - transform.position) * 40f, Color.red);
-
                 Vector3 adjustedNormal = Quaternion.Euler(0,90, 0) * objCheck.normal;
-                Debug.DrawRay(transform.position - Vector3.up * 0.5f, (adjustedNormal), Color.yellow);
                 Vector3 normalBasedMovePos = transform.position + Vector3.Project(movDirection,adjustedNormal) * Time.deltaTime * 50f;
                 RaycastHit testPos;
-                if(!Physics.SphereCast(transform.position - Vector3.up * 0.5f, 0.1f, (adjustedNormal), out testPos, moveSpeed * Time.deltaTime * 12, nonTraversableLayerMask))
+                if(!Physics.SphereCast(transform.position - Vector3.up * 0.5f, 0.1f, (adjustedNormal), out testPos, moveSpeedTemp * Time.deltaTime * 12, nonTraversableLayerMask))
                 {
                     transform.position = normalBasedMovePos;
                 }
@@ -295,7 +301,6 @@ public class PlayerController : MonoBehaviour
 
         }
     }
-
     //returns movement direction as vector 3
     Vector3 GetDirection()
     {
@@ -359,24 +364,27 @@ public class PlayerController : MonoBehaviour
 
         if (forwards)
         {
-            returnThis += transform.forward;
+            returnThis += Vector3.forward;
         }
         if (backwards)
         {
-            returnThis -= transform.forward;
+            returnThis -= Vector3.forward;
         }
         if (right)
         {
-            returnThis += transform.right;
+            returnThis += Vector3.right;
         }
         if (left)
         {
-            returnThis -= transform.right;
+            returnThis -= Vector3.right;
         }
         returnThis = returnThis.normalized;
+        if(returnThis != Vector3.zero && !diving && !shooting)
+        {
+            transform.rotation = Quaternion.Euler(transform.rotation.eulerAngles.x, Mathf.Atan2(-returnThis.z, returnThis.x) * Mathf.Rad2Deg + 90, transform.rotation.eulerAngles.z);
+        }
         return returnThis;
     }
-
     void GroundPlayer()
     {
         RaycastHit ground;
@@ -385,7 +393,6 @@ public class PlayerController : MonoBehaviour
             transform.position = ground.point + Vector3.up;
         }
     }
-
     void Dive()
     {
         switch (currentDiveState)
@@ -394,32 +401,45 @@ public class PlayerController : MonoBehaviour
                 if (Input.GetKeyDown(KeyCode.Space))
                 {
                     currentDiveState = diveState.started;
+                    diving = true;
                 }
                 if(currentDiveState == diveState.started)
                 {
+                    float moveSpeedTemp = moveSpeed;
+                    if (sprinting)
+                    {
+                        moveSpeedTemp *= sprintSpeedChange;
+                    }
                     diveDirection = GetDirection();
                     RaycastHit divePosHit;
                     //sky to ground raycast to get desired move location
-                    if (Physics.Raycast(new Vector3(transform.position.x, transform.position.y, transform.position.z) + (diveDirection * moveSpeed * 0.8f) + Vector3.up * 15f, Vector3.down, out divePosHit, 30f, groundLayerMask))
+                    if (Physics.Raycast(new Vector3(transform.position.x, transform.position.y, transform.position.z) + (diveDirection * moveSpeedTemp * 1f) + Vector3.up * 15f, Vector3.down, out divePosHit, 30f, groundLayerMask))
                     {
-                        print(divePosHit.point);
                         //ray cast from to ankles
                         //check if hit collider
                         RaycastHit objCheck;
                         Ray ankleRay = new Ray(transform.position - Vector3.up * 0.5f, divePosHit.point - transform.position);
+                        Debug.DrawLine(transform.position - Vector3.up * 0.5f, divePosHit.point + Vector3.up * 0.5f, Color.green, 1f);
                         //checkcs if path is free
-                        if (!Physics.SphereCast(transform.position - Vector3.up * 0.5f, 0.1f, (divePosHit.point + Vector3.up - transform.position), out objCheck, moveSpeed * 0.8f, nonTraversableLayerMask))
+                        if (!Physics.SphereCast(transform.position - Vector3.up * 0.5f, 0.1f, (divePosHit.point + Vector3.up - transform.position), out objCheck, moveSpeedTemp * 1, nonTraversableLayerMask))
                         {
-                            print("nothing in dive path");
                             //since path was free sets the start location to the dive pos
                             divePos = divePosHit.point + Vector3.up;
                         }
                         //path was not free
                         else
                         {
-                            print("something in dive path");
-                            //sets the dive to pos to a point half a unit back from the point where the raycast hit the obstacle
-                            divePos = objCheck.point - (objCheck.point - transform.position).normalized *1f;
+                            if ((objCheck.point- transform.position - Vector3.up * 0.5f).magnitude > 1.3f)
+                            {
+                                Debug.DrawLine(transform.position - Vector3.up * 0.5f, objCheck.point, Color.red, 1f);
+                                //sets the dive to pos to a point half a unit back from the point where the raycast hit the obstacle
+                                divePos = transform.position + diveDirection * ((objCheck.point - transform.position - Vector3.up * 0.5f).magnitude - 1f);
+                                print(diveDirection);
+                            }
+                            else
+                            {
+                                currentDiveState = diveState.end;
+                            }
                         }
                     }
                     diveStartPos = transform.position;
@@ -427,33 +447,71 @@ public class PlayerController : MonoBehaviour
                 
                 break;
             case diveState.started:
-                if ((divePos- diveStartPos).normalized != (divePos - transform.position).normalized || diveDirection == Vector3.zero)
+                if ((new Vector3(divePos.x,0,divePos.z)- new Vector3(diveStartPos.x, 0, diveStartPos.z)).normalized != (new Vector3(divePos.x, 0, divePos.z) - new Vector3(transform.position.x,0, transform.position.z)).normalized || diveDirection == Vector3.zero)
                 {
                     currentDiveState = diveState.end;
+                    diveStandDelay = standtime; 
                 }
                 else
                 {
-                    transform.position = transform.position + diveDirection * 10 * Time.deltaTime;
+                    transform.rotation = Quaternion.Euler(90, transform.rotation.eulerAngles.y, 0);
+                    transform.position = transform.position + diveDirection * 15 * Time.deltaTime;
                 }
 
                 break;
             case diveState.end:
-                currentDiveState = diveState.not;
+                if(diveStandDelay <= 0)
+                {
+                    transform.rotation = Quaternion.Euler(0, transform.rotation.eulerAngles.y, 0);
+                    currentDiveState = diveState.not;
+                    diving = false;
+                    if (Input.GetMouseButton(0))
+                    {
+                        shooting = true;
+                        sprinting = false;
+                    }
+                }
+                else
+                {
+                    diveStandDelay -= Time.deltaTime;
+                }
                 break;
         }
     }
-
+    void SprintCheck()
+    {
+        if((Input.GetKeyDown(KeyCode.LeftShift)) && !shooting)
+        {
+            sprinting = true;
+        }
+        if (Input.GetKeyUp(KeyCode.LeftShift))
+        {
+            sprinting = false;
+        }
+    }
     #endregion
 
+    #region Weapons
     void AimShoot()
     {
         if (Input.GetMouseButtonDown(0))
         {
             shooting = true;
+            sprinting = false;
         }
         if (Input.GetMouseButtonUp(0))
         {
             shooting = false;
+            if ((Input.GetKeyDown(KeyCode.LeftShift) || Input.GetKey(KeyCode.LeftShift)) && !shooting)
+            {
+                sprinting = true;
+            }
+        }
+        if (shooting)
+        {
+            RaycastHit camCast;
+            Physics.Raycast(cam.ScreenPointToRay(Input.mousePosition, Camera.MonoOrStereoscopicEye.Mono), out camCast, 40, 1 << 12);
+            transform.rotation = Quaternion.Euler(transform.rotation.eulerAngles.x, Mathf.Atan2(-(camCast.point-transform.position).z, (camCast.point - transform.position).x) * Mathf.Rad2Deg + 90, transform.rotation.eulerAngles.z);
         }
         switch (selectedWeapon)
         {
@@ -597,7 +655,7 @@ public class PlayerController : MonoBehaviour
         reloadingSword = false;
     }
     #endregion
-
+    #endregion
 
     void LoadStatScreen()
     {

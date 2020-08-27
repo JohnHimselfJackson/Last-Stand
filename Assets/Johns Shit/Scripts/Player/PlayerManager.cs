@@ -88,111 +88,117 @@ public class PlayerManager : MonoBehaviour
         }
         #endregion
 
-
-        //divides incoming damage up according to type
-        switch (incomingDamage.myType)
+        if (pC.diving)
         {
-            #region Standard Damage
-            case DamagePackage.damageType.standard:
-                int finalDamage;
-                //rng number for if attack hits
-                hitNo = Random.Range(0, 101);
-                // if number is greater than the graze chance it is a full hit
-                if (hitNo > tempGrazeChance)
-                {
-                    finalDamage = ArmourCalc(incomingDamage.damage);
-                    //projectile has hit the player
-                    projectileResolved = true;
-                }
-                //this happens it hit number is less than the graze but more than the full evade. if this happens the damage is halved
-                else if(hitNo > tempEvasionChance)
-                {
-                    finalDamage = ArmourCalc((int)(incomingDamage.damage/2));
-                    //rpojectile has hit the player
-                    projectileResolved = true;
-                }
-                //if the hit number is less than the evasion chance number its a complete dodge
-                else
-                {
-                    finalDamage = 0;
-                    //rpojectile has missed the player
-                    projectileResolved = false;
-                    //dodged
-                }
-
-                //calucation after final damage found 
-                healthCurrent -= finalDamage;
-                if (healthCurrent < 0)
-                {
-                    healthCurrent = 0;
-                }
-            break;
-            #endregion
-            #region Direct Damage
-            case DamagePackage.damageType.direct:
-                //subtracts the damage done after armour form the players current health
-                healthCurrent -= ArmourCalc(incomingDamage.damage);
-                if (healthCurrent < 0)
-                {
-                    healthCurrent = 0;
-                }
-                //rpojectile has hit the player
-                projectileResolved = true;
-                break;
-            #endregion
-            #region AP Damage
-            case DamagePackage.damageType.AP:
-                //rng number for if attack hits
-                hitNo = Random.Range(0, 100);
-
-                // if number is greater than the graze chance it is a full hit
-                if (hitNo > tempGrazeChance)
-                {
-                    finalDamage = incomingDamage.damage;
-                    //rpojectile has hit the player
-                    projectileResolved = true;
-                }
-                //this happens it hit number is less than the graze but more than the full evade. if this happens the damage is halved
-                else if (hitNo > tempEvasionChance)
-                {
-                    finalDamage = (int)(incomingDamage.damage / 2);
-                    //rpojectile has hit the player
-                    projectileResolved = true;
-                }
-                //if the hit number is less than the evasion chance number its a complete dodge
-                else
-                {
-                    finalDamage = 0;
-                    //rpojectile has missed the player
-                    projectileResolved = false;
-                    //dodged
-                }
-                //calucation after final damage found 
-                healthCurrent -= finalDamage;
-                if (healthCurrent < 0)
-                {
-                    healthCurrent = 0;
-                }
-
-            break;
-            #endregion
-            #region True Damage
-            case DamagePackage.damageType.trueDamage:
-
-                healthCurrent -= incomingDamage.damage;
-                if(healthCurrent < 0)
-                {
-                    healthCurrent = 0;
-                }
-                //pojectile has hit the player
-                projectileResolved = true;
-            break;
-            #endregion
+            projectileResolved = false;
         }
-        //checks if the player is dead
-        if(healthCurrent < 1)
+        else
         {
-            PlayerDead();
+            //divides incoming damage up according to type
+            switch (incomingDamage.myType)
+            {
+                #region Standard Damage
+                case DamagePackage.damageType.standard:
+                    int finalDamage;
+                    //rng number for if attack hits
+                    hitNo = Random.Range(0, 101);
+                    // if number is greater than the graze chance it is a full hit
+                    if (hitNo > tempGrazeChance)
+                    {
+                        finalDamage = ArmourCalc(incomingDamage.damage);
+                        //projectile has hit the player
+                        projectileResolved = true;
+                    }
+                    //this happens it hit number is less than the graze but more than the full evade. if this happens the damage is halved
+                    else if (hitNo > tempEvasionChance)
+                    {
+                        finalDamage = ArmourCalc((int)(incomingDamage.damage / 2));
+                        //rpojectile has hit the player
+                        projectileResolved = true;
+                    }
+                    //if the hit number is less than the evasion chance number its a complete dodge
+                    else
+                    {
+                        finalDamage = 0;
+                        //rpojectile has missed the player
+                        projectileResolved = false;
+                        //dodged
+                    }
+
+                    //calucation after final damage found 
+                    healthCurrent -= finalDamage;
+                    if (healthCurrent < 0)
+                    {
+                        healthCurrent = 0;
+                    }
+                    break;
+                #endregion
+                #region Direct Damage
+                case DamagePackage.damageType.direct:
+                    //subtracts the damage done after armour form the players current health
+                    healthCurrent -= ArmourCalc(incomingDamage.damage);
+                    if (healthCurrent < 0)
+                    {
+                        healthCurrent = 0;
+                    }
+                    //rpojectile has hit the player
+                    projectileResolved = true;
+                    break;
+                #endregion
+                #region AP Damage
+                case DamagePackage.damageType.AP:
+                    //rng number for if attack hits
+                    hitNo = Random.Range(0, 100);
+
+                    // if number is greater than the graze chance it is a full hit
+                    if (hitNo > tempGrazeChance)
+                    {
+                        finalDamage = incomingDamage.damage;
+                        //rpojectile has hit the player
+                        projectileResolved = true;
+                    }
+                    //this happens it hit number is less than the graze but more than the full evade. if this happens the damage is halved
+                    else if (hitNo > tempEvasionChance)
+                    {
+                        finalDamage = (int)(incomingDamage.damage / 2);
+                        //rpojectile has hit the player
+                        projectileResolved = true;
+                    }
+                    //if the hit number is less than the evasion chance number its a complete dodge
+                    else
+                    {
+                        finalDamage = 0;
+                        //rpojectile has missed the player
+                        projectileResolved = false;
+                        //dodged
+                    }
+                    //calucation after final damage found 
+                    healthCurrent -= finalDamage;
+                    if (healthCurrent < 0)
+                    {
+                        healthCurrent = 0;
+                    }
+
+                    break;
+                #endregion
+                #region True Damage
+                case DamagePackage.damageType.trueDamage:
+
+                    healthCurrent -= incomingDamage.damage;
+                    if (healthCurrent < 0)
+                    {
+                        healthCurrent = 0;
+                    }
+                    //pojectile has hit the player
+                    projectileResolved = true;
+                    break;
+                    #endregion
+            }
+            //checks if the player is dead
+            if (healthCurrent < 1)
+            {
+                PlayerDead();
+            }
         }
         //returns projectile resolved to see if the projectile is done or if it continues past the player (miss)
         return projectileResolved;
