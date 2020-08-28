@@ -6,6 +6,7 @@ using TMPro;
 
 public class PlayerController : MonoBehaviour
 {
+    public GameObject myCanvas;
     #region Layer Masks
     int groundLayerMask = 1 << 12;
     int nonTraversableLayerMask = (1 << 8) | (1 << 11) | (1 << 12);
@@ -126,6 +127,7 @@ public class PlayerController : MonoBehaviour
     /// <param name="newPlayerStats"></param>
     public void SetOnLoad(StatBlock newPlayerStats)
     {
+        myCanvas.SetActive(true);
         moveSpeed = newPlayerStats.ReturnValues("base", "final")[1];
         float[] rifleStats = newPlayerStats.ReturnValues("rifle", "final");
         float[] sniperStats = newPlayerStats.ReturnValues("sniper", "final");
@@ -236,6 +238,7 @@ public class PlayerController : MonoBehaviour
             SprintCheck();
             if (currentDiveState == diveState.not)
             {
+                ForceReload();
                 SwitchWeapon();
                 AimShoot();
                 Move();
@@ -614,6 +617,28 @@ public class PlayerController : MonoBehaviour
         }
     }
     #region Reloads
+    void ForceReload()
+    {
+        if (Input.GetKeyDown(KeyCode.R))
+        {
+            switch (selectedWeapon)
+            {
+                case Weapon.rifle:
+                    rifleAmmoCount = 0;
+                    rifleReloadTime = rifleReload;
+                    reloadingRifle = true;
+                    StartCoroutine(ReloadRifleCoro());
+                    break;
+                case Weapon.sniper:
+                    sniperAmmoCount = 0;
+                    sniperReloadTime = sniperReload;
+                    reloadingSniper = true;
+                    StartCoroutine(ReloadSniperCoro());
+                    break;
+            }
+        }
+    }
+
     IEnumerator ReloadRifleCoro()
     {
         print("reloading");
@@ -665,6 +690,7 @@ public class PlayerController : MonoBehaviour
             playerLocked = true;
             SceneManager.LoadScene(1,LoadSceneMode.Additive);
             cam.gameObject.SetActive(false);
+            myCanvas.SetActive(false);
         }
     }
     

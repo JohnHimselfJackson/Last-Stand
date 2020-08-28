@@ -636,6 +636,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 76a9718d9d9da904fb8bd5ea68622a73, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  myCanvas: {fileID: 1707942519}
   playerLocked: 0
   groundBool: 0
   diving: 0

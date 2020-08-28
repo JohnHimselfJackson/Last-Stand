@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+[CreateAssetMenu(fileName = "new upgrade", menuName = "Upgrades")]
 public class UpgradeScriptable : ScriptableObject
 {
     public bool upgraded;

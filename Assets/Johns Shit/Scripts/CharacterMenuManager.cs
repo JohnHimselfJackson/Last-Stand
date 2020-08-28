@@ -56,6 +56,7 @@ public class CharacterMenuManager : MonoBehaviour
             upgradeGO.SetActive(false);
             gameState = 0;
             playerCamera.orthographicSize = 6;
+            transform.position = new Vector3(0, -20, 0);
         }
     }
 

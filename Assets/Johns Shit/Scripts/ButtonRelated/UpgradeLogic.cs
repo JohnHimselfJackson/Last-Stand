@@ -36,6 +36,7 @@ public class UpgradeLogic : MonoBehaviour
     void GetUpgrade()
     {
         alreadyUpgraded = true;
+        myUpgrade.upgraded = true;
         foreach(UpgradeLogic uu in dependents)
         {
             uu.ButtonClickable();
