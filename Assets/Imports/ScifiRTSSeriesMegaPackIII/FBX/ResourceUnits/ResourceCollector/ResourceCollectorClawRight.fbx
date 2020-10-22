@@ -1,0 +1,341 @@
+; FBX 6.1.0 project file
+; Created by Blender FBX Exporter
+; for support mail: ideasman42@gmail.com
+; ----------------------------------------------------
+
+FBXHeaderExtension:  {
+	FBXHeaderVersion: 1003
+	FBXVersion: 6100
+	CreationTimeStamp:  {
+		Version: 1000
+		Year: 2014
+		Month: 02
+		Day: 01
+		Hour: 10
+		Minute: 30
+		Second: 18
+		Millisecond: 0
+	}
+	Creator: "FBX SDK/FBX Plugins build 20070228"
+	OtherFlags:  {
+		FlagPLE: 0
+	}
+}
+CreationTime: "2014-02-01 10:30:18:000"
+Creator: "Blender version 2.69 (sub 0)"
+
+; Object definitions
+;------------------------------------------------------------------
+
+Definitions:  {
+	Version: 100
+	Count: 3
+	ObjectType: "Model" {
+		Count: 1
+	}
+	ObjectType: "Geometry" {
+		Count: 1
+	}
+	ObjectType: "Material" {
+		Count: 1
+	}
+	ObjectType: "Pose" {
+		Count: 1
+	}
+	ObjectType: "GlobalSettings" {
+		Count: 1
+	}
+}
+
+; Object properties
+;------------------------------------------------------------------
+
+Objects:  {
+	Model: "Model::ResourceCollectorClawRight", "Mesh" {
+		Version: 232
+		Properties60:  {
+			Property: "QuaternionInterpolate", "bool", "",0
+			Property: "Visibility", "Visibility", "A+",1
+			Property: "Lcl Translation", "Lcl Translation", "A+",0.000000000000000,0.000000000000000,0.000000000000000
+			Property: "Lcl Rotation", "Lcl Rotation", "A+",-0.000004325711105,0.000000000000000,0.000000000000000
+			Property: "Lcl Scaling", "Lcl Scaling", "A+",1.000000000000000,1.000000000000000,1.000000000000000
+			Property: "RotationOffset", "Vector3D", "",0,0,0
+			Property: "RotationPivot", "Vector3D", "",0,0,0
+			Property: "ScalingOffset", "Vector3D", "",0,0,0
+			Property: "ScalingPivot", "Vector3D", "",0,0,0
+			Property: "TranslationActive", "bool", "",0
+			Property: "TranslationMin", "Vector3D", "",0,0,0
+			Property: "TranslationMax", "Vector3D", "",0,0,0
+			Property: "TranslationMinX", "bool", "",0
+			Property: "TranslationMinY", "bool", "",0
+			Property: "TranslationMinZ", "bool", "",0
+			Property: "TranslationMaxX", "bool", "",0
+			Property: "TranslationMaxY", "bool", "",0
+			Property: "TranslationMaxZ", "bool", "",0
+			Property: "RotationOrder", "enum", "",0
+			Property: "RotationSpaceForLimitOnly", "bool", "",0
+			Property: "AxisLen", "double", "",10
+			Property: "PreRotation", "Vector3D", "",0,0,0
+			Property: "PostRotation", "Vector3D", "",0,0,0
+			Property: "RotationActive", "bool", "",0
+			Property: "RotationMin", "Vector3D", "",0,0,0
+			Property: "RotationMax", "Vector3D", "",0,0,0
+			Property: "RotationMinX", "bool", "",0
+			Property: "RotationMinY", "bool", "",0
+			Property: "RotationMinZ", "bool", "",0
+			Property: "RotationMaxX", "bool", "",0
+			Property: "RotationMaxY", "bool", "",0
+			Property: "RotationMaxZ", "bool", "",0
+			Property: "RotationStiffnessX", "double", "",0
+			Property: "RotationStiffnessY", "double", "",0
+			Property: "RotationStiffnessZ", "double", "",0
+			Property: "MinDampRangeX", "double", "",0
+			Property: "MinDampRangeY", "double", "",0
+			Property: "MinDampRangeZ", "double", "",0
+			Property: "MaxDampRangeX", "double", "",0
+			Property: "MaxDampRangeY", "double", "",0
+			Property: "MaxDampRangeZ", "double", "",0
+			Property: "MinDampStrengthX", "double", "",0
+			Property: "MinDampStrengthY", "double", "",0
+			Property: "MinDampStrengthZ", "double", "",0
+			Property: "MaxDampStrengthX", "double", "",0
+			Property: "MaxDampStrengthY", "double", "",0
+			Property: "MaxDampStrengthZ", "double", "",0
+			Property: "PreferedAngleX", "double", "",0
+			Property: "PreferedAngleY", "double", "",0
+			Property: "PreferedAngleZ", "double", "",0
+			Property: "InheritType", "enum", "",0
+			Property: "ScalingActive", "bool", "",0
+			Property: "ScalingMin", "Vector3D", "",1,1,1
+			Property: "ScalingMax", "Vector3D", "",1,1,1
+			Property: "ScalingMinX", "bool", "",0
+			Property: "ScalingMinY", "bool", "",0
+			Property: "ScalingMinZ", "bool", "",0
+			Property: "ScalingMaxX", "bool", "",0
+			Property: "ScalingMaxY", "bool", "",0
+			Property: "ScalingMaxZ", "bool", "",0
+			Property: "GeometricTranslation", "Vector3D", "",0,0,0
+			Property: "GeometricRotation", "Vector3D", "",0,0,0
+			Property: "GeometricScaling", "Vector3D", "",1,1,1
+			Property: "LookAtProperty", "object", ""
+			Property: "UpVectorProperty", "object", ""
+			Property: "Show", "bool", "",1
+			Property: "NegativePercentShapeSupport", "bool", "",1
+			Property: "DefaultAttributeIndex", "int", "",0
+			Property: "Color", "Color", "A",0.8,0.8,0.8
+			Property: "Size", "double", "",100
+			Property: "Look", "enum", "",1
+		}
+		MultiLayer: 0
+		MultiTake: 1
+		Shading: Y
+		Culling: "CullingOff"
+		Vertices: -0.244127,-0.082341,-0.107510,2.492399,-0.082341,3.821506,-0.047932,-0.082341,-0.259487,-0.244127,0.103429,-0.107510,
+		          2.492401,0.103429,3.821506,3.100585,0.103429,3.350376,-0.047932,0.103429,-0.259487,-0.144946,-0.082341,0.417148,
+		          0.463240,-0.082341,-0.054043,-0.144945,0.103429,0.417148,0.463240,0.103429,-0.054043,1.233292,-0.082341,0.939976,
+		          1.233292,0.103429,0.939976,4.000789,-0.082341,2.652988,4.000789,-0.032638,2.652988,2.927424,-0.082341,1.267429,
+		          2.927424,-0.032638,1.267429
+		PolygonVertexIndex: 8,2,6,-11,3,6,2,-1,0,2,8,-8,3,9,10,-7,0,7,9,-4,11,8,10,-13,12,16,15,-12,13,15,16,-15,
+		                    5,14,16,-13,7,11,-2,9,4,5,-13,7,1,4,-10,1,5,-5,7,8,-12,9,12,-11,11,15,13,-2,1,13,14,-6
+		GeometryVersion: 124
+		LayerElementNormal: 0 {
+			Version: 101
+			Name: ""
+			MappingInformationType: "ByPolygonVertex"
+			ReferenceInformationType: "Direct"
+			Normals: 0.456648,-0.652669,-0.604541,-0.109317,-0.610401,-0.784478,-0.109317,0.610401,-0.784478,0.456648,0.652669,-0.604541,
+			         -0.743522,0.606311,-0.281930,-0.109317,0.610401,-0.784478,-0.109317,-0.610401,-0.784478,-0.743522,-0.606311,-0.281930,
+			         -0.743522,-0.606311,-0.281930,-0.109317,-0.610401,-0.784478,0.456648,-0.652669,-0.604541,-0.686605,-0.658040,0.309061,
+			         -0.743522,0.606311,-0.281930,-0.686605,0.658040,0.309061,0.456648,0.652669,-0.604541,-0.109317,0.610401,-0.784478,
+			         -0.743522,-0.606311,-0.281930,-0.686605,-0.658040,0.309061,-0.686605,0.658040,0.309061,-0.743522,0.606311,-0.281930,
+			         0.317240,-0.795709,-0.515915,0.456648,-0.652669,-0.604541,0.456648,0.652669,-0.604541,0.327921,0.794855,-0.510514,
+			         0.327921,0.794855,-0.510514,0.438093,0.590228,-0.677999,0.404340,-0.635670,-0.657552,0.317240,-0.795709,-0.515915,
+			         0.809961,-0.577349,0.102817,0.404340,-0.635670,-0.657552,0.438093,0.590228,-0.677999,0.837550,0.538896,0.089724,
+			         0.458815,0.718680,0.522416,0.837550,0.538896,0.089724,0.438093,0.590228,-0.677999,0.327921,0.794855,-0.510514,
+			         -0.686605,-0.658040,0.309061,0.317240,-0.795709,-0.515915,-0.102817,-0.577349,0.809992,-0.686605,0.658040,0.309061,
+			         -0.102817,0.577349,0.809992,0.458815,0.718680,0.522416,0.327921,0.794855,-0.510514,-0.686605,-0.658040,0.309061,
+			         -0.102817,-0.577349,0.809992,-0.102817,0.577349,0.809992,-0.686605,0.658040,0.309061,-0.102817,-0.577349,0.809992,
+			         0.458815,0.718680,0.522416,-0.102817,0.577349,0.809992,-0.686605,-0.658040,0.309061,0.456648,-0.652669,-0.604541,
+			         0.317240,-0.795709,-0.515915,-0.686605,0.658040,0.309061,0.327921,0.794855,-0.510514,0.456648,0.652669,-0.604541,
+			         0.317240,-0.795709,-0.515915,0.404340,-0.635670,-0.657552,0.809961,-0.577349,0.102817,-0.102817,-0.577349,0.809992,
+			         -0.102817,-0.577349,0.809992,0.809961,-0.577349,0.102817,0.837550,0.538896,0.089724,0.458815,0.718680,0.522416
+		}
+		LayerElementSmoothing: 0 {
+			Version: 102
+			Name: ""
+			MappingInformationType: "ByPolygon"
+			ReferenceInformationType: "Direct"
+			Smoothing: 1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1
+		}
+		LayerElementUV: 0 {
+			Version: 101
+			Name: "UVMap"
+			MappingInformationType: "ByPolygonVertex"
+			ReferenceInformationType: "IndexToDirect"
+			UV: 0.014108,0.204004,0.076607,0.151895,0.056477,0.299602,0.133337,0.204010,0.134448,0.204986,0.048205,0.242552,
+			    0.014354,0.147842,0.051710,0.296868,0.012632,0.151891,0.042680,0.279939,0.048203,0.279939,0.071083,0.151895,
+			    0.042681,0.242552,0.083823,0.294076,0.063856,0.299602,0.076602,0.279939,0.048209,0.151893,0.099478,0.242554,
+			    0.056477,0.294078,0.014354,0.146364,0.075997,0.282452,0.014110,0.151891,0.099476,0.279941,0.063856,0.294078,
+			    0.103627,0.246200,0.071084,0.146372,0.043436,0.282730,0.068775,0.296591,0.091202,0.294077,0.012629,0.204004,
+			    0.133339,0.151898,0.071078,0.279939
+			UVIndex: 26,7,18,10,23,18,2,14,13,28,22,15,23,31,10,18,27,20,31,23,12,9,10,5,24,4,3,17,8,29,0,21,16,21,0,5,15,17,1,31,11,16,5,15,1,11,31,25,16,11,15,22,17,31,5,10,17,3,30,1,25,19,6,16
+		}
+		LayerElementTexture: 0 {
+			Version: 101
+			Name: ""
+			MappingInformationType: "NoMappingInformation"
+			ReferenceInformationType: "IndexToDirect"
+			BlendMode: "Translucent"
+			TextureAlpha: 1
+			TextureId: 
+		}
+		LayerElementMaterial: 0 {
+			Version: 101
+			Name: ""
+			MappingInformationType: "AllSame"
+			ReferenceInformationType: "IndexToDirect"
+			Materials: 0
+		}
+		Layer: 0 {
+			Version: 100
+			LayerElement:  {
+				Type: "LayerElementNormal"
+				TypedIndex: 0
+			}
+			LayerElement:  {
+				Type: "LayerElementSmoothing"
+				TypedIndex: 0
+			}
+			LayerElement:  {
+				Type: "LayerElementUV"
+				TypedIndex: 0
+			}
+			LayerElement:  {
+				Type: "LayerElementMaterial"
+				TypedIndex: 0
+			}
+		}
+	}
+	Material: "Material::ResourceCollectorBlue", "" {
+		Version: 102
+		ShadingModel: "lambert"
+		MultiLayer: 0
+		Properties60:  {
+			Property: "ShadingModel", "KString", "", "Lambert"
+			Property: "MultiLayer", "bool", "",0
+			Property: "EmissiveColor", "ColorRGB", "",0.8000,0.8000,0.8000
+			Property: "EmissiveFactor", "double", "",0.0000
+			Property: "AmbientColor", "ColorRGB", "",1.0000,1.0000,1.0000
+			Property: "AmbientFactor", "double", "",1.0000
+			Property: "DiffuseColor", "ColorRGB", "",0.8000,0.8000,0.8000
+			Property: "DiffuseFactor", "double", "",0.8000
+			Property: "Bump", "Vector3D", "",0,0,0
+			Property: "TransparentColor", "ColorRGB", "",1,1,1
+			Property: "TransparencyFactor", "double", "",0.0000
+			Property: "SpecularColor", "ColorRGB", "",1.0000,1.0000,1.0000
+			Property: "SpecularFactor", "double", "",0.5000
+			Property: "ShininessExponent", "double", "",12.3
+			Property: "ReflectionColor", "ColorRGB", "",0,0,0
+			Property: "ReflectionFactor", "double", "",1
+			Property: "Emissive", "ColorRGB", "",0,0,0
+			Property: "Ambient", "ColorRGB", "",1.0,1.0,1.0
+			Property: "Diffuse", "ColorRGB", "",0.8,0.8,0.8
+			Property: "Specular", "ColorRGB", "",1.0,1.0,1.0
+			Property: "Shininess", "double", "",12.3
+			Property: "Opacity", "double", "",1.0
+			Property: "Reflectivity", "double", "",0
+		}
+	}
+	Pose: "Pose::BIND_POSES", "BindPose" {
+		Type: "BindPose"
+		Version: 100
+		Properties60:  {
+		}
+		NbPoseNodes: 1
+		PoseNode:  {
+			Node: "Model::ResourceCollectorClawRight"
+			Matrix: 0.000000075497901,1.000000000000000,-0.000000075497901,0.000000000000000,-1.000000000000000,0.000000075497901,-0.000000000000006,0.000000000000000,0.000000000000000,0.000000075497901,1.000000000000000,0.000000000000000,0.000000000000000,0.000000000000000,0.000000000000000,1.000000000000000
+		}
+	}
+	GlobalSettings:  {
+		Version: 1000
+		Properties60:  {
+			Property: "UpAxis", "int", "",1
+			Property: "UpAxisSign", "int", "",1
+			Property: "FrontAxis", "int", "",2
+			Property: "FrontAxisSign", "int", "",1
+			Property: "CoordAxis", "int", "",0
+			Property: "CoordAxisSign", "int", "",1
+			Property: "UnitScaleFactor", "double", "",1
+		}
+	}
+}
+
+; Object relations
+;------------------------------------------------------------------
+
+Relations:  {
+	Model: "Model::ResourceCollectorClawRight", "Mesh" {
+	}
+	Model: "Model::Producer Perspective", "Camera" {
+	}
+	Model: "Model::Producer Top", "Camera" {
+	}
+	Model: "Model::Producer Bottom", "Camera" {
+	}
+	Model: "Model::Producer Front", "Camera" {
+	}
+	Model: "Model::Producer Back", "Camera" {
+	}
+	Model: "Model::Producer Right", "Camera" {
+	}
+	Model: "Model::Producer Left", "Camera" {
+	}
+	Model: "Model::Camera Switcher", "CameraSwitcher" {
+	}
+	Material: "Material::ResourceCollectorBlue", "" {
+	}
+}
+
+; Object connections
+;------------------------------------------------------------------
+
+Connections:  {
+	Connect: "OO", "Model::ResourceCollectorClawRight", "Model::Scene"
+	Connect: "OO", "Material::ResourceCollectorBlue", "Model::ResourceCollectorClawRight"
+}
+;Takes and animation section
+;----------------------------------------------------
+
+Takes:  {
+	Current: ""
+}
+;Version 5 settings
+;------------------------------------------------------------------
+
+Version5:  {
+	AmbientRenderSettings:  {
+		Version: 101
+		AmbientLightColor: 0.0,0.0,0.0,0
+	}
+	FogOptions:  {
+		FogEnable: 0
+		FogMode: 0
+		FogDensity: 0.000
+		FogStart: 5.000
+		FogEnd: 25.000
+		FogColor: 0.1,0.1,0.1,1
+	}
+	Settings:  {
+		FrameRate: "24"
+		TimeFormat: 1
+		SnapOnFrames: 0
+		ReferenceTimeIndex: -1
+		TimeLineStartTime: 0
+		TimeLineStopTime: 479181389250
+	}
+	RendererSetting:  {
+		DefaultCamera: "Producer Perspective"
+		DefaultViewingMode: 0
+	}
+}

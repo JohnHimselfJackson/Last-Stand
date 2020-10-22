@@ -54,14 +54,16 @@ public class UnitMaster : MonoBehaviour
         UpdateAttack();
     }
 
+    private void OnDrawGizmos()
+    {
+        Gizmos.DrawWireSphere(transform.position, attackRange);
+    }
+
     #region Unit Functions
     public virtual void CallOnCreation()
     {
 
     }
-
-
-
 
     //runs in update and handles the start of the attack
     void UpdateAttack()
@@ -82,7 +84,9 @@ public class UnitMaster : MonoBehaviour
                 Collider[] targets = Physics.OverlapCapsule(transform.position + Vector3.down * 3, transform.position + Vector3.up * 3, attackRange, 1 << enemyLayer);
                 if (targets.Length != 0)
                 {
+
                     activeTarget = targets[0].gameObject;
+                    print(activeTarget.name);
                 }
                 else
                 {
@@ -133,7 +137,7 @@ public class UnitMaster : MonoBehaviour
         //detrermines target
         DetectEnemies();
         // if a light unit is able to in combat (has a target and underfire) and it is not yet in cover it will check if there is any nearby cover
-        if (activeTarget != null &&
+        /*if (activeTarget != null &&
             underFire && 
             !inCover &&
             myClass == unitClass.light &&
@@ -141,8 +145,9 @@ public class UnitMaster : MonoBehaviour
         {
             DetectCover();
         }
+        */
         
-        // if needs to move to cover
+        //if needs to move to cover
         if (MovToCover)
         {
             if (inCover || !activeTarget || !underFire)
@@ -163,7 +168,7 @@ public class UnitMaster : MonoBehaviour
         {
             attacking = false;
             MovToCover = false;
-            UnitMove();
+            //UnitMove();
         }
     }
 
@@ -239,10 +244,11 @@ public class UnitMaster : MonoBehaviour
             if (targets.Length != 0)
             {
                 activeTarget = targets[0].gameObject;
+                print(activeTarget.name);
             }
             else
             {
-                print("no targets in range");
+                print("No target - detect");
             }
         }
     }

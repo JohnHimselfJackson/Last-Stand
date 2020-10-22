@@ -6,6 +6,7 @@ public class PlayerBulletLogic : MonoBehaviour
 {
     public LineRenderer lR;
 
+    int collisionMask = (1 << 10) | (1 << 11) | (1 << 13);
 
     Vector3 startPoint;
     Vector3 originPoint;
@@ -45,11 +46,29 @@ public class PlayerBulletLogic : MonoBehaviour
             //needs line cast and damage logic
 
             RaycastHit hit;
-            Physics.Linecast(newLinePos[0], newLinePos[0],out hit, 1<<9);
+            //Physics.Linecast(newLinePos[0], newLinePos[0], out hit , 1 << 0);
+            Physics.Raycast(newLinePos[0], DirectionVector, out hit, 0.5f, collisionMask);
+            if (hit.collider != null)
+            {
+                switch(hit.collider.gameObject.layer)
+                {
+                    case 11:
+                    case 13:
+                    hit.collider.GetComponent<BuildingBasic>().DamageResolution(BulletDamage);
+                    break;
+                    case 10:
+                        hit.collider.GetComponent<UnitMaster>().DamageResolution(BulletDamage);
+                    break;
+                }
+                gameObject.SetActive(false);
+            }
+            /*
+            Physics.Linecast(newLinePos[0], newLinePos[0], out hit , 1 << 0);
             if (hit.collider != null)
             {
                 print("hit " + hit.collider.name);
             }
+            */
         }
         else
         {

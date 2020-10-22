@@ -20,4 +20,8 @@ public class DemoUnit : UnitMaster
 
         //rallyPos.Add()
     }
+    private void Awake()
+    {
+        CallOnCreation();
+    }
 }

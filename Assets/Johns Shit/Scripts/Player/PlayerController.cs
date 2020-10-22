@@ -9,7 +9,7 @@ public class PlayerController : MonoBehaviour
     public GameObject myCanvas;
     #region Layer Masks
     int groundLayerMask = 1 << 12;
-    int nonTraversableLayerMask = (1 << 8) | (1 << 11) | (1 << 12);
+    int nonTraversableLayerMask = (1 << 8) | (1 << 10) | (1 << 11) | (1 << 12);
 
 
     #endregion
@@ -212,6 +212,7 @@ public class PlayerController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        print(nonTraversableLayerMask);
         availableWeapons.Add(Weapon.sniper);
         availableWeapons.Add(Weapon.rifle);
 
@@ -524,7 +525,7 @@ public class PlayerController : MonoBehaviour
                 if (shooting && rifleAmmoCount > 0 && rifleShootCooldown < 0)
                 {
                     RaycastHit camCast;
-                    Physics.Raycast(cam.ScreenPointToRay(Input.mousePosition, Camera.MonoOrStereoscopicEye.Mono), out camCast, 40, 1 << 12);
+                    Physics.Raycast(cam.ScreenPointToRay(Input.mousePosition, Camera.MonoOrStereoscopicEye.Mono), out camCast, 100, 1 << 12);
                     // position off grid
                     Vector3 shootPoint = camCast.point + Vector3.up;
                     Debug.DrawLine(transform.position, shootPoint, Color.red, 0.1f);
