@@ -195,6 +195,11 @@ public class CharacterMenuManager : MonoBehaviour
         PlayerManager.pM.pC.cam.gameObject.SetActive(true);
         PlayerManager.pM.LoadPlayer();
     }
+    public void BeginGame()
+    {
+        SceneManager.LoadScene(0);
+        PlayerManager.pM.LoadPlayer();
+    }
 
 
 

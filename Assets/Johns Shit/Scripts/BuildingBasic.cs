@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class BuildingBasic : MonoBehaviour
 {
-    public enum buildingType { constructor, defence };
+    public enum buildingType { constructor, defence, command };
     public buildingType myType;
     public enum unitClass { heavy, light };
     public unitClass myClass = unitClass.heavy;
@@ -12,8 +12,8 @@ public class BuildingBasic : MonoBehaviour
     public int healthMax;
 
 
-    private int armour;
-    private int evasion;
+    protected int armour;
+    protected int evasion;
     
 
     // Start is called before the first frame update
@@ -93,7 +93,7 @@ public class BuildingBasic : MonoBehaviour
         }
     }
 
-    public void BuildingDestroyed()
+    public virtual void BuildingDestroyed()
     {
         Destroy(gameObject);
     }
