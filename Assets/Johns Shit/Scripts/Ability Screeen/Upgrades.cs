@@ -1116,17 +1116,35 @@ public class Upgrade
 }
 
 
-public class Ability
+public class Ability : MonoBehaviour
 {
-    public string Name { get; private set; }
-    public string Descritption { get; private set; }
-    
+    public string stringName;
+    public string descritption;
 }
 public class ActiveAbility : Ability
 {
-    public void InvokeToRun()
+    public float cooldown;
+    public float cooldownCount;
+    public virtual void InvokeToRun()
     {
 
+    }
+    /// <summary>
+    /// Use for grenadeLauncher, 
+    /// </summary>
+    /// <param name="playerT"></param>
+    /// <param name="playerCam"></param>
+    public virtual void InvokeToRun(Camera playerCam)
+    {
+
+    }
+
+    private void Update()
+    {
+        if (cooldownCount > 0)
+        {
+            cooldownCount -= Time.deltaTime;
+        }
     }
 }
 public class PassiveAbility : Ability

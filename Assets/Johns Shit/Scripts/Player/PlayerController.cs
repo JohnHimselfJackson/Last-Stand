@@ -6,17 +6,17 @@ using TMPro;
 
 public class PlayerController : MonoBehaviour
 {
+    public Camera cam;
     public GameObject myCanvas;
     #region Layer Masks
     int groundLayerMask = 1 << 12;
     int nonTraversableLayerMask = (1 << 8) | (1 << 10) | (1 << 11) | (1 << 12);
-
-
     #endregion
 
     public bool playerLocked;
     public bool groundBool;
 
+    #region Movement Variables
     public bool diving;
     public enum diveState {not, started, end }
     public diveState currentDiveState = diveState.not;
@@ -25,15 +25,12 @@ public class PlayerController : MonoBehaviour
     Vector3 diveDirection;
     float diveStandDelay;
     float standtime = 0.6f;
-
-    [SerializeField]
-    TMP_Text ammoTB;
-
-    public Camera cam;
-
     private bool forwards, backwards, left, right, sprinting;
     private float sprintSpeedChange = 2f;
+    public float moveSpeed { get; private set; }
+    #endregion
 
+    #region All Weapon Variables
     #region Weapon Privates Variables
     private float _rifleAmmoCount;
     private float rifleAmmoCount
@@ -94,7 +91,8 @@ public class PlayerController : MonoBehaviour
     List<Weapon> availableWeapons = new List<Weapon>();
     float swapTimer;
     float swapDelay = 1;
-
+    [SerializeField]
+    TMP_Text ammoTB;
 
     #region Weapon Public Variables
     public DamagePackage rifleDmgPkg;
@@ -118,8 +116,12 @@ public class PlayerController : MonoBehaviour
     public float swordROF { get; private set; }
     public float swordReload { get; private set; }
     #endregion
+    #endregion
 
-    public float moveSpeed { get; private set; }
+    #region Ability Variables
+    GrenadeLauncher gL;
+    bool gotGL;
+    #endregion
 
     /// <summary>
     /// call sparingly
@@ -212,6 +214,12 @@ public class PlayerController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        if (GetComponent<GrenadeLauncher>() != null)
+        {
+            gL = GetComponent<GrenadeLauncher>();
+            gotGL = true;
+        } 
+
         print(nonTraversableLayerMask);
         availableWeapons.Add(Weapon.sniper);
         availableWeapons.Add(Weapon.rifle);
@@ -240,6 +248,7 @@ public class PlayerController : MonoBehaviour
             if (currentDiveState == diveState.not)
             {
                 ForceReload();
+                WeaponSecondaries();
                 SwitchWeapon();
                 AimShoot();
                 Move();
@@ -681,6 +690,22 @@ public class PlayerController : MonoBehaviour
         reloadingSword = false;
     }
     #endregion
+
+    void WeaponSecondaries()
+    {
+        if (Input.GetMouseButton(1))
+        {
+            switch (selectedWeapon)
+            {
+                case Weapon.rifle:
+                    if (gotGL)
+                    {
+                        gL.InvokeToRun(cam);
+                    }
+                    break;                    
+            }
+        }
+    }
     #endregion
 
     void LoadStatScreen()
@@ -702,5 +727,6 @@ public class PlayerController : MonoBehaviour
             playerLocked = false;
         }
     }
+    
 
 }
