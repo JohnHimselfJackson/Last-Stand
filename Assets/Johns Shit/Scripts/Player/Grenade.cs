@@ -15,7 +15,8 @@ public class Grenade : MonoBehaviour
     }
     void Explode()
     {
-        print("grenade expoloded");
+        GetComponent<Rigidbody>().velocity = Vector3.zero;
+        GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeAll;
         Destroy(gameObject, 0.4f);
     }
 }

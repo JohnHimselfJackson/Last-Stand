@@ -1,9 +1,12 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using VulpineAlice.TooltipUI;
 
 public class PlayerManager : MonoBehaviour
 {
+    public Stats health, armour;
+
     private float healthTotal;
     private float healthCurrent;
 
@@ -64,6 +67,13 @@ public class PlayerManager : MonoBehaviour
         armourTotal = defenceStats[5];
         armourCurrent = armourTotal;
         #endregion
+
+        //player UI canvas
+        health.statMax = healthTotal;
+        armour.statMax = armourTotal;
+        armour.StatCalc(armourCurrent);
+        health.StatCalc(healthCurrent);
+
         pC.UnlockPlayer();
 
 
@@ -194,12 +204,17 @@ public class PlayerManager : MonoBehaviour
                     break;
                     #endregion
             }
+            //updates UI
+            armour.StatCalc(armourCurrent);
+            health.StatCalc(healthCurrent);
+
             //checks if the player is dead
             if (healthCurrent < 1)
             {
                 PlayerDead();
             }
         }
+
         //returns projectile resolved to see if the projectile is done or if it continues past the player (miss)
         return projectileResolved;
     }

@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class CommandBuilding : BuildingBasic
 {
@@ -21,9 +22,11 @@ public class CommandBuilding : BuildingBasic
     {
         
     }
+
     public override void BuildingDestroyed()
     {
         print("you won the game");
+        SceneManager.LoadScene(0);
         base.BuildingDestroyed();
     }
 }

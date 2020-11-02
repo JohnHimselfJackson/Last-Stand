@@ -8,8 +8,10 @@ namespace VulpineAlice.TooltipUI
 {
     public class Stats : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
     {
+        public float statMax;
+
         [SerializeField]
-        private float totalStatValue, currentStatValue, statPercentage, tempValue;
+        private float totalStatValue, currentStatValue, statPercentage;
         [SerializeField]
         private string statName;
         [SerializeField]
@@ -20,22 +22,14 @@ namespace VulpineAlice.TooltipUI
 
         private void Awake()
         {
-            statFill = this.GetComponentsInChildren<Image>()[1];
+            statFill = GetComponentsInChildren<Image>()[1];
         }
+        
 
-        private void Update()
+        public void StatCalc(float newStatValue)
         {
-            StatCalc();
-        }
-
-        private void StatCalc()
-        {
-            if(currentStatValue != tempValue)
-            {
-                tempValue = currentStatValue;
-                statPercentage = ((currentStatValue -= Time.deltaTime) / totalStatValue);
-                UpdateUI();
-            } 
+            statPercentage = newStatValue / statMax;
+            UpdateUI();
         }
 
         private void UpdateUI()

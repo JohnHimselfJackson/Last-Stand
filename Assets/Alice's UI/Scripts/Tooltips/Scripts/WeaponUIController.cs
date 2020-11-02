@@ -14,11 +14,11 @@ public class WeaponUIController : MonoBehaviour
 
     private string weaponName;
 
-    private float reloadSpeed, currentAmmo;
+    private float rPS, reloadSpeed, currentAmmo;
 
     private bool isReloading = false;
 
-    private int rPS, totalAmmo, uiAmmo;
+    private int  totalAmmo, uiAmmo;
 
     [SerializeField]
     private TMP_Text ammoText;
@@ -46,18 +46,18 @@ public class WeaponUIController : MonoBehaviour
         AmmoUI();
     }
 
-    public void SwapWeapon()
+    public void SwapWeapon(string newWeaponName, int newWeaponTotalAmmo, int newWeaponCurrentAmmo , float newReloadSpeed, float newRPS)
     {
         StartCoroutine(SmoothMove(activePos, altPos, activeScale, altScale, activeRot, altRot,  0.2f));
         
         tempWeapon = activeWeapon;
         activeWeapon = altWeapon;
         altWeapon = tempWeapon;
-        weaponName = activeWeapon.GetComponent<TooltipButton>().item.Name;
-        totalAmmo = activeWeapon.GetComponent<TooltipButton>().item.TotalAmmo;
-        currentAmmo = totalAmmo;
-        reloadSpeed = activeWeapon.GetComponent<TooltipButton>().item.ReloadSpeed;
-        rPS = activeWeapon.GetComponent<TooltipButton>().item.RoundsPerSecond;
+        weaponName = newWeaponName;
+        totalAmmo = newWeaponTotalAmmo;
+        currentAmmo = newWeaponCurrentAmmo;
+        reloadSpeed = newReloadSpeed;
+        rPS = newRPS;
         AmmoUI();
     }
 
@@ -106,7 +106,7 @@ public class WeaponUIController : MonoBehaviour
             builder.Append("Ammo: ").Append(uiAmmo).Append(" / ").Append(totalAmmo);
         }
 
-        ammoText.text = builder.ToString();
+        //ammoText.text = builder.ToString();
     }
 
     IEnumerator SmoothMove(Vector3 startPos, Vector3 endPos, Vector3 startScale, Vector3 endScale, Quaternion startRot, Quaternion endRot, float seconds)

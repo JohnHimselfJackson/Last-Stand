@@ -93,6 +93,8 @@ public class PlayerController : MonoBehaviour
     float swapDelay = 1;
     [SerializeField]
     TMP_Text ammoTB;
+    [SerializeField]
+    WeaponUIController weaponUIController;
 
     #region Weapon Public Variables
     public DamagePackage rifleDmgPkg;
@@ -121,6 +123,10 @@ public class PlayerController : MonoBehaviour
     #region Ability Variables
     GrenadeLauncher gL;
     bool gotGL;
+
+    SniperLaser sL;
+    bool gotSL;
+    public bool sniperLaserActive;
     #endregion
 
     /// <summary>
@@ -214,13 +220,12 @@ public class PlayerController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        if (GetComponent<GrenadeLauncher>() != null)
-        {
-            gL = GetComponent<GrenadeLauncher>();
-            gotGL = true;
-        } 
+        gL = GetComponent<GrenadeLauncher>();
+        gotGL = true;
+        sL = GetComponent<SniperLaser>();
+        gotSL = true;
+        sniperLaserActive = false;
 
-        print(nonTraversableLayerMask);
         availableWeapons.Add(Weapon.sniper);
         availableWeapons.Add(Weapon.rifle);
 
@@ -562,7 +567,7 @@ public class PlayerController : MonoBehaviour
                 break;
             case Weapon.sniper:
                 #region Sniper Shooting
-                if (shooting && sniperAmmoCount > 0 && sniperShootCooldown < 0)
+                if (shooting && sniperAmmoCount > 0 && sniperShootCooldown < 0 && !sniperLaserActive)
                 {
                     RaycastHit camCast;
                     Physics.Raycast(cam.ScreenPointToRay(Input.mousePosition, Camera.MonoOrStereoscopicEye.Mono), out camCast, 40, 1 << 12);
@@ -604,11 +609,14 @@ public class PlayerController : MonoBehaviour
                     switch (selectedWeapon)
                     {
                         case Weapon.sniper:
+                            weaponUIController.SwapWeapon("Sniper", (int)sniperAmmoMax, (int)sniperAmmoCount, sniperReloadTime, 1 / sniperROF);
                             sniperAmmoCount = sniperAmmoCount;
                             print("now selected sniper");
                             break;
                         case Weapon.rifle:
+                            weaponUIController.SwapWeapon("Rifle", (int)rifleAmmoMax, (int)rifleAmmoCount, rifleReloadTime, 1 / rifleROF);
                             rifleAmmoCount = rifleAmmoCount;
+                            sL.EndLaser();
                             print("now selected rifle");
                             break;
                         case Weapon.sword:
@@ -702,7 +710,13 @@ public class PlayerController : MonoBehaviour
                     {
                         gL.InvokeToRun(cam);
                     }
-                    break;                    
+                    break;
+                case Weapon.sniper:
+                    if (gotSL && !sniperLaserActive)
+                    {
+                        sL.InvokeToRun();
+                    }
+                    break;
             }
         }
     }

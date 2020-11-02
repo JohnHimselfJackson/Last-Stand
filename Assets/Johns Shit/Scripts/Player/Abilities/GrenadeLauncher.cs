@@ -12,7 +12,7 @@ public class GrenadeLauncher : ActiveAbility
     {
         stringName = "Grenade Launcher";
         descritption = "shoots out a short-range grenade at a location of your choosing";
-        cooldown = 8;
+        cooldown = 1;
         cooldownCount = 0;
     }
 
@@ -44,14 +44,19 @@ public class GrenadeLauncher : ActiveAbility
                 RaycastHit grenPos;
                 Vector3 grenadeSecondPos = transform.position + (shootPoint - transform.position).normalized * glRange;
                 Physics.Raycast(grenadeSecondPos + Vector3.up * 15f, Vector3.down, out grenPos, 30f, collisionLayer);
+                shootPoint = grenPos.point;
             }
-            Debug.DrawLine(transform.position, shootPoint, Color.red, 1f);
-            GameObject shot = PlayerProjectilePool.playerPool.GetObject();
 
+            //finding flight time
+            Vector3 groundUnitVector = (new Vector3(shootPoint.x,0, shootPoint.z) - new Vector3(transform.position.x,0, transform.position.z)).normalized;
+            print(groundUnitVector);
+            float flightTime = (new Vector2(shootPoint.x, shootPoint.z) - new Vector2(transform.position.x, transform.position.z)).magnitude/15;
+            //finding y starting velocity
+            float yVelocity = ((shootPoint.y - transform.position.y) - 0.5f * -9.81f * flightTime * flightTime) / flightTime;
             //shoot code here
-            //GameObject tempGrenade = Instantiate(grenade, transform.position, transform.rotation);
+            GameObject tempGrenade = Instantiate(grenade, transform.position, transform.rotation);
+            tempGrenade.GetComponent<Rigidbody>().velocity = new Vector3(groundUnitVector.x*15, yVelocity, groundUnitVector.z*15);
             cooldownCount = cooldown;
         }
     }
-
 }

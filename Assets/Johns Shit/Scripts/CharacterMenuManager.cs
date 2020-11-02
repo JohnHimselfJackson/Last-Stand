@@ -28,12 +28,21 @@ public class CharacterMenuManager : MonoBehaviour
     private void Start()
     {
         // sets the game state to the stats menu
-        SceneManager.SetActiveScene(SceneManager.GetSceneByBuildIndex(1));
+        //SceneManager.SetActiveScene(SceneManager.GetSceneByBuildIndex(1));
+
+        //sets stats view
+
         upgradeBackground.SetActive(false);
         upgradeCanvas.SetActive(false);
         upgradeGO.SetActive(false);
         gameState = 0;
+        playerCamera.orthographicSize = 6;
+        transform.position = new Vector3(0, -20, 0);
+
+        gameState = 0;
+
     }
+    
 
 
     public void GoToUpgrades(BaseEventData data)
@@ -190,14 +199,14 @@ public class CharacterMenuManager : MonoBehaviour
 
     public void BackToGame()
     {
-        SceneManager.SetActiveScene(SceneManager.GetSceneByBuildIndex(0));
-        SceneManager.UnloadSceneAsync(SceneManager.GetSceneByBuildIndex(1));
+        SceneManager.SetActiveScene(SceneManager.GetSceneByBuildIndex(1));
+        SceneManager.UnloadSceneAsync(SceneManager.GetSceneByBuildIndex(2));
         PlayerManager.pM.pC.cam.gameObject.SetActive(true);
         PlayerManager.pM.LoadPlayer();
     }
     public void BeginGame()
     {
-        SceneManager.LoadScene(0);
+        SceneManager.LoadScene("scxcZ");
         PlayerManager.pM.LoadPlayer();
     }
 

@@ -44,29 +44,6 @@ namespace VulpineAlice.TooltipUI
                 //cast ability
                 cooldownTime[3] = baseTime[3];
             }
-            else if(Input.GetKeyDown(KeyCode.Tab))
-            {
-                weaponController.SwapWeapon();
-            }
-            else if(Input.GetKeyDown(KeyCode.R))
-            {
-                weaponController.ReloadWeapon();
-            }
-            else if(Input.GetKey(KeyCode.Mouse0))
-            {
-                weaponController.FireWeapon();
-            }
-            else
-            {
-                for(int i = 0; i < cooldownTime.Length; i++)
-                {
-                    cooldownTime[i] -= Time.deltaTime;
-                    if (cooldownTime[i] <= 0)
-                    {
-                        cooldownTime[i] = 0;
-                    }
-                }
-            }
         }
 
         private void uiUpdater()
