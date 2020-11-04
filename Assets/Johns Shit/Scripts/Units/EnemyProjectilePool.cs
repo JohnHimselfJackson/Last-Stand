@@ -2,10 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerProjectilePool : MonoBehaviour
+public class EnemyProjectilePool : MonoBehaviour
 {
-    public static PlayerProjectilePool playerPool;
-    public GameObject poolParent;
+    public static EnemyProjectilePool enemyPool;
     public GameObject toPool;
     public List<GameObject> objectPool;
     public int poolSize;
@@ -13,7 +12,7 @@ public class PlayerProjectilePool : MonoBehaviour
 
     private void Awake()
     {
-        playerPool = this;
+        enemyPool = this;
     }
 
     void Start()
@@ -27,7 +26,7 @@ public class PlayerProjectilePool : MonoBehaviour
         for(int oo = 0; oo < poolSize; oo++)
         {
             GameObject obj = Instantiate(toPool);
-            obj.transform.SetParent(poolParent.transform);
+            obj.transform.SetParent(transform);
             obj.SetActive(false);
             objectPool.Add(obj);
         }
