@@ -207,7 +207,6 @@ public class CharacterMenuManager : MonoBehaviour
     public void BeginGame()
     {
         SceneManager.LoadScene("scxcZ");
-        PlayerManager.pM.LoadPlayer();
     }
 
 

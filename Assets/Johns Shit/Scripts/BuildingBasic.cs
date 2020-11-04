@@ -85,7 +85,6 @@ public class BuildingBasic : MonoBehaviour
                 #endregion
         }
         healthCurrent -= finalDamage;
-        print(healthCurrent);
         //checks if the player is dead
         if (healthCurrent < 1)
         {

@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Text;
 using TMPro;
-using UnityEditorInternal;
 using UnityEngine;
 using VulpineAlice.TooltipUI;
 

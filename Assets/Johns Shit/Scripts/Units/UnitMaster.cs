@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class UnitMaster : MonoBehaviour
 {
@@ -26,9 +27,13 @@ public class UnitMaster : MonoBehaviour
     #region nav variables
     //TODO replaced with navmesh locations    
     protected Vector3 myPos;
-    protected Vector3 activeRally;
-    protected List<Vector3> rallyPos; // will be set on unit creation
-    protected Vector3 activeFlare;    // will be set when a flare is used
+    public Vector3 activeRally;
+    protected int nextRallyPoint = 0;
+    private PatrolRoute pRoute;
+    public BuildingConstructor myConstructor;
+    protected NavMeshAgent myAgent;
+    protected float chaseTime;
+    protected bool chasing;
     #endregion
 
     #region Shooting Variables    
@@ -44,7 +49,7 @@ public class UnitMaster : MonoBehaviour
     #endregion
     
     void Start()
-    {
+    { 
         InvokeRepeating("ActionLoop", 0, 0.25f);
     }
     
@@ -57,6 +62,7 @@ public class UnitMaster : MonoBehaviour
     private void OnDrawGizmos()
     {
         Gizmos.DrawWireSphere(transform.position, attackRange);
+        Gizmos.DrawSphere(activeRally, 1);
     }
 
     #region Unit Functions
@@ -104,6 +110,7 @@ public class UnitMaster : MonoBehaviour
                 if (attackTime < attackCooldown)
                 {
                     Invoke("Attack", 0f);
+                    attackTime = attackCooldown;
                 }
                 //if not time yet alters attacktime float 
                 else
@@ -128,7 +135,8 @@ public class UnitMaster : MonoBehaviour
     //function for when unit commits to attack
     void Attack()
     {
-        //ETS attack code here
+        GameObject projectile = EnemyProjectilePool.enemyPool.GetObject();
+        projectile.GetComponent<EnemyBulletLogic>().StartBullet(transform.position, activeTarget.transform.position, attackRange, damage);
     }
 
     //core action loop for all non buildings
@@ -136,39 +144,40 @@ public class UnitMaster : MonoBehaviour
     {
         //detrermines target
         DetectEnemies();
-        // if a light unit is able to in combat (has a target and underfire) and it is not yet in cover it will check if there is any nearby cover
-        /*if (activeTarget != null &&
-            underFire && 
-            !inCover &&
-            myClass == unitClass.light &&
-            !MovToCover)
-        {
-            DetectCover();
-        }
-        */
-        
-        //if needs to move to cover
-        if (MovToCover)
-        {
-            if (inCover || !activeTarget || !underFire)
-            {
-                MovToCover = false;
-            }
-        }
-        //if attacking and not getting shot
-        else if(activeTarget)
+
+        if (activeTarget)
         {
             //TODO: stop movement of unit
             //sets attacking bool true so that in update the full UpdateAttack(); will run
+            myAgent.isStopped = true;
             attacking = true;
-            MovToCover = false;
+            chasing = true;
+        }
+        else if (chasing && chaseTime < 5)
+        {
+            myAgent.isStopped = false;
+            myAgent.SetDestination(EnemySingleton.main.playerLocation.position);
+            chaseTime += Time.deltaTime;
+        }
+        else if (chasing && chaseTime >= 5)
+        {
+            chasing = false;
+            chaseTime = 0;
+            nextRallyPoint--;
+            if (nextRallyPoint < 0)
+            {
+                nextRallyPoint = pRoute.points.Length - 1;
+            }
+            myAgent.SetDestination(pRoute.points[nextRallyPoint]);
+            nextRallyPoint++;
         }
         //if not attacking
         else
         {
+            chasing = false;
             attacking = false;
-            MovToCover = false;
-            //UnitMove();
+            myAgent.isStopped = false;
+            UnitMove();
         }
     }
 
@@ -176,54 +185,21 @@ public class UnitMaster : MonoBehaviour
     void UnitMove()
     {
         //standard move logic        
-            if (activeRally == null)
+        if (myAgent.hasPath == false)
+        {
+            Vector3 nextRally = pRoute.points[nextRallyPoint];
+            activeRally = nextRally;
+            myAgent.SetDestination(nextRally);
+            nextRallyPoint++;
+            if (nextRallyPoint > (pRoute.points.Length-1))
             {
-                //if a flare is active
-                if (activeFlare != null)
-                {
-                    //set path to active flare
-                    activeRally = activeFlare;
-                }
-                //if still has rally location
-                else if (rallyPos.Count != 0)
-                {
-                    //sets first index in the list to the active rally and then removes it from rally point list
-                    activeRally = rallyPos[0];
-                    rallyPos.RemoveAt(0);
-                }
-                // if no other rally to set auto targets the main buildings
-                else
-                {
-                    // if first base alive target that
-                    if (EnemySingleton.main.firstBaseAlive)
-                    {
-                        activeRally = EnemySingleton.main.firstLoc;
-                    }
-                    // if second base alive target that
-                    else if (EnemySingleton.main.secondBaseAlive)
-                    {
-                        activeRally = EnemySingleton.main.secondLoc;
-                    }
-                    // if third base alive target that. This is the last call for all units as there is no need to path to something after the third is destroyed.
-                    else
-                    {
-                        activeRally = EnemySingleton.main.thirdLoc;
-                    }
-                }
+                nextRallyPoint = 0;
             }
-            else
-            {
-                //if a flare is active
-                if (activeFlare != null)
-                {
-                    //adds current location to start of list so when flare ends will continue to previous point
-                    rallyPos.Insert(0, activeRally);
-
-                    //set path to active flare
-                    activeRally = activeFlare;
-                }
-
-            }
+        }
+        else
+        {
+            //progressing to next rally
+        }
     }
 
     //code to dectect if there are any attack enemies in range and set activeTarget accordingly
@@ -248,69 +224,12 @@ public class UnitMaster : MonoBehaviour
             }
             else
             {
-                print("No target - detect");
+                //print("No target - detect");
             }
         }
     }
 
-    //check if any cover in range
-    void DetectCover()
-    {
-        //TODO: finish cover finding code when cover is implemented
-
-        GameObject closestCover = null;
-        //finds all cover in seconds of movement range
-        Collider[] cover = Physics.OverlapCapsule(transform.position + Vector3.down * 3, transform.position + Vector3.up * 3, 2 * movespeed, 1 << coverLayer);
-        //cycles through all found cover to find the closest
-        for(int cc = 0; cc < cover.Length; cc++)
-        {
-            //checks if already has a cover
-            if (closestCover != null)
-            {
-                // is it closer than the previous
-                if ((closestCover.transform.position - myPos).magnitude > (cover[cc].transform.position - myPos).magnitude)
-                {
-                    /*
-                     // checks if the cover can be reached
-                     if(can navigate to cover)
-                     {                        
-                        closestCover = cover[cc].gameObject;
-                     }                 
-                    */
-                }
-            }
-            //runs if no previously established cover
-            else
-            {
-                /*
-                 // checks if the cover can be reached
-                 if(can navigate to cover)
-                 {
-                    closestCover = cover[cc].gameObject;
-                 }                 
-                */
-            }
-        }
-        // if there is a cover sets move to tue and to move to that cover
-        if(closestCover != null)
-        {
-                //TODO: set to move to cover
-                MovToCover = true;
-        }
-
-
-
-
-        if (cover.Length != 0)
-        {
-            activeTarget = cover[0].gameObject;
-        }
-        else
-        {
-            print("no targets in range");
-        }
-    }
-
+   
     /// <summary>
     /// call to damage THIS unit
     /// </summary>
@@ -405,6 +324,22 @@ public class UnitMaster : MonoBehaviour
 
     void UnitDead()
     {
+        pRoute.RemoveUnit();
+        if(myConstructor.garrisonedUnit == gameObject)
+        {
+            myConstructor.garrisonedUnit = null;
+        }
         Destroy(gameObject);
     }    
+
+    public void SetPatrolRoute(PatrolRoute newRoute)
+    {
+        if(pRoute != null)
+        {
+            pRoute.RemoveUnit();
+        }
+        pRoute = newRoute;
+        pRoute.AddUnit();
+    }
+    
 }

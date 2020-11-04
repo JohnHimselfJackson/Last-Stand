@@ -12,7 +12,7 @@ public class CommandBuilding : BuildingBasic
         myClass = unitClass.heavy;
         armour = 4;
         evasion = 0;
-        healthMax = 400;
+        healthMax = 1000;
         healthCurrent = healthMax;
 
     }

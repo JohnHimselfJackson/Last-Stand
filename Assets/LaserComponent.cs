@@ -23,7 +23,6 @@ public class LaserComponent : MonoBehaviour
     // Update is called once per frame
     public void LaserFunction(Vector3 startPoint, Vector3 endPoint)
     {
-        print(gameObject.activeInHierarchy);
         Vector3[] newLinePos = new Vector3[2];
         newLinePos[0] = startPoint;
         newLinePos[1] = endPoint;

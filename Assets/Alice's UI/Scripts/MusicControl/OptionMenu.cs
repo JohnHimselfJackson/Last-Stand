@@ -45,7 +45,7 @@ public class OptionMenu : MonoBehaviour
 
     public void StartGame()
     {
-        SceneManager.LoadScene("newGame");
+        SceneManager.LoadScene("PregameStats");
     }
 
     public void ShowCredits()

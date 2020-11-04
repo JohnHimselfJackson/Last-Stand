@@ -6,13 +6,7 @@ public class EnemySingleton : MonoBehaviour
 {
     public static EnemySingleton main;
 
-    public bool firstBaseAlive = true;
-    public bool secondBaseAlive = true;
-    public bool thirdBaseAlive = true;
-    //locations of three key buildings
-    public Vector3 firstLoc;
-    public Vector3 secondLoc;
-    public Vector3 thirdLoc;
+    public Transform playerLocation;
 
 
     // Start is called before the first frame update

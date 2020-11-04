@@ -38,15 +38,10 @@ public class EnemyProjectilePool : MonoBehaviour
         {
             if (!objectPool[oo].activeInHierarchy)
             {
+                objectPool[oo].SetActive(true);
                 return objectPool[oo];
             }
         }
         return null;
     }
-
-
-
-
-
-
 }
