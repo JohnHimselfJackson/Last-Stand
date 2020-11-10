@@ -748,23 +748,38 @@ public class PlayerController : MonoBehaviour
         {
             playerLocked = false;
         }
+    }    
+
+    void ActiveAbilityInput()
+    {
+        if (Input.GetKey(KeyCode.Q))
+        {
+            PlayerManager.pM.qAbility.InvokeToRun();
+        }
+        if (Input.GetKey(KeyCode.E))
+        {
+            PlayerManager.pM.eAbility.InvokeToRun();
+        }
     }
-    
-    public void ImpulseThusterChange(float moveIncrease, float diveStandIncrease,float SprintChangeIncrease)
+
+    public void ImpulseThusterChange(float moveIncrease, float diveStandIncrease, float SprintChangeIncrease)
     {
         moveSpeed += moveIncrease;
         diveStandDelay += diveStandIncrease;
         sprintSpeedChange += SprintChangeIncrease;
     }
 
-    void ActiveAbilityInput()
+    public void JuggernaughtChange(float movedecrease, float SprintChangeDecrease)
     {
-        print("checking actives");
-        if (Input.GetKey(KeyCode.Q))
-        {
-            print("calling impulse");
-            PlayerManager.pM.qAbility.InvokeToRun();
-        }
+        moveSpeed -= movedecrease;
+        sprintSpeedChange += SprintChangeDecrease;
+    }
+
+    public void OverchargeChange(float moveIncrease, float diveStandIncrease, float SprintChangeIncrease)
+    {
+        moveSpeed += moveIncrease;
+        diveStandDelay += diveStandIncrease;
+        sprintSpeedChange += SprintChangeIncrease;
     }
 
 

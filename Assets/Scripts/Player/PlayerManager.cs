@@ -35,6 +35,7 @@ public class PlayerManager : MonoBehaviour
 
     public static PlayerManager pM;
     public PlayerController pC;
+    float fpsCheck;
 
     private void Awake()
     {
@@ -60,6 +61,12 @@ public class PlayerManager : MonoBehaviour
         }
         if(gotMedSuite) MedSuiteFunction();
         if(gotBioArmour) BioArmourFunction();
+
+        if(Time.time> fpsCheck)
+        {
+            fpsCheck++;
+            print(1/Time.deltaTime);
+        }
     }
 
     public void LoadPlayer()
@@ -73,7 +80,8 @@ public class PlayerManager : MonoBehaviour
         gotMedSuite = true;
         pC.gotGL = true;
         pC.gotSL = true;
-        qAbility = GetComponent<ImpulseThrusters>();
+        qAbility = GetComponent<Shield>();
+        eAbility = GetComponent<ImpulseThrusters>();
         //
         //
         //retrieving the needed stat arrays to assign values in player controller
@@ -277,6 +285,7 @@ public class PlayerManager : MonoBehaviour
         print("get gud fuckboi");
     }
 
+    #region abilities
     void BioArmourFunction()
     {
         //print("current armour" + armourCurrent + " armour tick:" + armourTick + " time since damage:" + timeSinceDamage);
@@ -324,5 +333,36 @@ public class PlayerManager : MonoBehaviour
         }
 
     }
+    public void JuggernaughtChange(int armourDecreaseIncrease, float armourIncrease, int deflectionValueIncrease)
+    {
+        armourDecrease += armourDecreaseIncrease;
+        armourCurrent += armourIncrease;
+        armourTotal += armourIncrease;
+        deflectionValue += deflectionValueIncrease;
+    }
+    public void JuggernaughtOver(int armourDecreaseIncrease, float armourIncrease, int deflectionValueIncrease)
+    {
+        armourDecrease -= armourDecreaseIncrease;
+        deflectionValue -= deflectionValueIncrease;
 
+        armourCurrent -= armourIncrease;
+        armourTotal -= armourIncrease;
+        if (armourCurrent < 0) armourCurrent = 0;
+    }
+    public void OverchargeChange(int dodgeCountIncrease, float dodgeChangeIncrease)
+    {
+        evasionChance += dodgeChangeIncrease;
+        grazeChance += dodgeChangeIncrease;
+        evasionCountCurrent += dodgeCountIncrease;
+        evasionCountTotal += dodgeCountIncrease;
+    }
+    public void OverchargeOver(int dodgeCountIncrease, float dodgeChangeIncrease)
+    {
+        evasionChance -= dodgeChangeIncrease;
+        grazeChance -= dodgeChangeIncrease;
+        evasionCountCurrent -= dodgeCountIncrease;
+        evasionCountTotal -= dodgeCountIncrease;
+        if (evasionCountCurrent < 0) evasionCountCurrent = 0;
+    }
+    #endregion
 }

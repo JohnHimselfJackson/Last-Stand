@@ -21,14 +21,14 @@ public class ImpulseThrusters : ActiveAbility
     void AbilityStart()
     {
         print("started impulse Thrusters");
-        PlayerManager.pM.pC.ImpulseThusterChange(2, -0.4f, 1);
+        PlayerManager.pM.pC.ImpulseThusterChange(2, -0.2f, 1);
         cooldownCount = cooldown;
         Invoke("AbilityEnd", 10);
     }
 
     void AbilityEnd()
     {
-        PlayerManager.pM.pC.ImpulseThusterChange(-2, 0.4f, -1);
+        PlayerManager.pM.pC.ImpulseThusterChange(-2, 0.2f, -1);
     }
 
 

@@ -11,6 +11,7 @@ public class PlayerPrefabReferences : MonoBehaviour
         PPR = this;
     }
     public GameObject grenade;
+    public GameObject shield;
     public GameObject laser;
     public AudioClip shotAudio;
     public void Start()
