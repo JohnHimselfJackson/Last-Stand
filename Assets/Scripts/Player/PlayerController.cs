@@ -555,7 +555,7 @@ public class PlayerController : MonoBehaviour
                     //line cast
 
                     shot.GetComponent<PlayerBulletLogic>().StartBullet(gameObject.transform.position, shootPoint, rifleRange, rifleDmgPkg);
-                    EazySoundManager.PlaySound(gunShot,0.5f);
+                    EazySoundManager.PlaySound(gunShot,0.4f);
                     shot.SetActive(true);
                     rifleAmmoCount--;
                     rifleShootCooldown = rifleROF;
@@ -587,6 +587,7 @@ public class PlayerController : MonoBehaviour
                     //line cast
 
                     shot.GetComponent<PlayerBulletLogic>().StartBullet(gameObject.transform.position, shootPoint, sniperRange, sniperDmgPkg);
+                    EazySoundManager.PlaySound(gunShot, 0.6f);
                     shot.SetActive(true);
                     sniperAmmoCount--;
                     sniperShootCooldown = sniperROF;

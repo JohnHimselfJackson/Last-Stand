@@ -13,21 +13,16 @@ public class BuildingDefence : BuildingBasic
     protected DamagePackage damage;
 
     const int enemyLayer = 9;
-    
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.DrawWireSphere(transform.position, attackRange);
+    }
+
     // Update is called once per frame
     void Update()
     {
-        DetectEnemies();
-        AimTurret();
-        if(fireTimeCount > fireTime && activeTarget)
-        {
-            Shoot();
-            fireTimeCount = 0;
-        }
-        else
-        {
-            fireTimeCount += Time.deltaTime;
-        }
+        GenericUpdate();
     }
     
     void DetectEnemies()
@@ -66,6 +61,19 @@ public class BuildingDefence : BuildingBasic
 
     public virtual void Shoot()
     {
-        print("pew");
+    }
+    protected void GenericUpdate()
+    {
+        DetectEnemies();
+        AimTurret();
+        if (fireTimeCount > fireTime && activeTarget)
+        {
+            Shoot();
+            fireTimeCount = 0;
+        }
+        else
+        {
+            fireTimeCount += Time.deltaTime;
+        }
     }
 }

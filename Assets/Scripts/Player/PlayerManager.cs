@@ -46,8 +46,6 @@ public class PlayerManager : MonoBehaviour
     void Start()
     {
         LoadPlayer();
-        armourCurrent = 60;
-        healthCurrent = 50;
         armour.StatCalc(armourCurrent);
         health.StatCalc(healthCurrent);
     }
@@ -75,6 +73,7 @@ public class PlayerManager : MonoBehaviour
         pC.SetOnLoad(PlayerData.playerStats);
         //
         //
+
         //add part here where checks stat block for abilities unlocked
         gotBioArmour = true;
         gotMedSuite = true;
