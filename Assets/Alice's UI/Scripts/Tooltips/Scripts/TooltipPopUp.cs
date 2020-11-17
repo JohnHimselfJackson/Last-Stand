@@ -12,7 +12,7 @@ namespace VulpineAlice.TooltipUI
     public class TooltipPopUp : MonoBehaviour
     {
         [SerializeField]
-        private GameObject popupCanvasObject;
+        private GameObject popupCanvasObject, skillInfo;
         [SerializeField]
         private RectTransform popupObject;
         [SerializeField]
