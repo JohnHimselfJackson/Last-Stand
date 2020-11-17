@@ -7,17 +7,6 @@ public class ButtonManager : MonoBehaviour
     public Color standradColor;
 
     public UpgradeLogic buttonSelected = null;
-    // Start is called before the first frame update
-    void Start()
-    {
-
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
 
     public UpgradeLogic[] FindButtons()
     {
