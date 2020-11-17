@@ -24,18 +24,5 @@ public class ButtonEvents : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
     void SetInfoActive()
     {
         upgradeInfo.SetActive(true);
-        upgradeInfo.transform.position = new Vector3(Camera.main.ScreenToWorldPoint(Input.mousePosition).x, Camera.main.ScreenToWorldPoint(Input.mousePosition).y, upgradeInfo.transform.position.z);
-
     }
-
-    private void Update()
-    {
-        if(upgradeInfo.activeInHierarchy == true)
-        {
-            upgradeInfo.transform.position = new Vector3(Camera.main.ScreenToWorldPoint(Input.mousePosition).x,Camera.main.ScreenToWorldPoint(Input.mousePosition).y, upgradeInfo.transform.position.z);
-        }
-    }
-
-
-
 }
