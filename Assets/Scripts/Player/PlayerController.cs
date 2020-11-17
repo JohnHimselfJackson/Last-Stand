@@ -7,8 +7,12 @@ using Hellmade.Sound;
 
 public class PlayerController : MonoBehaviour
 {
+    public Transform projectielStart;
     public Camera cam;
     public GameObject myCanvas;
+    public Animator myAnim;
+    public GameObject animGO;
+    public Animation reloadAnimation;
     #region Layer Masks
     int groundLayerMask = 1 << 12;
     int nonTraversableLayerMask = (1 << 8) | (1 << 10) | (1 << 11) | (1 << 12);
@@ -25,9 +29,9 @@ public class PlayerController : MonoBehaviour
     Vector3 divePos;
     Vector3 diveDirection;
     float diveStandDelay;
-    float standtime = 0.6f;
+    float standtime = 0.0f;
     private bool forwards, backwards, left, right, sprinting;
-    private float sprintSpeedChange = 2f;
+    private float sprintSpeedChange = 3f;
     public float moveSpeed { get; private set; }
     #endregion
 
@@ -220,6 +224,15 @@ public class PlayerController : MonoBehaviour
         sniperSpread = sniperStats[7];
         sniperPen = (int)sniperStats[8];
         #endregion
+        switch (selectedWeapon)
+        {
+            case Weapon.rifle:
+                myAnim.SetFloat("shootMultiplier", 0.567f / rifleROF);
+                break;
+            case Weapon.sniper:
+                myAnim.SetFloat("shootMultiplier", 0.567f / sniperROF);
+                break;
+        }
     }
 
     // Start is called before the first frame update
@@ -258,6 +271,7 @@ public class PlayerController : MonoBehaviour
             SprintCheck();
             if (currentDiveState == diveState.not)
             {
+                AimGun();
                 ForceReload();
                 ActiveAbilityInput();
                 WeaponSecondaries();
@@ -278,9 +292,9 @@ public class PlayerController : MonoBehaviour
     
     void OnDrawGizmos()
     {
-        Vector3 movDirection = GetDirection() * moveSpeed * Time.fixedDeltaTime;
-        Vector3 movWorldPos = new Vector3(transform.position.x, transform.position.y, transform.position.z) + movDirection;
-        Gizmos.DrawLine(new Vector3(transform.position.x, transform.position.y, transform.position.z) + movDirection + Vector3.up * 15f, new Vector3(transform.position.x, transform.position.y, transform.position.z) + movDirection - Vector3.up * 15f);
+        //Vector3 movDirection = GetDirection() * moveSpeed * Time.fixedDeltaTime;
+        //Vector3 movWorldPos = new Vector3(transform.position.x, transform.position.y, transform.position.z) + movDirection;
+        //Gizmos.DrawLine(new Vector3(transform.position.x, transform.position.y, transform.position.z) + movDirection + Vector3.up * 15f, new Vector3(transform.position.x, transform.position.y, transform.position.z) + movDirection - Vector3.up * 15f);
         Gizmos.color = Color.red;
         Gizmos.DrawSphere(divePos, 0.3f);
     }
@@ -404,10 +418,30 @@ public class PlayerController : MonoBehaviour
             returnThis -= Vector3.right;
         }
         returnThis = returnThis.normalized;
+        /*
         if(returnThis != Vector3.zero && !diving && !shooting)
         {
             transform.rotation = Quaternion.Euler(transform.rotation.eulerAngles.x, Mathf.Atan2(-returnThis.z, returnThis.x) * Mathf.Rad2Deg + 90, transform.rotation.eulerAngles.z);
         }
+        */
+        //finds angles to convert player directions for animation
+        float moveAngleRad = Mathf.Atan2(returnThis.z, returnThis.x);
+        float playerAngleRad = Mathf.Atan2(transform.forward.z, transform.forward.x);
+        float worldForwardRad = Mathf.Atan2(0,1);
+        float angleDifference = moveAngleRad - playerAngleRad;
+
+        //sets animation for legs
+        if(returnThis == Vector3.zero)
+        {
+            myAnim.SetFloat("xVel", 0);
+            myAnim.SetFloat("yVel", 0);
+        }
+        else
+        {
+            myAnim.SetFloat("xVel", Mathf.Cos(worldForwardRad + angleDifference + 90));
+            myAnim.SetFloat("yVel", Mathf.Sin(worldForwardRad + angleDifference + 90));
+        }
+        //returnThis = Vector3.zero;
         return returnThis;
     }
     void GroundPlayer()
@@ -426,7 +460,10 @@ public class PlayerController : MonoBehaviour
                 if (Input.GetKeyDown(KeyCode.Space))
                 {
                     currentDiveState = diveState.started;
+                    myAnim.SetBool("diving", true);
                     diving = true;
+                    print(transform.rotation.eulerAngles.y);
+                    animGO.transform.rotation = Quaternion.Euler(0,0, 0);
                 }
                 if(currentDiveState == diveState.started)
                 {
@@ -438,7 +475,7 @@ public class PlayerController : MonoBehaviour
                     diveDirection = GetDirection();
                     RaycastHit divePosHit;
                     //sky to ground raycast to get desired move location
-                    if (Physics.Raycast(new Vector3(transform.position.x, transform.position.y, transform.position.z) + (diveDirection * moveSpeedTemp * 1f) + Vector3.up * 15f, Vector3.down, out divePosHit, 30f, groundLayerMask))
+                    if (Physics.Raycast(new Vector3(transform.position.x, transform.position.y, transform.position.z) + (diveDirection * moveSpeedTemp * 3.6f) + Vector3.up * 15f, Vector3.down, out divePosHit, 30f, groundLayerMask))
                     {
                         //ray cast from to ankles
                         //check if hit collider
@@ -472,6 +509,7 @@ public class PlayerController : MonoBehaviour
                 
                 break;
             case diveState.started:
+                myAnim.SetBool("diving", false);
                 if ((new Vector3(divePos.x,0,divePos.z)- new Vector3(diveStartPos.x, 0, diveStartPos.z)).normalized != (new Vector3(divePos.x, 0, divePos.z) - new Vector3(transform.position.x,0, transform.position.z)).normalized || diveDirection == Vector3.zero)
                 {
                     currentDiveState = diveState.end;
@@ -479,16 +517,15 @@ public class PlayerController : MonoBehaviour
                 }
                 else
                 {
-                    transform.rotation = Quaternion.Euler(90, transform.rotation.eulerAngles.y, 0);
-                    transform.position = transform.position + diveDirection * 15 * Time.deltaTime;
+                    transform.position = transform.position + diveDirection * 6 * Time.deltaTime;
                 }
 
                 break;
             case diveState.end:
                 if(diveStandDelay <= 0)
                 {
-                    transform.rotation = Quaternion.Euler(0, transform.rotation.eulerAngles.y, 0);
                     currentDiveState = diveState.not;
+                    animGO.transform.rotation = Quaternion.Euler(0, 60, 0);
                     diving = false;
                     if (Input.GetMouseButton(0))
                     {
@@ -508,10 +545,12 @@ public class PlayerController : MonoBehaviour
         if((Input.GetKeyDown(KeyCode.LeftShift)) && !shooting)
         {
             sprinting = true;
+            myAnim.SetBool("sprinting", true);
         }
         if (Input.GetKeyUp(KeyCode.LeftShift))
         {
             sprinting = false;
+            myAnim.SetBool("sprinting", false);
         }
     }
     #endregion
@@ -522,21 +561,19 @@ public class PlayerController : MonoBehaviour
         if (Input.GetMouseButtonDown(0))
         {
             shooting = true;
+            myAnim.SetBool("shooting", true);
             sprinting = false;
+            myAnim.SetBool("sprinting", false);
         }
         if (Input.GetMouseButtonUp(0))
         {
             shooting = false;
+            myAnim.SetBool("shooting", false);
             if ((Input.GetKeyDown(KeyCode.LeftShift) || Input.GetKey(KeyCode.LeftShift)) && !shooting)
             {
                 sprinting = true;
+                myAnim.SetBool("sprinting", true);
             }
-        }
-        if (shooting)
-        {
-            RaycastHit camCast;
-            Physics.Raycast(cam.ScreenPointToRay(Input.mousePosition, Camera.MonoOrStereoscopicEye.Mono), out camCast, 40, 1 << 12);
-            transform.rotation = Quaternion.Euler(transform.rotation.eulerAngles.x, Mathf.Atan2(-(camCast.point-transform.position).z, (camCast.point - transform.position).x) * Mathf.Rad2Deg + 90, transform.rotation.eulerAngles.z);
         }
         switch (selectedWeapon)
         {
@@ -554,7 +591,7 @@ public class PlayerController : MonoBehaviour
 
                     //line cast
 
-                    shot.GetComponent<PlayerBulletLogic>().StartBullet(gameObject.transform.position, shootPoint, rifleRange, rifleDmgPkg);
+                    shot.GetComponent<PlayerBulletLogic>().StartBullet(projectielStart.position, shootPoint, rifleRange, rifleDmgPkg);
                     EazySoundManager.PlaySound(gunShot,0.4f);
                     shot.SetActive(true);
                     rifleAmmoCount--;
@@ -565,6 +602,8 @@ public class PlayerController : MonoBehaviour
                     print(rifleReload);
                     rifleReloadTime = rifleReload;
                     reloadingRifle = true;
+                    myAnim.SetFloat("reloadMultiplier", 3.3f / rifleReload);
+                    myAnim.SetBool("reloading", true);
                     StartCoroutine(ReloadRifleCoro());
                 }
                 else
@@ -586,7 +625,7 @@ public class PlayerController : MonoBehaviour
 
                     //line cast
 
-                    shot.GetComponent<PlayerBulletLogic>().StartBullet(gameObject.transform.position, shootPoint, sniperRange, sniperDmgPkg);
+                    shot.GetComponent<PlayerBulletLogic>().StartBullet(projectielStart.position, shootPoint, sniperRange, sniperDmgPkg);
                     EazySoundManager.PlaySound(gunShot, 0.6f);
                     shot.SetActive(true);
                     sniperAmmoCount--;
@@ -596,6 +635,8 @@ public class PlayerController : MonoBehaviour
                 {
                     sniperReloadTime = sniperReload;
                     reloadingSniper = true;
+                    myAnim.SetFloat("reloadMultiplier", 3.3f / sniperReload);
+                    myAnim.SetBool("reloading", true);
                     StartCoroutine(ReloadSniperCoro());
                 }
                 else
@@ -620,11 +661,13 @@ public class PlayerController : MonoBehaviour
                         case Weapon.sniper:
                             weaponUIController.SwapWeapon("Sniper", (int)sniperAmmoMax, (int)sniperAmmoCount, sniperReloadTime, 1 / sniperROF);
                             sniperAmmoCount = sniperAmmoCount;
+                            myAnim.SetFloat("shootMultiplier", 0.567f/sniperROF);
                             print("now selected sniper");
                             break;
                         case Weapon.rifle:
                             weaponUIController.SwapWeapon("Rifle", (int)rifleAmmoMax, (int)rifleAmmoCount, rifleReloadTime, 1 / rifleROF);
                             rifleAmmoCount = rifleAmmoCount;
+                            myAnim.SetFloat("shootMultiplier", 0.567f / rifleROF);
                             sL.EndLaser();
                             print("now selected rifle");
                             break;
@@ -653,12 +696,18 @@ public class PlayerController : MonoBehaviour
                 case Weapon.rifle:
                     rifleAmmoCount = 0;
                     rifleReloadTime = rifleReload;
+                    print(rifleReload);
+                    myAnim.SetFloat("reloadMultiplier", 3.3f/ rifleReload);
+                    myAnim.SetBool("reloading", true);
                     reloadingRifle = true;
                     StartCoroutine(ReloadRifleCoro());
                     break;
                 case Weapon.sniper:
                     sniperAmmoCount = 0;
                     sniperReloadTime = sniperReload;
+                    print(sniperReload);
+                    myAnim.SetFloat("reloadMultiplier",3.3f/sniperReload );
+                    myAnim.SetBool("reloading", true);
                     reloadingSniper = true;
                     StartCoroutine(ReloadSniperCoro());
                     break;
@@ -669,7 +718,7 @@ public class PlayerController : MonoBehaviour
     IEnumerator ReloadRifleCoro()
     {
         print("reloading");
-        while(rifleReloadTime > 0)
+        while (rifleReloadTime > 0)
         {
             if (selectedWeapon == Weapon.rifle)
             {
@@ -677,6 +726,7 @@ public class PlayerController : MonoBehaviour
             }
             yield return null;
         }
+        myAnim.SetBool("reloading", false);
         rifleAmmoCount = rifleAmmoMax;
         reloadingRifle = false;
     }
@@ -690,24 +740,11 @@ public class PlayerController : MonoBehaviour
             }
             yield return null;
         }
+        myAnim.SetBool("reloading", false);
         sniperAmmoCount = sniperAmmoMax;
         reloadingSniper = false;
     }
-    IEnumerator ReloadMeleeCoro()
-    {
-        while (swordReloadTime > 0)
-        {
-            if (selectedWeapon == Weapon.rifle)
-            {
-                swordReloadTime -= Time.deltaTime;
-            }
-            yield return null;
-        }
-        swordAmmoCount = swordAmmoMax;
-        reloadingSword = false;
-    }
     #endregion
-
     void WeaponSecondaries()
     {
         if (Input.GetMouseButton(1))
@@ -783,6 +820,14 @@ public class PlayerController : MonoBehaviour
         sprintSpeedChange += SprintChangeIncrease;
     }
 
-
+    void AimGun()
+    {
+        if (!sprinting || shooting)
+        {
+            RaycastHit camCast;
+            Physics.Raycast(cam.ScreenPointToRay(Input.mousePosition, Camera.MonoOrStereoscopicEye.Mono), out camCast, 40, 1 << 12);
+            transform.rotation = Quaternion.Euler(transform.rotation.eulerAngles.x, Mathf.Atan2(-(camCast.point - transform.position).z, (camCast.point - transform.position).x) * Mathf.Rad2Deg + 90, transform.rotation.eulerAngles.z);
+        }
+    }
 
 }

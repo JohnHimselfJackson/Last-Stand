@@ -63,7 +63,7 @@ public class PlayerManager : MonoBehaviour
         if(Time.time> fpsCheck)
         {
             fpsCheck++;
-            print(1/Time.deltaTime);
+            //print(1/Time.deltaTime);
         }
     }
 
@@ -280,7 +280,8 @@ public class PlayerManager : MonoBehaviour
     }
 
     void PlayerDead()
-    {
+    {  
+        pC.myAnim.SetBool("dead", true);
         print("get gud fuckboi");
     }
 
