@@ -25,7 +25,6 @@ public class UpgradeLogic : MonoBehaviour
         for (int pp = 0; pp < prereq.Length; pp++)
         {
             prereq[pp].dependents.Add(this);
-            prereq[pp].Invoke("CreateDependentsArrows", 0);
         }
         ButtonClickable();
         FindMyUpgrade();
@@ -35,11 +34,16 @@ public class UpgradeLogic : MonoBehaviour
     //runs on button click
     void GetUpgrade()
     {
+        ButtonManager.bM.UpgradePointUsed(1);
+        GetComponent<Image>().color = Color.yellow;
         alreadyUpgraded = true;
         myUpgrade.upgraded = true;
         foreach(UpgradeLogic uu in dependents)
         {
-            uu.ButtonClickable();
+            if(uu != null)
+            {
+                uu.ButtonClickable();
+            }
         }
         ButtonClickable();
 
@@ -96,18 +100,26 @@ public class UpgradeLogic : MonoBehaviour
         }
 
     }
-    void ButtonClickable()
+    public void ButtonClickable()
     {
-        bool returnThis;
-        //check upgrade points
+        bool returnThis = true;
 
-        //check prereq
-        returnThis = AndOrCheck();
+        if (!ButtonManager.bM.pointsAvailable(1))
+        {
+            returnThis = false;
+        }
+
+        if(!AndOrCheck())
+        {
+            returnThis = false;
+        }
 
         if(prereq.Length == 0)
         {
             returnThis = true;
         }
+        
+
         if (alreadyUpgraded)
         {
 
@@ -172,49 +184,5 @@ public class UpgradeLogic : MonoBehaviour
             }
         }
     }
-
-    void CreateDependentsArrows()
-    {
-        foreach (UpgradeLogic ul in dependents)
-        {
-            Vector2 startButtonPos = gameObject.GetComponent<RectTransform>().anchoredPosition - new Vector2(/*gameObject.GetComponent<Image>().flexibleWidth/2*/ 120, 0);
-            Vector2 endButtonPos = ul.GetComponent<RectTransform>().anchoredPosition + new Vector2(/*ul.GetComponent<Image>().flexibleWidth / 2*/ 120, 0);
-            float length;
-            Vector2 midpoint;
-            GameObject prereqArrow;
-
-            if (startButtonPos.x > endButtonPos.x)
-            {
-                startButtonPos = gameObject.GetComponent<RectTransform>().anchoredPosition - new Vector2(/*gameObject.GetComponent<Image>().flexibleWidth/2*/80, 0);
-                endButtonPos = ul.GetComponent<RectTransform>().anchoredPosition + new Vector2(/*ul.GetComponent<Image>().flexibleWidth / 2*/ 80, 0);
-                length = (endButtonPos - startButtonPos).magnitude;
-
-                midpoint = (new Vector2((endButtonPos.x - startButtonPos.x) / 2, (endButtonPos.y - startButtonPos.y) / 2) - new Vector2(/*gameObject.GetComponent<Image>().flexibleWidth/2*/ 80, 0));
-                
-                prereqArrow = Instantiate<GameObject>(arrow, midpoint, Quaternion.Euler(new Vector3(0, 0, Mathf.Atan2(startButtonPos.y - endButtonPos.y, startButtonPos.x - endButtonPos.x) * Mathf.Rad2Deg - 180)));
-                prereqArrow.transform.SetParent(this.transform);
-                prereqArrow.GetComponent<RectTransform>().localScale = new Vector3((length / prereqArrow.GetComponent<SpriteRenderer>().bounds.size.x) * 0.7f, (length / prereqArrow.GetComponent<SpriteRenderer>().bounds.size.x) * 0.7f, 1);
-                prereqArrow.GetComponent<RectTransform>().anchoredPosition = midpoint;
-
-            }
-            else
-            {
-                startButtonPos = gameObject.GetComponent<RectTransform>().anchoredPosition + new Vector2(/*gameObject.GetComponent<Image>().flexibleWidth/2*/ 80, 0);
-                endButtonPos = ul.GetComponent<RectTransform>().anchoredPosition - new Vector2(/*ul.GetComponent<Image>().flexibleWidth / 2*/ 80, 0);
-                length = (endButtonPos - startButtonPos).magnitude;
-
-
-                midpoint = (new Vector2((endButtonPos.x - startButtonPos.x) / 2, (endButtonPos.y - startButtonPos.y) / 2) + new Vector2(/*gameObject.GetComponent<Image>().flexibleWidth/2*/ 80, 0));
-                
-                prereqArrow = Instantiate<GameObject>(arrow, midpoint, Quaternion.Euler(new Vector3(0, 0, Mathf.Atan2(startButtonPos.y - endButtonPos.y, startButtonPos.x - endButtonPos.x) * Mathf.Rad2Deg - 180)));
-                prereqArrow.transform.SetParent(this.transform);
-                prereqArrow.GetComponent<RectTransform>().localScale = new Vector3((length / prereqArrow.GetComponent<SpriteRenderer>().bounds.size.x) * 0.7f, (length / prereqArrow.GetComponent<SpriteRenderer>().bounds.size.x) * 0.7f, 1);
-                prereqArrow.GetComponent<RectTransform>().anchoredPosition = midpoint;
-
-            }
-        }
-    }
-
-
-
+    
 }

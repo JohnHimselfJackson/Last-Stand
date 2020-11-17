@@ -12,29 +12,25 @@ public class ButtonEvents : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
     }
     public void OnPointerEnter(PointerEventData eventData)
     {
-        SetInfoActive();
+        SetInfo();
     }
     public void OnPointerExit(PointerEventData eventData)
     {
-        if (upgradeInfo.activeInHierarchy == true)
-        {
-            upgradeInfo.SetActive(false);
-        }
+        UnSetInfo();
     }
-    void SetInfoActive()
+    void SetInfo()
     {
-        upgradeInfo.SetActive(true);
-        upgradeInfo.transform.position = new Vector3(Camera.main.ScreenToWorldPoint(Input.mousePosition).x, Camera.main.ScreenToWorldPoint(Input.mousePosition).y, upgradeInfo.transform.position.z);
-
+        ButtonManager.bM.SkillNameTB.text = GetComponent<UpgradeLogic>().myUpgrade.name;
+        ButtonManager.bM.SkillDescriptionTB.text = GetComponent<UpgradeLogic>().myUpgrade.description;
     }
-
-    private void Update()
+    void UnSetInfo()
     {
-        if(upgradeInfo.activeInHierarchy == true)
-        {
-            upgradeInfo.transform.position = new Vector3(Camera.main.ScreenToWorldPoint(Input.mousePosition).x,Camera.main.ScreenToWorldPoint(Input.mousePosition).y, upgradeInfo.transform.position.z);
-        }
+        /*
+        ButtonManager.bM.SkillNameTB.text = null;
+        ButtonManager.bM.SkillDescriptionTB.text = null;
+        */
     }
+    
 
 
 
