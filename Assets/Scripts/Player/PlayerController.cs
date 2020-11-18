@@ -790,11 +790,11 @@ public class PlayerController : MonoBehaviour
 
     void ActiveAbilityInput()
     {
-        if (Input.GetKey(KeyCode.Q))
+        if (Input.GetKey(KeyCode.Q) && PlayerManager.pM.qAbility != null)
         {
-            PlayerManager.pM.qAbility.InvokeToRun();
+            PlayerManager.pM.qAbility.InvokeToRun(); 
         }
-        if (Input.GetKey(KeyCode.E))
+        if (Input.GetKey(KeyCode.E) && PlayerManager.pM.eAbility != null)
         {
             PlayerManager.pM.eAbility.InvokeToRun();
         }

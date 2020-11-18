@@ -75,12 +75,40 @@ public class PlayerManager : MonoBehaviour
         //
 
         //add part here where checks stat block for abilities unlocked
-        gotBioArmour = true;
-        gotMedSuite = true;
-        pC.gotGL = true;
-        pC.gotSL = true;
-        qAbility = GetComponent<Shield>();
-        eAbility = GetComponent<ImpulseThrusters>();
+        gotBioArmour = PlayerData.playerStats.gotBioArmour;
+        gotMedSuite = PlayerData.playerStats.gotMedSuite;
+        pC.gotGL = PlayerData.playerStats.gotGrenade;
+        pC.gotSL = PlayerData.playerStats.gotLaser;
+        switch (PlayerData.playerStats.qAbility)
+        {
+            case 0: //impulse thrusters
+                qAbility = GetComponent<ImpulseThrusters>();
+                break;
+            case 1: //shield
+                qAbility = GetComponent<Shield>();
+                break;
+            case 2: //juggernaught
+                qAbility = GetComponent<JuggernaughtMode>();
+                break;
+            case 3: //overcharge
+                qAbility = GetComponent<SuitOvercharge>();
+                break;
+        }
+        switch (PlayerData.playerStats.eAbility)
+        {
+            case 0: //impulse thrusters
+                eAbility = GetComponent<ImpulseThrusters>();
+                break;
+            case 1: //shield
+                eAbility = GetComponent<Shield>();
+                break;
+            case 2: //juggernaught
+                eAbility = GetComponent<JuggernaughtMode>();
+                break;
+            case 3: //overcharge
+                eAbility = GetComponent<SuitOvercharge>();
+                break;
+        }
         //
         //
         //retrieving the needed stat arrays to assign values in player controller

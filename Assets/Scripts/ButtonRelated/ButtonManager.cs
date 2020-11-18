@@ -2,16 +2,21 @@
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using UnityEngine.UI;
 
 public class ButtonManager : MonoBehaviour
 {
-   public TMP_Text pointsLeftTB;
+    public TMP_Text pointsLeftTB;
     public TMP_Text SkillNameTB;
     public TMP_Text SkillDescriptionTB;
+    public Image upgradeIcon;
     public static ButtonManager bM;
     int pointsLeft;
     int startingPoints = 20;
     public Color standradColor;
+    public UpgradeLogic currentQ, currentE;
+
+
 
     public UpgradeLogic buttonSelected = null;
     // Start is called before the first frame update
@@ -33,8 +38,7 @@ public class ButtonManager : MonoBehaviour
 
     public UpgradeLogic[] FindButtons()
     {
-        return FindObjectsOfType<UpgradeLogic>();
-        
+        return FindObjectsOfType<UpgradeLogic>();        
     }
 
 

@@ -10,6 +10,7 @@ public class BuildingBasic : MonoBehaviour
     public unitClass myClass = unitClass.heavy;
     public int healthCurrent;
     public int healthMax;
+    public GameObject damage1, damage2, damge3;
 
 
     protected int armour;
@@ -85,11 +86,17 @@ public class BuildingBasic : MonoBehaviour
                 #endregion
         }
         healthCurrent -= finalDamage;
-        //checks if the player is dead
+
+
+
+
+        //checks if the builder is dead
         if (healthCurrent < 1)
         {
             BuildingDestroyed();
         }
+        //if health <60 and 
+          // start fire 1
     }
 
     public virtual void BuildingDestroyed()

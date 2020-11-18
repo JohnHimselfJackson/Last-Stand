@@ -54,7 +54,7 @@ public class AutogunBuildings : BuildingDefence
             if (timeCheck > 0.05)
             {
                 GameObject projectile = EnemyProjectilePool.enemyPool.GetObject();
-                projectile.GetComponent<EnemyBulletLogic>().StartBullet(projSpawnPoint.position, activeTarget.transform.position +new Vector3(Random.Range(-0.5f,0.5f),0, Random.Range(-0.5f, 0.5f)), attackRange, damage);
+                if (projectile != null) projectile.GetComponent<EnemyBulletLogic>().StartBullet(projSpawnPoint.position, activeTarget.transform.position +new Vector3(Random.Range(-0.5f,0.5f),0, Random.Range(-0.5f, 0.5f)), attackRange, damage);
                 shootCount++;
                 if(shootCount > 1) myAnim.SetBool("shoot", false);
                 timeCheck = 0;

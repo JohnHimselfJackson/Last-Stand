@@ -98,6 +98,29 @@ public class UpgradeLogic : MonoBehaviour
                 }
             }
         }
+        if (myUpgrade.myType == Upgrade.type.passive)
+        {
+            if (myUpgrade.name == "Built in Med Suite")
+            {
+                PlayerData.playerStats.gotMedSuite = true;
+            }
+            if (myUpgrade.name == "Regenerative Materials")
+            {
+                PlayerData.playerStats.gotBioArmour = true;
+            }
+
+        }
+        if (myUpgrade.myType == Upgrade.type.active)
+        {
+            if (myUpgrade.name == "Focus Laser")
+            {
+                PlayerData.playerStats.gotLaser = true;
+            }
+            if (myUpgrade.name == "High Explosives")
+            {
+                PlayerData.playerStats.gotGrenade = true;
+            }
+        }
 
     }
     public void ButtonClickable()
@@ -182,6 +205,10 @@ public class UpgradeLogic : MonoBehaviour
                 print("upgrade already upgraded");
                 GetUpgrade();
             }
+        }
+        if(myUpgrade.name == "")
+        {
+
         }
     }
     
