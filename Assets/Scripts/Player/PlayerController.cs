@@ -15,7 +15,7 @@ public class PlayerController : MonoBehaviour
     public Animation reloadAnimation;
     #region Layer Masks
     int groundLayerMask = 1 << 12;
-    int nonTraversableLayerMask = (1 << 8) | (1 << 10) | (1 << 11) | (1 << 12);
+    int nonTraversableLayerMask = (1 << 8) | (1 << 10) | (1 << 11) | (1 << 12) | (1 << 13);
     #endregion
 
     public bool playerLocked;
@@ -255,10 +255,8 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
         if (groundBool)
         {
-            groundBool = false;
             GroundPlayer();
         }
         InputMaster();
@@ -277,7 +275,10 @@ public class PlayerController : MonoBehaviour
                 WeaponSecondaries();
                 SwitchWeapon();
                 AimShoot();
-                Move();
+                if (!diving)
+                {
+                    Move();
+                }
                 LoadStatScreen();
                 Dive();
                 
@@ -296,7 +297,7 @@ public class PlayerController : MonoBehaviour
         //Vector3 movWorldPos = new Vector3(transform.position.x, transform.position.y, transform.position.z) + movDirection;
         //Gizmos.DrawLine(new Vector3(transform.position.x, transform.position.y, transform.position.z) + movDirection + Vector3.up * 15f, new Vector3(transform.position.x, transform.position.y, transform.position.z) + movDirection - Vector3.up * 15f);
         Gizmos.color = Color.red;
-        Gizmos.DrawSphere(divePos, 0.3f);
+        Gizmos.DrawWireSphere(divePos, 2f);
     }
 
     #region Player Movement
@@ -306,10 +307,15 @@ public class PlayerController : MonoBehaviour
         if (sprinting)
         {
             moveSpeedTemp *= sprintSpeedChange;
+
         }
         //get direction
         Vector3 movDirection = GetDirection() * moveSpeedTemp * Time.deltaTime;
         Vector3 movWorldPos = new Vector3(transform.position.x, transform.position.y, transform.position.z) + movDirection;
+        if (sprinting)
+        {
+            transform.rotation = Quaternion.Euler(transform.rotation.eulerAngles.x, Mathf.Atan2(-movDirection.z, movDirection.x) * Mathf.Rad2Deg + 90, transform.rotation.eulerAngles.z);
+        }
         //raycast from sky in that direction
 
         //print(movWorldPos - transform.position);
@@ -462,20 +468,14 @@ public class PlayerController : MonoBehaviour
                     currentDiveState = diveState.started;
                     myAnim.SetBool("diving", true);
                     diving = true;
-                    print(transform.rotation.eulerAngles.y);
-                    animGO.transform.rotation = Quaternion.Euler(0,0, 0);
                 }
                 if(currentDiveState == diveState.started)
                 {
                     float moveSpeedTemp = moveSpeed;
-                    if (sprinting)
-                    {
-                        moveSpeedTemp *= sprintSpeedChange;
-                    }
                     diveDirection = GetDirection();
                     RaycastHit divePosHit;
                     //sky to ground raycast to get desired move location
-                    if (Physics.Raycast(new Vector3(transform.position.x, transform.position.y, transform.position.z) + (diveDirection * moveSpeedTemp * 3.6f) + Vector3.up * 15f, Vector3.down, out divePosHit, 30f, groundLayerMask))
+                    if (Physics.Raycast(new Vector3(transform.position.x, transform.position.y, transform.position.z) + (diveDirection * 3 * 3.6f) + Vector3.up * 15f, Vector3.down, out divePosHit, 30f, groundLayerMask))
                     {
                         //ray cast from to ankles
                         //check if hit collider
@@ -483,7 +483,7 @@ public class PlayerController : MonoBehaviour
                         Ray ankleRay = new Ray(transform.position - Vector3.up * 0.5f, divePosHit.point - transform.position);
                         Debug.DrawLine(transform.position - Vector3.up * 0.5f, divePosHit.point + Vector3.up * 0.5f, Color.green, 1f);
                         //checkcs if path is free
-                        if (!Physics.SphereCast(transform.position - Vector3.up * 0.5f, 0.1f, (divePosHit.point + Vector3.up - transform.position), out objCheck, moveSpeedTemp * 1, nonTraversableLayerMask))
+                        if (!Physics.SphereCast(transform.position - Vector3.up * 0.5f, 0.1f, (divePosHit.point + Vector3.up - transform.position), out objCheck, 3 * 1, nonTraversableLayerMask))
                         {
                             //since path was free sets the start location to the dive pos
                             divePos = divePosHit.point + Vector3.up;
@@ -504,28 +504,33 @@ public class PlayerController : MonoBehaviour
                             }
                         }
                     }
-                    diveStartPos = transform.position;
+                    diveStartPos = transform.position; 
+                    GroundPlayer();
                 }
                 
                 break;
             case diveState.started:
+                Vector3 movDirection = diveDirection;
+                transform.rotation = Quaternion.Euler(transform.rotation.eulerAngles.x, Mathf.Atan2(-movDirection.z, movDirection.x) * Mathf.Rad2Deg + 90, transform.rotation.eulerAngles.z);
                 myAnim.SetBool("diving", false);
-                if ((new Vector3(divePos.x,0,divePos.z)- new Vector3(diveStartPos.x, 0, diveStartPos.z)).normalized != (new Vector3(divePos.x, 0, divePos.z) - new Vector3(transform.position.x,0, transform.position.z)).normalized || diveDirection == Vector3.zero)
+                if ((divePos-transform.position).magnitude < 1f || diveDirection == Vector3.zero)
                 {
+                    GroundPlayer();
                     currentDiveState = diveState.end;
                     diveStandDelay = standtime; 
                 }
                 else
                 {
                     transform.position = transform.position + diveDirection * 6 * Time.deltaTime;
+                    GroundPlayer();
                 }
 
                 break;
             case diveState.end:
                 if(diveStandDelay <= 0)
                 {
+                    GroundPlayer();
                     currentDiveState = diveState.not;
-                    animGO.transform.rotation = Quaternion.Euler(0, 60, 0);
                     diving = false;
                     if (Input.GetMouseButton(0))
                     {
@@ -535,6 +540,7 @@ public class PlayerController : MonoBehaviour
                 }
                 else
                 {
+                    GroundPlayer();
                     diveStandDelay -= Time.deltaTime;
                 }
                 break;
@@ -585,7 +591,7 @@ public class PlayerController : MonoBehaviour
                     RaycastHit camCast;
                     Physics.Raycast(cam.ScreenPointToRay(Input.mousePosition, Camera.MonoOrStereoscopicEye.Mono), out camCast, 100, 1 << 12);
                     // position off grid
-                    Vector3 shootPoint = camCast.point + Vector3.up;
+                    Vector3 shootPoint = camCast.point + Vector3.up*2;
                     Debug.DrawLine(transform.position, shootPoint, Color.red, 0.1f);
                     GameObject shot = PlayerProjectilePool.playerPool.GetObject();
 
@@ -822,7 +828,7 @@ public class PlayerController : MonoBehaviour
 
     void AimGun()
     {
-        if (!sprinting || shooting)
+        if (!sprinting || shooting && !diving)
         {
             RaycastHit camCast;
             Physics.Raycast(cam.ScreenPointToRay(Input.mousePosition, Camera.MonoOrStereoscopicEye.Mono), out camCast, 40, 1 << 12);

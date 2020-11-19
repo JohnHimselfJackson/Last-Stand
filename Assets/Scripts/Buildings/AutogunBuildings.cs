@@ -49,7 +49,7 @@ public class AutogunBuildings : BuildingDefence
 
     void UpdateShoot()
     {
-        if (shooting)
+        if (shooting && activeTarget)
         {
             if (timeCheck > 0.05)
             {

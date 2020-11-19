@@ -329,8 +329,12 @@ public class UnitMaster : MonoBehaviour
         if(myConstructor.garrisonedUnit == gameObject)
         {
             myConstructor.garrisonedUnit = null;
+            DestroyImmediate(gameObject);
         }
-        Destroy(gameObject);
+        else
+        {
+            Destroy(gameObject);
+        }
     }    
 
     public void SetPatrolRoute(PatrolRoute newRoute)
