@@ -63,6 +63,62 @@ public class SkillInfoScreen : MonoBehaviour
 
     public void SceneChange(string sceneName)
     {
-        SceneManager.LoadSceneAsync(sceneName);
+
+
+        if (sceneName == "scxcZ")
+        {
+            if(ButtonManager.bM.currentE != null)
+            {
+                switch (ButtonManager.bM.currentE.myUpgrade.name)
+                {
+                    case "Self Sufficient Impulse Thrusters": //impulse thrusters
+                        PlayerData.playerStats.eAbility = 0;
+                        break;
+                    case "Shield Generation": //shield;
+                        PlayerData.playerStats.eAbility = 1;
+                        break;
+                    case "Juggernaught Mode": //juggernaught
+                        PlayerData.playerStats.eAbility = 2;
+                        break;
+                    case "Suit Overcharge": //overcharge
+                        PlayerData.playerStats.eAbility = 3;
+                        break;
+                    case null:
+                        PlayerData.playerStats.eAbility = 4;
+                        break;
+                }
+            }
+            if (ButtonManager.bM.currentQ != null)
+            {
+                switch (ButtonManager.bM.currentQ.myUpgrade.name)
+                {
+                    case "Self Sufficient Impulse Thrusters": //impulse thrusters
+                        PlayerData.playerStats.qAbility = 0;
+                        break;
+                    case "Shield Generation": //shield;
+                        PlayerData.playerStats.qAbility = 1;
+                        break;
+                    case "Juggernaught Mode": //juggernaught
+                        PlayerData.playerStats.qAbility = 2;
+                        break;
+                    case "Suit Overcharge": //overcharge
+                        PlayerData.playerStats.qAbility = 3;
+                        break;
+                    case null:
+                        PlayerData.playerStats.qAbility = 4;
+                        break;
+                }
+            }
+            SceneManager.LoadSceneAsync(sceneName);
+        }
+        else
+        {
+            SceneManager.LoadSceneAsync(sceneName);
+        }
     }
+    /*
+        if (GetComponent<UpgradeLogic>().myUpgrade.name == "Self Sufficient Impulse Thrusters" ||
+           GetComponent<UpgradeLogic>().myUpgrade.name == "Suit Overcharge" ||
+           GetComponent<UpgradeLogic>().myUpgrade.name == "Juggernaught Mode" ||
+           GetComponent<UpgradeLogic>().myUpgrade.name == "Shield Generation")*/
 }

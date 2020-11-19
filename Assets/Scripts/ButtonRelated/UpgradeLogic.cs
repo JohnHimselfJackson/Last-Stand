@@ -13,6 +13,7 @@ public class UpgradeLogic : MonoBehaviour
     public string myUpgradeName;
     public Upgrade myUpgrade;
     public UpgradeInfo myInfo;
+    public GameObject arrow;
 
     public Button btn;
 
@@ -27,16 +28,22 @@ public class UpgradeLogic : MonoBehaviour
         }
         ButtonClickable();
         FindMyUpgrade();
+        
     }
     
     //runs on button click
     void GetUpgrade()
     {
+        ButtonManager.bM.UpgradePointUsed(1);
+        GetComponent<Image>().color = Color.yellow;
         alreadyUpgraded = true;
         myUpgrade.upgraded = true;
         foreach(UpgradeLogic uu in dependents)
         {
-            uu.ButtonClickable();
+            if(uu != null)
+            {
+                uu.ButtonClickable();
+            }
         }
         ButtonClickable();
 
@@ -91,26 +98,58 @@ public class UpgradeLogic : MonoBehaviour
                 }
             }
         }
+        if (myUpgrade.myType == Upgrade.type.passive)
+        {
+            if (myUpgrade.name == "Built in Med Suite")
+            {
+                PlayerData.playerStats.gotMedSuite = true;
+            }
+            if (myUpgrade.name == "Regenerative Materials")
+            {
+                PlayerData.playerStats.gotBioArmour = true;
+            }
+
+        }
+        if (myUpgrade.myType == Upgrade.type.active)
+        {
+            if (myUpgrade.name == "Focus Laser")
+            {
+                PlayerData.playerStats.gotLaser = true;
+            }
+            if (myUpgrade.name == "High Explosives")
+            {
+                PlayerData.playerStats.gotGrenade = true;
+            }
+        }
 
     }
-    void ButtonClickable()
+    public void ButtonClickable()
     {
-        bool returnThis;
-        //check upgrade points
+        bool returnThis = true;
 
-        //check prereq
-        returnThis = AndOrCheck();
+        if (!ButtonManager.bM.pointsAvailable(1))
+        {
+            returnThis = false;
+        }
+
+        if(!AndOrCheck())
+        {
+            returnThis = false;
+        }
 
         if(prereq.Length == 0)
         {
             returnThis = true;
         }
+        
+
         if (alreadyUpgraded)
         {
+
             returnThis = false;
-            var colors = GetComponent<Button>().spriteState;
-            colors.disabledSprite = colors.highlightedSprite;
-            GetComponent<Button>().spriteState = colors;
+            var colors = GetComponent<Button>().colors;
+            colors.disabledColor = Color.green;
+            GetComponent<Button>().colors = colors;
         }
         btn.interactable = returnThis;
     }
@@ -140,7 +179,7 @@ public class UpgradeLogic : MonoBehaviour
         }
     }
 
-    public void FindMyUpgrade()
+    void FindMyUpgrade()
     {
         if(myUpgradeName != "")
         {
@@ -167,47 +206,10 @@ public class UpgradeLogic : MonoBehaviour
                 GetUpgrade();
             }
         }
+        if(myUpgrade.name == "")
+        {
+
+        }
     }
-
-    //void CreateDependentsArrows()
-    //{
-    //    foreach (UpgradeLogic ul in dependents)
-    //    {
-    //        Vector2 startButtonPos = gameObject.GetComponent<RectTransform>().anchoredPosition - new Vector2(/*gameObject.GetComponent<Image>().flexibleWidth/2*/ 120, 0);
-    //        Vector2 endButtonPos = ul.GetComponent<RectTransform>().anchoredPosition + new Vector2(/*ul.GetComponent<Image>().flexibleWidth / 2*/ 120, 0);
-    //        float length;
-    //        Vector2 midpoint;
-    //        GameObject prereqArrow;
-
-    //        if (startButtonPos.x > endButtonPos.x)
-    //        {
-    //            startButtonPos = gameObject.GetComponent<RectTransform>().anchoredPosition - new Vector2(/*gameObject.GetComponent<Image>().flexibleWidth/2*/80, 0);
-    //            endButtonPos = ul.GetComponent<RectTransform>().anchoredPosition + new Vector2(/*ul.GetComponent<Image>().flexibleWidth / 2*/ 80, 0);
-    //            length = (endButtonPos - startButtonPos).magnitude;
-
-    //            midpoint = (new Vector2((endButtonPos.x - startButtonPos.x) / 2, (endButtonPos.y - startButtonPos.y) / 2) - new Vector2(/*gameObject.GetComponent<Image>().flexibleWidth/2*/ 80, 0));
-                
-    //            prereqArrow = Instantiate<GameObject>(arrow, midpoint, Quaternion.Euler(new Vector3(0, 0, Mathf.Atan2(startButtonPos.y - endButtonPos.y, startButtonPos.x - endButtonPos.x) * Mathf.Rad2Deg - 180)));
-    //            prereqArrow.transform.SetParent(this.transform);
-    //            prereqArrow.GetComponent<RectTransform>().localScale = new Vector3((length / prereqArrow.GetComponent<SpriteRenderer>().bounds.size.x) * 0.7f, (length / prereqArrow.GetComponent<SpriteRenderer>().bounds.size.x) * 0.7f, 1);
-    //            prereqArrow.GetComponent<RectTransform>().anchoredPosition = midpoint;
-
-    //        }
-    //        else
-    //        {
-    //            startButtonPos = gameObject.GetComponent<RectTransform>().anchoredPosition + new Vector2(/*gameObject.GetComponent<Image>().flexibleWidth/2*/ 80, 0);
-    //            endButtonPos = ul.GetComponent<RectTransform>().anchoredPosition - new Vector2(/*ul.GetComponent<Image>().flexibleWidth / 2*/ 80, 0);
-    //            length = (endButtonPos - startButtonPos).magnitude;
-
-
-    //            midpoint = (new Vector2((endButtonPos.x - startButtonPos.x) / 2, (endButtonPos.y - startButtonPos.y) / 2) + new Vector2(/*gameObject.GetComponent<Image>().flexibleWidth/2*/ 80, 0));
-                
-    //            prereqArrow = Instantiate<GameObject>(arrow, midpoint, Quaternion.Euler(new Vector3(0, 0, Mathf.Atan2(startButtonPos.y - endButtonPos.y, startButtonPos.x - endButtonPos.x) * Mathf.Rad2Deg - 180)));
-    //            prereqArrow.transform.SetParent(this.transform);
-    //            prereqArrow.GetComponent<RectTransform>().localScale = new Vector3((length / prereqArrow.GetComponent<SpriteRenderer>().bounds.size.x) * 0.7f, (length / prereqArrow.GetComponent<SpriteRenderer>().bounds.size.x) * 0.7f, 1);
-    //            prereqArrow.GetComponent<RectTransform>().anchoredPosition = midpoint;
-
-    //        }
-    //    }
-    }
-
+    
+}

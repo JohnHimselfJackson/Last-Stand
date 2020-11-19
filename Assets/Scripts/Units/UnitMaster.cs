@@ -25,7 +25,6 @@ public class UnitMaster : MonoBehaviour
     #endregion
 
     #region nav variables
-    //TODO replaced with navmesh locations    
     protected Vector3 myPos;
     public Vector3 activeRally;
     protected int nextRallyPoint = 0;
@@ -184,6 +183,7 @@ public class UnitMaster : MonoBehaviour
     //code for all unit movement other than moving to cover
     void UnitMove()
     {
+        //if leader code below
         //standard move logic        
         if (myAgent.hasPath == false)
         {
@@ -200,6 +200,7 @@ public class UnitMaster : MonoBehaviour
         {
             //progressing to next rally
         }
+        //if not leader this code
     }
 
     //code to dectect if there are any attack enemies in range and set activeTarget accordingly
@@ -328,8 +329,12 @@ public class UnitMaster : MonoBehaviour
         if(myConstructor.garrisonedUnit == gameObject)
         {
             myConstructor.garrisonedUnit = null;
+            DestroyImmediate(gameObject);
         }
-        Destroy(gameObject);
+        else
+        {
+            Destroy(gameObject);
+        }
     }    
 
     public void SetPatrolRoute(PatrolRoute newRoute)

@@ -27,6 +27,7 @@ public class CharacterMenuManager : MonoBehaviour
 
     private void Start()
     {
+        /*
         // sets the game state to the stats menu
         //SceneManager.SetActiveScene(SceneManager.GetSceneByBuildIndex(1));
 <<<<<<< HEAD:Assets/Scripts/Ability Screeen/CharacterMenuManager.cs
@@ -35,6 +36,7 @@ public class CharacterMenuManager : MonoBehaviour
 
 =======
 >>>>>>> master:Assets/Johns Shit/Scripts/CharacterMenuManager.cs
+*/
         upgradeBackground.SetActive(false);
         upgradeCanvas.SetActive(false);
         upgradeGO.SetActive(false);
