@@ -107,6 +107,7 @@ public class UnitMaster : MonoBehaviour
             //runs for unit to attack
             if (activeTarget)
             {
+                transform.rotation = Quaternion.Euler(transform.rotation.eulerAngles.x, Mathf.Atan2(-(activeTarget.transform.position - transform.position).z, (activeTarget.transform.position - transform.position).x) * Mathf.Rad2Deg + 90, transform.rotation.eulerAngles.z);
                 //for attack delay and handling attack rate
 
                 //checks if time for attack
@@ -341,16 +342,8 @@ public class UnitMaster : MonoBehaviour
         if(myConstructor.garrisonedUnit == gameObject)
         {
             myConstructor.garrisonedUnit = null;
-            DestroyImmediate(gameObject);
         }
-        else
-        {
-            Destroy(gameObject);
-        }
-<<<<<<< Updated upstream
-=======
         Destroy(gameObject,0.833f);
->>>>>>> Stashed changes
     }    
 
     public void SetPatrolRoute(PatrolRoute newRoute)
