@@ -5,6 +5,10 @@ using UnityEngine.AI;
 
 public class UnitMaster : MonoBehaviour
 {
+    #region Animation
+    public Animator myAnim;
+    #endregion
+
     #region Base StatBLock
     protected float healthTotal;
     protected float healthCurrent;
@@ -48,7 +52,7 @@ public class UnitMaster : MonoBehaviour
     #endregion
     
     void Start()
-    { 
+    {
         InvokeRepeating("ActionLoop", 0, 0.25f);
     }
     
@@ -146,6 +150,8 @@ public class UnitMaster : MonoBehaviour
 
         if (activeTarget)
         {
+            myAnim.SetBool("attacking", true);
+            attacking = true;
             //TODO: stop movement of unit
             //sets attacking bool true so that in update the full UpdateAttack(); will run
             myAgent.isStopped = true;
@@ -178,6 +184,10 @@ public class UnitMaster : MonoBehaviour
             myAgent.isStopped = false;
             UnitMove();
         }
+        if (!activeTarget)
+        {
+            myAnim.SetBool("attacking", false);
+        }
     }
 
     //code for all unit movement other than moving to cover
@@ -198,6 +208,7 @@ public class UnitMaster : MonoBehaviour
         }
         else
         {
+            myAnim.SetBool("moving", true);
             //progressing to next rally
         }
         //if not leader this code
@@ -325,6 +336,7 @@ public class UnitMaster : MonoBehaviour
 
     void UnitDead()
     {
+        myAnim.SetBool("dead",true);
         pRoute.RemoveUnit();
         if(myConstructor.garrisonedUnit == gameObject)
         {
@@ -335,6 +347,10 @@ public class UnitMaster : MonoBehaviour
         {
             Destroy(gameObject);
         }
+<<<<<<< Updated upstream
+=======
+        Destroy(gameObject,0.833f);
+>>>>>>> Stashed changes
     }    
 
     public void SetPatrolRoute(PatrolRoute newRoute)

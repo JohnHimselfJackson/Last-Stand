@@ -1,93 +1,231 @@
 fileFormatVersion: 2
 guid: 41e86fb37959e3b478d9e9db085ba36c
 ModelImporter:
-  serializedVersion: 18
-  fileIDToRecycleName:
-    100000: BattleDroid
-    100002: BattleDroidMesh
-    100004: //RootNode
-    100006: Foot_L
-    100008: Foot_R
-    100010: Head
-    100012: LowerArm_L
-    100014: LowerArm_R
-    100016: LowerLeg_L
-    100018: LowerLeg_R
-    100020: LowerTorso
-    100022: Root
-    100024: Toes_L
-    100026: Toes_R
-    100028: UpperArm_L
-    100030: UpperArm_R
-    100032: UpperLeg_L
-    100034: UpperLeg_R
-    100036: UpperTorso
-    400000: BattleDroid
-    400002: BattleDroidMesh
-    400004: //RootNode
-    400006: Foot_L
-    400008: Foot_R
-    400010: Head
-    400012: LowerArm_L
-    400014: LowerArm_R
-    400016: LowerLeg_L
-    400018: LowerLeg_R
-    400020: LowerTorso
-    400022: Root
-    400024: Toes_L
-    400026: Toes_R
-    400028: UpperArm_L
-    400030: UpperArm_R
-    400032: UpperLeg_L
-    400034: UpperLeg_R
-    400036: UpperTorso
-    4300000: BattleDroidMesh
-    7400000: Dead
-    7400002: Death
-    7400004: FireArmLeft
-    7400006: FireArmRight
-    7400008: FireBothArms
-    7400010: Hit1
-    7400012: Hit2
-    7400014: Hit3
-    7400016: Idle
-    7400018: Jump
-    7400020: JumpJetFlying
-    7400022: JumpLand
-    7400024: Run
-    7400026: TurnAround
-    7400028: Walk
-    7400030: WalkBack
-    7400032: xxxDefault
-    7400034: FireArmLeft2
-    7400036: FireArmRight2
-    7400038: FireBothArms2
-    9500000: //RootNode
-    11100000: //RootNode
-    13700000: BattleDroidMesh
+  serializedVersion: 19301
+  internalIDToNameTable:
+  - first:
+      1: 100000
+    second: BattleDroid
+  - first:
+      1: 100002
+    second: BattleDroidMesh
+  - first:
+      1: 100004
+    second: //RootNode
+  - first:
+      1: 100006
+    second: Foot_L
+  - first:
+      1: 100008
+    second: Foot_R
+  - first:
+      1: 100010
+    second: Head
+  - first:
+      1: 100012
+    second: LowerArm_L
+  - first:
+      1: 100014
+    second: LowerArm_R
+  - first:
+      1: 100016
+    second: LowerLeg_L
+  - first:
+      1: 100018
+    second: LowerLeg_R
+  - first:
+      1: 100020
+    second: LowerTorso
+  - first:
+      1: 100022
+    second: Root
+  - first:
+      1: 100024
+    second: Toes_L
+  - first:
+      1: 100026
+    second: Toes_R
+  - first:
+      1: 100028
+    second: UpperArm_L
+  - first:
+      1: 100030
+    second: UpperArm_R
+  - first:
+      1: 100032
+    second: UpperLeg_L
+  - first:
+      1: 100034
+    second: UpperLeg_R
+  - first:
+      1: 100036
+    second: UpperTorso
+  - first:
+      4: 400000
+    second: BattleDroid
+  - first:
+      4: 400002
+    second: BattleDroidMesh
+  - first:
+      4: 400004
+    second: //RootNode
+  - first:
+      4: 400006
+    second: Foot_L
+  - first:
+      4: 400008
+    second: Foot_R
+  - first:
+      4: 400010
+    second: Head
+  - first:
+      4: 400012
+    second: LowerArm_L
+  - first:
+      4: 400014
+    second: LowerArm_R
+  - first:
+      4: 400016
+    second: LowerLeg_L
+  - first:
+      4: 400018
+    second: LowerLeg_R
+  - first:
+      4: 400020
+    second: LowerTorso
+  - first:
+      4: 400022
+    second: Root
+  - first:
+      4: 400024
+    second: Toes_L
+  - first:
+      4: 400026
+    second: Toes_R
+  - first:
+      4: 400028
+    second: UpperArm_L
+  - first:
+      4: 400030
+    second: UpperArm_R
+  - first:
+      4: 400032
+    second: UpperLeg_L
+  - first:
+      4: 400034
+    second: UpperLeg_R
+  - first:
+      4: 400036
+    second: UpperTorso
+  - first:
+      43: 4300000
+    second: BattleDroidMesh
+  - first:
+      74: 7400000
+    second: Dead
+  - first:
+      74: 7400002
+    second: Death
+  - first:
+      74: 7400004
+    second: FireArmLeft
+  - first:
+      74: 7400006
+    second: FireArmRight
+  - first:
+      74: 7400008
+    second: FireBothArms
+  - first:
+      74: 7400010
+    second: Hit1
+  - first:
+      74: 7400012
+    second: Hit2
+  - first:
+      74: 7400014
+    second: Hit3
+  - first:
+      74: 7400016
+    second: Idle
+  - first:
+      74: 7400018
+    second: Jump
+  - first:
+      74: 7400020
+    second: JumpJetFlying
+  - first:
+      74: 7400022
+    second: JumpLand
+  - first:
+      74: 7400024
+    second: Run
+  - first:
+      74: 7400026
+    second: TurnAround
+  - first:
+      74: 7400028
+    second: Walk
+  - first:
+      74: 7400030
+    second: WalkBack
+  - first:
+      74: 7400032
+    second: xxxDefault
+  - first:
+      74: 7400034
+    second: FireArmLeft2
+  - first:
+      74: 7400036
+    second: FireArmRight2
+  - first:
+      74: 7400038
+    second: FireBothArms2
+  - first:
+      95: 9500000
+    second: //RootNode
+  - first:
+      111: 11100000
+    second: //RootNode
+  - first:
+      137: 13700000
+    second: BattleDroidMesh
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: BattleDroidBlue
+    second: {fileID: 2100000, guid: 24480243075ac05438c0863a96bc80c7, type: 2}
   materials:
-    importMaterials: 1
+    materialImportMode: 1
     materialName: 0
     materialSearch: 1
+    materialLocation: 0
   animations:
     legacyGenerateAnimations: 4
     bakeSimulation: 0
+    resampleCurves: 1
     optimizeGameObjects: 0
     motionNodeName: 
+    rigImportErrors: 
+    rigImportWarnings: 
     animationImportErrors: 
     animationImportWarnings: 
     animationRetargetingWarnings: 
     animationDoRetargetingWarnings: 0
-    animationCompression: 1
-    animationRotationError: .5
-    animationPositionError: .5
-    animationScaleError: .5
+    importAnimatedCustomProperties: 0
+    importConstraints: 0
+    animationCompression: 3
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
     animationWrapMode: 0
     extraExposedTransformPaths: []
+    extraUserProperties: []
     clipAnimations:
     - serializedVersion: 16
       name: Dead
       takeName: Dead
+      internalID: 0
       firstFrame: 0
       lastFrame: 10
       wrapMode: 0
@@ -95,6 +233,7 @@ ModelImporter:
       level: 0
       cycleOffset: 0
       loop: 0
+      hasAdditiveReferencePose: 0
       loopTime: 0
       loopBlend: 0
       loopBlendOrientation: 0
@@ -149,9 +288,11 @@ ModelImporter:
         weight: 1
       maskType: 0
       maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
     - serializedVersion: 16
       name: Death
       takeName: Death
+      internalID: 0
       firstFrame: 0
       lastFrame: 20
       wrapMode: 0
@@ -159,6 +300,7 @@ ModelImporter:
       level: 0
       cycleOffset: 0
       loop: 0
+      hasAdditiveReferencePose: 0
       loopTime: 0
       loopBlend: 0
       loopBlendOrientation: 0
@@ -213,9 +355,11 @@ ModelImporter:
         weight: 1
       maskType: 0
       maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
     - serializedVersion: 16
       name: FireArmLeft
       takeName: FireArmLeft
+      internalID: 0
       firstFrame: 0
       lastFrame: 6
       wrapMode: 0
@@ -223,6 +367,7 @@ ModelImporter:
       level: 0
       cycleOffset: 0
       loop: 0
+      hasAdditiveReferencePose: 0
       loopTime: 0
       loopBlend: 0
       loopBlendOrientation: 0
@@ -277,9 +422,11 @@ ModelImporter:
         weight: 1
       maskType: 0
       maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
     - serializedVersion: 16
       name: FireArmRight
       takeName: FireArmRight
+      internalID: 0
       firstFrame: 0
       lastFrame: 6
       wrapMode: 0
@@ -287,6 +434,7 @@ ModelImporter:
       level: 0
       cycleOffset: 0
       loop: 0
+      hasAdditiveReferencePose: 0
       loopTime: 0
       loopBlend: 0
       loopBlendOrientation: 0
@@ -341,9 +489,11 @@ ModelImporter:
         weight: 1
       maskType: 0
       maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
     - serializedVersion: 16
       name: FireBothArms
       takeName: FireBothArms
+      internalID: 0
       firstFrame: 0
       lastFrame: 8
       wrapMode: 0
@@ -351,6 +501,7 @@ ModelImporter:
       level: 0
       cycleOffset: 0
       loop: 0
+      hasAdditiveReferencePose: 0
       loopTime: 0
       loopBlend: 0
       loopBlendOrientation: 0
@@ -405,9 +556,11 @@ ModelImporter:
         weight: 1
       maskType: 0
       maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
     - serializedVersion: 16
       name: Hit1
       takeName: Hit1
+      internalID: 0
       firstFrame: 0
       lastFrame: 6
       wrapMode: 0
@@ -415,6 +568,7 @@ ModelImporter:
       level: 0
       cycleOffset: 0
       loop: 0
+      hasAdditiveReferencePose: 0
       loopTime: 0
       loopBlend: 0
       loopBlendOrientation: 0
@@ -469,9 +623,11 @@ ModelImporter:
         weight: 1
       maskType: 0
       maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
     - serializedVersion: 16
       name: Hit2
       takeName: Hit2
+      internalID: 0
       firstFrame: 0
       lastFrame: 6
       wrapMode: 0
@@ -479,6 +635,7 @@ ModelImporter:
       level: 0
       cycleOffset: 0
       loop: 0
+      hasAdditiveReferencePose: 0
       loopTime: 0
       loopBlend: 0
       loopBlendOrientation: 0
@@ -533,9 +690,11 @@ ModelImporter:
         weight: 1
       maskType: 0
       maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
     - serializedVersion: 16
       name: Hit3
       takeName: Hit3
+      internalID: 0
       firstFrame: 0
       lastFrame: 6
       wrapMode: 0
@@ -543,6 +702,7 @@ ModelImporter:
       level: 0
       cycleOffset: 0
       loop: 0
+      hasAdditiveReferencePose: 0
       loopTime: 0
       loopBlend: 0
       loopBlendOrientation: 0
@@ -597,9 +757,11 @@ ModelImporter:
         weight: 1
       maskType: 0
       maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
     - serializedVersion: 16
       name: Idle
       takeName: Idle
+      internalID: 0
       firstFrame: 0
       lastFrame: 200
       wrapMode: 2
@@ -607,6 +769,7 @@ ModelImporter:
       level: 0
       cycleOffset: 0
       loop: 0
+      hasAdditiveReferencePose: 0
       loopTime: 0
       loopBlend: 0
       loopBlendOrientation: 0
@@ -661,9 +824,11 @@ ModelImporter:
         weight: 1
       maskType: 0
       maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
     - serializedVersion: 16
       name: Jump
       takeName: Jump
+      internalID: 0
       firstFrame: 0
       lastFrame: 20
       wrapMode: 0
@@ -671,6 +836,7 @@ ModelImporter:
       level: 0
       cycleOffset: 0
       loop: 0
+      hasAdditiveReferencePose: 0
       loopTime: 0
       loopBlend: 0
       loopBlendOrientation: 0
@@ -725,9 +891,11 @@ ModelImporter:
         weight: 1
       maskType: 0
       maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
     - serializedVersion: 16
       name: JumpJetFlying
       takeName: JumpJetFlying
+      internalID: 0
       firstFrame: 0
       lastFrame: 30
       wrapMode: 2
@@ -735,6 +903,7 @@ ModelImporter:
       level: 0
       cycleOffset: 0
       loop: 0
+      hasAdditiveReferencePose: 0
       loopTime: 0
       loopBlend: 0
       loopBlendOrientation: 0
@@ -789,9 +958,11 @@ ModelImporter:
         weight: 1
       maskType: 0
       maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
     - serializedVersion: 16
       name: JumpLand
       takeName: JumpLand
+      internalID: 0
       firstFrame: 0
       lastFrame: 12
       wrapMode: 0
@@ -799,6 +970,7 @@ ModelImporter:
       level: 0
       cycleOffset: 0
       loop: 0
+      hasAdditiveReferencePose: 0
       loopTime: 0
       loopBlend: 0
       loopBlendOrientation: 0
@@ -853,9 +1025,11 @@ ModelImporter:
         weight: 1
       maskType: 0
       maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
     - serializedVersion: 16
       name: Run
       takeName: Run
+      internalID: 0
       firstFrame: 0
       lastFrame: 24
       wrapMode: 2
@@ -863,6 +1037,7 @@ ModelImporter:
       level: 0
       cycleOffset: 0
       loop: 0
+      hasAdditiveReferencePose: 0
       loopTime: 0
       loopBlend: 0
       loopBlendOrientation: 0
@@ -917,9 +1092,11 @@ ModelImporter:
         weight: 1
       maskType: 0
       maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
     - serializedVersion: 16
       name: TurnAround
       takeName: TurnAround
+      internalID: 0
       firstFrame: 0
       lastFrame: 20
       wrapMode: 2
@@ -927,6 +1104,7 @@ ModelImporter:
       level: 0
       cycleOffset: 0
       loop: 0
+      hasAdditiveReferencePose: 0
       loopTime: 0
       loopBlend: 0
       loopBlendOrientation: 0
@@ -981,9 +1159,11 @@ ModelImporter:
         weight: 1
       maskType: 0
       maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
     - serializedVersion: 16
       name: Walk
       takeName: Walk
+      internalID: 0
       firstFrame: 0
       lastFrame: 24
       wrapMode: 2
@@ -991,6 +1171,7 @@ ModelImporter:
       level: 0
       cycleOffset: 0
       loop: 0
+      hasAdditiveReferencePose: 0
       loopTime: 0
       loopBlend: 0
       loopBlendOrientation: 0
@@ -1045,9 +1226,11 @@ ModelImporter:
         weight: 1
       maskType: 0
       maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
     - serializedVersion: 16
       name: WalkBack
       takeName: WalkBack
+      internalID: 0
       firstFrame: 0
       lastFrame: 25
       wrapMode: 2
@@ -1055,6 +1238,7 @@ ModelImporter:
       level: 0
       cycleOffset: 0
       loop: 0
+      hasAdditiveReferencePose: 0
       loopTime: 0
       loopBlend: 0
       loopBlendOrientation: 0
@@ -1109,9 +1293,11 @@ ModelImporter:
         weight: 1
       maskType: 0
       maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
     - serializedVersion: 16
       name: xxxDefault
       takeName: xxxDefault
+      internalID: 0
       firstFrame: 0
       lastFrame: 10
       wrapMode: 0
@@ -1119,6 +1305,7 @@ ModelImporter:
       level: 0
       cycleOffset: 0
       loop: 0
+      hasAdditiveReferencePose: 0
       loopTime: 0
       loopBlend: 0
       loopBlendOrientation: 0
@@ -1173,9 +1360,11 @@ ModelImporter:
         weight: 1
       maskType: 0
       maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
     - serializedVersion: 16
       name: FireArmLeft2
       takeName: FireArmLeft2
+      internalID: 0
       firstFrame: 1
       lastFrame: 2
       wrapMode: 2
@@ -1183,6 +1372,7 @@ ModelImporter:
       level: 0
       cycleOffset: 0
       loop: 0
+      hasAdditiveReferencePose: 0
       loopTime: 0
       loopBlend: 0
       loopBlendOrientation: 0
@@ -1237,9 +1427,11 @@ ModelImporter:
         weight: 1
       maskType: 0
       maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
     - serializedVersion: 16
       name: FireArmRight2
       takeName: FireArmRight2
+      internalID: 0
       firstFrame: 1
       lastFrame: 2
       wrapMode: 2
@@ -1247,6 +1439,7 @@ ModelImporter:
       level: 0
       cycleOffset: 0
       loop: 0
+      hasAdditiveReferencePose: 0
       loopTime: 0
       loopBlend: 0
       loopBlendOrientation: 0
@@ -1301,9 +1494,11 @@ ModelImporter:
         weight: 1
       maskType: 0
       maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
     - serializedVersion: 16
       name: FireBothArms2
       takeName: FireBothArms2
+      internalID: 0
       firstFrame: 1
       lastFrame: 2
       wrapMode: 2
@@ -1311,6 +1506,7 @@ ModelImporter:
       level: 0
       cycleOffset: 0
       loop: 0
+      hasAdditiveReferencePose: 0
       loopTime: 0
       loopBlend: 0
       loopBlendOrientation: 0
@@ -1365,19 +1561,31 @@ ModelImporter:
         weight: 1
       maskType: 0
       maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
     isReadable: 1
   meshes:
     lODScreenPercentages: []
-    globalScale: .0599999987
+    globalScale: 0.06
     meshCompression: 0
     addColliders: 0
+    useSRGBMaterialColor: 1
+    sortHierarchyByName: 1
+    importVisibility: 0
     importBlendShapes: 0
+    importCameras: 0
+    importLights: 0
+    fileIdsGeneration: 1
     swapUVChannels: 0
     generateSecondaryUV: 1
     useFileUnits: 1
-    optimizeMeshForGPU: 1
     keepQuads: 0
     weldVertices: 1
+    preserveHierarchy: 0
+    skinWeightsMode: 0
+    maxBonesPerVertex: 4
+    minBoneWeight: 0.001
+    meshOptimizationFlags: -1
+    indexFormat: 1
     secondaryUVAngleDistortion: 8
     secondaryUVAreaDistortion: 15.000001
     secondaryUVHardAngle: 88
@@ -1385,24 +1593,35 @@ ModelImporter:
     useFileScale: 0
   tangentSpace:
     normalSmoothAngle: 60
-    splitTangentsAcrossUV: 1
     normalImportMode: 0
-    tangentImportMode: 1
+    tangentImportMode: 4
+    normalCalculationMode: 0
+    legacyComputeAllNormalsFromSmoothingGroupsWhenMeshHasBlendShapes: 1
+    blendShapeNormalImportMode: 1
+    normalSmoothingSource: 0
+  referencedClips: []
   importAnimation: 1
-  copyAvatar: 0
   humanDescription:
+    serializedVersion: 3
     human: []
     skeleton: []
-    armTwist: .5
-    foreArmTwist: .5
-    upperLegTwist: .5
-    legTwist: .5
-    armStretch: .0500000007
-    legStretch: .0500000007
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
     feetSpacing: 0
+    globalScale: 0.06
     rootMotionBoneName: 
+    hasTranslationDoF: 0
+    hasExtraRoot: 1
+    skeletonHasParents: 0
   lastHumanDescriptionAvatarSource: {instanceID: 0}
-  animationType: 1
+  autoGenerateAvatarMappingIfUnspecified: 1
+  animationType: 2
+  humanoidOversampling: 1
+  avatarSetup: 0
   additionalBone: 0
   userData: 
   assetBundleName: 
