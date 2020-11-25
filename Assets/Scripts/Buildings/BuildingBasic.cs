@@ -98,6 +98,8 @@ public class BuildingBasic : MonoBehaviour
         HealthCheck();
     }
 
+
+
     private void HealthCheck()
     {
         if (healthCurrent >= healthy || healthCurrent > damaged)
@@ -129,4 +131,7 @@ public class BuildingBasic : MonoBehaviour
     {
         Destroy(gameObject);
     }
+
+
+
 }
