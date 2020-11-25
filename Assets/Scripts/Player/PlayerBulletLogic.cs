@@ -6,7 +6,7 @@ public class PlayerBulletLogic : MonoBehaviour
 {
     public LineRenderer lR;
 
-    int collisionMask = (1 << 10) | (1 << 11) | (1 << 13);
+    int collisionMask = (1 << 10) | (1 << 11) | (1 << 13) | (1 << 12);
 
     Vector3 startPoint;
     Vector3 originPoint;
@@ -55,10 +55,15 @@ public class PlayerBulletLogic : MonoBehaviour
                     case 11:
                     case 13:
                     hit.collider.GetComponent<BuildingBasic>().DamageResolution(BulletDamage);
-                    break;
+                        SparkPool.sparkPool.GetObject().GetComponent<ParticleLogic>().StartParticle(hit.point, 0.15f);
+                        break;
                     case 10:
                         hit.collider.GetComponent<UnitMaster>().DamageResolution(BulletDamage);
-                    break;
+                        SparkPool.sparkPool.GetObject().GetComponent<ParticleLogic>().StartParticle(hit.point, 0.15f);
+                        break;
+                    case 12:
+                        DustPool.dustPool.GetObject().GetComponent<ParticleLogic>().StartParticle(hit.point, 1);
+                        break;
                 }
                 gameObject.SetActive(false);
             }

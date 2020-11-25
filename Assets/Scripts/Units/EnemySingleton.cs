@@ -20,6 +20,7 @@ public class EnemySingleton : MonoBehaviour
         {
             print("a second enemy singleton existed: Original = " + main.gameObject.name + " - Second: " + gameObject.name);
         }
+
     }
 
     // Start is called before the first frame update

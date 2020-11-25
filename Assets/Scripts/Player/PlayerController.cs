@@ -755,6 +755,7 @@ public class PlayerController : MonoBehaviour
     {
         if (Input.GetMouseButton(1))
         {
+            print("right click detected");
             switch (selectedWeapon)
             {
                 case Weapon.rifle:

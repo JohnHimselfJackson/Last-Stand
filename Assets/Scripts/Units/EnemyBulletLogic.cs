@@ -54,6 +54,7 @@ public class EnemyBulletLogic : MonoBehaviour
                 {
                     case 9:
                         hit.collider.gameObject.GetComponent<PlayerManager>().PlayerDamageResolution(BulletDamage);
+                        BloodPool.bloodPool.GetObject().GetComponent<ParticleLogic>().StartParticle(hit.point,0.15f);
                         break;
                 }
                 gameObject.SetActive(false);
