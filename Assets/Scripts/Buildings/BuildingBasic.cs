@@ -12,6 +12,13 @@ public class BuildingBasic : MonoBehaviour
     public int healthMax;
     public GameObject damage1, damage2, damge3;
 
+    public enum DamageState { Healthy, Damaged, BadlyDamaged, Destroyed };
+    public DamageState damageState;
+
+    private int healthy = 100;
+    private int damaged = 75;
+    private int badlyDamaged = 25;
+    private int destroyed = 0;
 
     protected int armour;
     protected int evasion;
@@ -31,6 +38,7 @@ public class BuildingBasic : MonoBehaviour
     {
 
     }
+
     public void DamageResolution(DamagePackage incomingDamage)
     {
         #region VariableCalculations
@@ -87,23 +95,38 @@ public class BuildingBasic : MonoBehaviour
         }
         healthCurrent -= finalDamage;
 
+        HealthCheck();
+    }
 
-
-
-        //checks if the builder is dead
-        if (healthCurrent < 1)
+    private void HealthCheck()
+    {
+        if (healthCurrent >= healthy || healthCurrent > damaged)
         {
-            BuildingDestroyed();
+            damageState = DamageState.Healthy;
+            return;
         }
-        //if health <60 and 
-          // start fire 1
+
+        if (healthCurrent <= damaged && healthCurrent > badlyDamaged)
+        {
+            damageState = DamageState.Damaged;
+            return;
+        }
+
+        if (healthCurrent <= badlyDamaged && healthCurrent > destroyed)
+        {
+            damageState = DamageState.BadlyDamaged;
+            return;
+        }
+
+        if (healthCurrent <= destroyed)
+        {
+            damageState = DamageState.Destroyed;
+            return;
+        }
     }
 
     public virtual void BuildingDestroyed()
     {
         Destroy(gameObject);
     }
-
-
-
 }
