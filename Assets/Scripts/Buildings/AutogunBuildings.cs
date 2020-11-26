@@ -12,14 +12,64 @@ public class AutogunBuildings : BuildingDefence
     int shootCount;
     float timeCheck;
 
+    public List<GameObject> fire;
+
     private void Awake()
     {
         myAnim = GetComponent<Animator>();
+
+        fire[0].SetActive(false);
+        fire[1].SetActive(false);
+        fire[2].SetActive(false);
+        fire[3].SetActive(false);
+        fire[4].SetActive(false);
+        fire[5].SetActive(false);
+        fire[6].SetActive(false);
     }
     private void Update()
     {
         GenericUpdate();
         UpdateShoot();
+
+        switch (damageState)
+        {
+            case DamageState.Healthy:
+                fire[0].SetActive(false);
+                fire[1].SetActive(false);
+                fire[2].SetActive(false);
+                fire[3].SetActive(false);
+                fire[4].SetActive(false);
+                fire[5].SetActive(false);
+                fire[6].SetActive(false);
+                break;
+            case DamageState.Damaged:
+                fire[0].SetActive(true);
+                fire[1].SetActive(false);
+                fire[2].SetActive(true);
+                fire[3].SetActive(false);
+                fire[4].SetActive(true);
+                fire[5].SetActive(false);
+                fire[6].SetActive(false);
+                break;
+            case DamageState.BadlyDamaged:
+                fire[0].SetActive(true);
+                fire[1].SetActive(true);
+                fire[2].SetActive(true);
+                fire[3].SetActive(true);
+                fire[4].SetActive(true);
+                fire[5].SetActive(true);
+                fire[6].SetActive(true);
+                break;
+            case DamageState.Destroyed:
+                fire[0].SetActive(false);
+                fire[1].SetActive(false);
+                fire[2].SetActive(false);
+                fire[3].SetActive(false);
+                fire[4].SetActive(false);
+                fire[5].SetActive(false);
+                fire[6].SetActive(false);
+                break;
+        }
     }
     // Start is called before the first frame update
     void Start()
