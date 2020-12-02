@@ -1,12 +1,12 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using VulpineAlice.TooltipUI;
 
 public class PlayerManager : MonoBehaviour
 {
     #region Health and Armour
-    public Stats health, armour;
 
     private float healthTotal;
     private float healthCurrent;
@@ -31,11 +31,16 @@ public class PlayerManager : MonoBehaviour
 
     #region Active Abilities    
     public ActiveAbility eAbility, qAbility;
+    public Image eAbilityImage, qAbilityImage;
+    public GameObject eHolder, qHolder;
     #endregion 
 
     public static PlayerManager pM;
     public PlayerController pC;
     float fpsCheck;
+    float evasionTime;
+
+    public Image armourBar, healthBar, dodgeBar;
 
     private void Awake()
     {
@@ -46,8 +51,6 @@ public class PlayerManager : MonoBehaviour
     void Start()
     {
         LoadPlayer();
-        armour.StatCalc(armourCurrent);
-        health.StatCalc(healthCurrent);
     }
 
     // Update is called once per frame
@@ -59,12 +62,27 @@ public class PlayerManager : MonoBehaviour
         }
         if(gotMedSuite) MedSuiteFunction();
         if(gotBioArmour) BioArmourFunction();
+        AbilityCooldowns();
 
-        if(Time.time> fpsCheck)
+        if (Time.time> fpsCheck)
         {
             fpsCheck++;
+            
             //print(1/Time.deltaTime);
         }
+
+
+        if(evasionCountCurrent < evasionCountTotal && evasionTime > 1.5)
+        {
+            evasionCountCurrent++;
+            dodgeBar.fillAmount = (float)evasionCountCurrent / (float)evasionCountTotal;
+            evasionTime = 0;
+        }
+        else
+        {
+            evasionTime += Time.deltaTime;
+        }
+
     }
 
     public void LoadPlayer()
@@ -93,6 +111,9 @@ public class PlayerManager : MonoBehaviour
             case 3: //overcharge
                 qAbility = GetComponent<SuitOvercharge>();
                 break;
+            default:
+                qAbility = null;
+                break;
         }
         switch (PlayerData.playerStats.eAbility)
         {
@@ -107,6 +128,9 @@ public class PlayerManager : MonoBehaviour
                 break;
             case 3: //overcharge
                 eAbility = GetComponent<SuitOvercharge>();
+                break;
+            default:
+                eAbility = null;
                 break;
         }
         //
@@ -132,10 +156,6 @@ public class PlayerManager : MonoBehaviour
         #endregion
 
         //player UI canvas
-        health.statMax = healthTotal;
-        armour.statMax = armourTotal;
-        armour.StatCalc(armourCurrent);
-        health.StatCalc(healthCurrent);
 
         pC.UnlockPlayer();
     }
@@ -174,7 +194,7 @@ public class PlayerManager : MonoBehaviour
                     //rng number for if attack hits
                     hitNo = Random.Range(0, 101);
                     // if number is greater than the graze chance it is a full hit
-                    if (hitNo > tempGrazeChance)
+                    if (hitNo > tempGrazeChance || evasionCountCurrent < 1)
                     {
                         finalDamage = ArmourCalc(incomingDamage.damage);
                         //projectile has hit the player
@@ -184,6 +204,9 @@ public class PlayerManager : MonoBehaviour
                     else if (hitNo > tempEvasionChance)
                     {
                         finalDamage = ArmourCalc((int)(incomingDamage.damage / 2));
+                        evasionCountCurrent--;
+                        evasionTime = 0;
+                        print("dodged");
                         //rpojectile has hit the player
                         projectileResolved = true;
                     }
@@ -192,7 +215,10 @@ public class PlayerManager : MonoBehaviour
                     {
                         finalDamage = 0;
                         //rpojectile has missed the player
-                        projectileResolved = false;
+                        projectileResolved = true;
+                        evasionCountCurrent--;
+                        evasionTime = 0;
+
                         //dodged
                     }
 
@@ -224,7 +250,7 @@ public class PlayerManager : MonoBehaviour
                     hitNo = Random.Range(0, 100);
 
                     // if number is greater than the graze chance it is a full hit
-                    if (hitNo > tempGrazeChance)
+                    if (hitNo > tempGrazeChance || evasionCountCurrent < 1)
                     {
                         finalDamage = incomingDamage.damage;
                         //rpojectile has hit the player
@@ -234,6 +260,9 @@ public class PlayerManager : MonoBehaviour
                     else if (hitNo > tempEvasionChance)
                     {
                         finalDamage = (int)(incomingDamage.damage / 2);
+                        evasionCountCurrent--;
+                        evasionTime = 0;
+                        print("dodged");
                         //rpojectile has hit the player
                         projectileResolved = true;
                     }
@@ -241,8 +270,11 @@ public class PlayerManager : MonoBehaviour
                     else
                     {
                         finalDamage = 0;
+                        evasionCountCurrent--;
+                        evasionTime = 0;
+                        print("dodged");
                         //rpojectile has missed the player
-                        projectileResolved = false;
+                        projectileResolved = true;
                         //dodged
                     }
                     //calucation after final damage found 
@@ -270,8 +302,9 @@ public class PlayerManager : MonoBehaviour
                     #endregion
             }
             //updates UI
-            armour.StatCalc(armourCurrent);
-            health.StatCalc(healthCurrent);
+            healthBar.fillAmount = healthCurrent / healthTotal;
+            armourBar.fillAmount = armourCurrent / armourTotal;
+            dodgeBar.fillAmount = (float)evasionCountCurrent/ (float)evasionCountTotal;
 
             //checks if the player is dead
             if (healthCurrent < 1)
@@ -310,6 +343,7 @@ public class PlayerManager : MonoBehaviour
     void PlayerDead()
     {  
         pC.myAnim.SetBool("dead", true);
+        pC.LockPlayer();
         print("get gud fuckboi");
     }
 
@@ -325,7 +359,7 @@ public class PlayerManager : MonoBehaviour
             {
                 armourCurrent = armourTotal;
             }
-            armour.StatCalc(armourCurrent);
+            armourBar.fillAmount = armourCurrent / armourTotal;
         }
         else if(armourCurrent < armourTotal && armourTick < 2)
         {
@@ -342,7 +376,7 @@ public class PlayerManager : MonoBehaviour
             {
                 healthCurrent = healthTotal;
             }
-            health.StatCalc(healthCurrent);
+            healthBar.fillAmount = healthCurrent / healthTotal;
         }
         else if(healthCurrent < healthTotal && healthTick > 3)
         {
@@ -352,7 +386,7 @@ public class PlayerManager : MonoBehaviour
             {
                 healthCurrent = healthTotal;
             }
-            health.StatCalc(healthCurrent);
+            healthBar.fillAmount = healthCurrent / healthTotal;
 
         }
         else if (healthCurrent < healthTotal && healthTick < 3)
@@ -393,4 +427,43 @@ public class PlayerManager : MonoBehaviour
         if (evasionCountCurrent < 0) evasionCountCurrent = 0;
     }
     #endregion
+
+
+
+
+    void AbilityCooldowns()
+    {
+        if (eAbility != null)
+        {
+            print(eAbility.cooldownCount);
+            if(eAbility.cooldownCount > 0)
+            {
+                eAbilityImage.fillAmount = (eAbility.cooldown- eAbility.cooldownCount) / eAbility.cooldown;
+            }
+            else
+            {
+                eAbilityImage.fillAmount = 1;
+            }
+        }
+        else if(eHolder.activeInHierarchy == true)
+        {
+            eHolder.SetActive(false);
+        }
+
+        if (qAbility != null)
+        {
+            if (qAbility.cooldownCount > 0)
+            {
+                qAbilityImage.fillAmount = (qAbility.cooldown - qAbility.cooldownCount) / qAbility.cooldown;
+            }
+            else
+            {
+                qAbilityImage.fillAmount = 1;
+            }
+        }
+        else if (qHolder.activeInHierarchy == true)
+        {
+            qHolder.SetActive(false);
+        }
+    }
 }

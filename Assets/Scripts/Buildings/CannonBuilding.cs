@@ -79,16 +79,16 @@ public class CannonBuilding : BuildingDefence
         switch(Random.Range((int)0, (int)2))
         {
             case 0:
-                projectile.GetComponent<EnemyBulletLogic>().StartBullet(projSpawnPointOne.position, projSpawnPointOne.position + turretBody.forward, attackRange, damage);
+                projectile.GetComponent<EnemyBulletLogic>().StartBullet(projSpawnPointOne.position, projSpawnPointOne.position + turretBody.forward, attackRange, damage, 4);
                 secondPos = projSpawnPointTwo;
                 break;
             case 1:
-                projectile.GetComponent<EnemyBulletLogic>().StartBullet(projSpawnPointTwo.position, projSpawnPointTwo.position + turretBody.forward, attackRange, damage);
+                projectile.GetComponent<EnemyBulletLogic>().StartBullet(projSpawnPointTwo.position, projSpawnPointTwo.position + turretBody.forward, attackRange, damage, 4);
                 secondPos = projSpawnPointOne;
                 break;
         }
         Invoke("SecondShot", 0.1f);
-        EazySoundManager.PlaySound(fireSound, 0.15f);
+        EazySoundManager.PlaySound(fireSound, 1000f,false,transform);
 
 
     }
@@ -96,8 +96,8 @@ public class CannonBuilding : BuildingDefence
     void SecondShot()
     {
         GameObject projectile = EnemyProjectilePool.enemyPool.GetObject();
-        projectile.GetComponent<EnemyBulletLogic>().StartBullet(secondPos.position, secondPos.position + turretBody.forward, attackRange, damage);
-        EazySoundManager.PlaySound(fireSound, 0.15f);
+        projectile.GetComponent<EnemyBulletLogic>().StartBullet(secondPos.position, secondPos.position + turretBody.forward, attackRange, damage, 4);
+        EazySoundManager.PlaySound(fireSound, 1000f, false, transform);
         myAnim.SetBool("shoot", false);
     }
 }

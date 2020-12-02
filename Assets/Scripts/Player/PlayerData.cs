@@ -8,6 +8,7 @@ public class PlayerData : MonoBehaviour
     // Start is called before the first frame update
     void Awake()
     {
+        print(gameObject.name + "asdasdasd");
         playerStats.NewStatBlock();
     }
     
@@ -29,8 +30,8 @@ public class StatBlock
     float[] modStatValues = new float[4];
     static readonly float[] baseDefenceValues = {10, 15, 8, 4, 2, 70}; //evasion chance, graze chance, evasion number, armor decrease, negation value, armor hp
     float[] modDefenceValues = new float[6];
-    public int qAbility;
-    public int eAbility;
+    public int qAbility = 5;
+    public int eAbility = 5;
     public bool gotBioArmour;
     public bool gotMedSuite;
     public bool gotGrenade;
@@ -222,7 +223,9 @@ public class StatBlock
         modStatValues = new float[] { 0, 0, 0, 0};
         modDefenceValues = new float[] { 0, 0, 0, 0, 0, 0};
         
-        if (StatsDisplayController.main != null) StatsDisplayController.main.AlterStatsDisplay(this);    
+        if (StatsDisplayController.main != null) StatsDisplayController.main.AlterStatsDisplay(this);
+        eAbility = 5;
+        qAbility = 5;
     }
     public float[] ReturnValues(string type, string stage)
     {

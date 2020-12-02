@@ -24,10 +24,13 @@ public class BuildingConstructor : BuildingBasic
     // Update is called once per frame
     void Update()
     {
+    }
+
+    public void BaseUpdate()
+    {
         CheckGarrisonUnit();
         ConstructUnit();
     }
-
     void CheckGarrisonUnit()
     {
         if(currentState == ConstructorState.idle && garrisonedUnit == null)
@@ -41,7 +44,8 @@ public class BuildingConstructor : BuildingBasic
     }
 
     void ConstructUnit()
-    {   if(currentState == ConstructorState.building)
+    {
+        if (currentState == ConstructorState.building)
         {
             if (timetoUnit < 0)
             {

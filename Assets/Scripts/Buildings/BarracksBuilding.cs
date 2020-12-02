@@ -28,6 +28,7 @@ public class BarracksBuilding : BuildingConstructor
 
     private void Update()
     {
+        BaseUpdate();
         switch (damageState)
         {
             case DamageState.Healthy:

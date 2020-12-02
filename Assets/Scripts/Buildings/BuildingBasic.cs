@@ -4,13 +4,13 @@ using UnityEngine;
 
 public class BuildingBasic : MonoBehaviour
 {
+    public float explosionSize;
     public enum buildingType { constructor, defence, command };
     public buildingType myType;
     public enum unitClass { heavy, light };
     public unitClass myClass = unitClass.heavy;
     public int healthCurrent;
     public int healthMax;
-    public GameObject damage1, damage2, damge3;
 
     public enum DamageState { Healthy, Damaged, BadlyDamaged, Destroyed };
     public DamageState damageState;
@@ -121,12 +121,14 @@ public class BuildingBasic : MonoBehaviour
         if (healthCurrent <= destroyed)
         {
             damageState = DamageState.Destroyed;
+            BuildingDestroyed();
             return;
         }
     }
 
     public virtual void BuildingDestroyed()
     {
+        ExplosionPool.explosionPool.GetObject().GetComponent<ExplosionLogic>().BeginExplosion(transform.position , explosionSize);
         Destroy(gameObject);
     }
 }

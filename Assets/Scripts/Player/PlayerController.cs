@@ -598,7 +598,7 @@ public class PlayerController : MonoBehaviour
                     //line cast
 
                     shot.GetComponent<PlayerBulletLogic>().StartBullet(projectielStart.position, shootPoint, rifleRange, rifleDmgPkg);
-                    EazySoundManager.PlaySound(gunShot,0.4f);
+                    EazySoundManager.PlaySound(gunShot, 0.4f, false, projectielStart);
                     shot.SetActive(true);
                     rifleAmmoCount--;
                     rifleShootCooldown = rifleROF;
@@ -755,7 +755,7 @@ public class PlayerController : MonoBehaviour
     {
         if (Input.GetMouseButton(1))
         {
-            print("right click detected");
+
             switch (selectedWeapon)
             {
                 case Weapon.rifle:
@@ -793,7 +793,11 @@ public class PlayerController : MonoBehaviour
         {
             playerLocked = false;
         }
-    }    
+    }
+    public void LockPlayer()
+    {
+        playerLocked = true;
+    }
 
     void ActiveAbilityInput()
     {

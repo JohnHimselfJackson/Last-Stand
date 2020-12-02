@@ -140,7 +140,7 @@ public class UnitMaster : MonoBehaviour
     void Attack()
     {
         GameObject projectile = EnemyProjectilePool.enemyPool.GetObject();
-        projectile.GetComponent<EnemyBulletLogic>().StartBullet(transform.position, activeTarget.transform.position, attackRange, damage);
+        projectile.GetComponent<EnemyBulletLogic>().StartBullet(transform.position, activeTarget.transform.position, attackRange, damage, 4);
     }
 
     //core action loop for all non buildings

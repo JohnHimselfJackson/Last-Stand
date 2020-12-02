@@ -19,6 +19,10 @@ public class PlayerBulletLogic : MonoBehaviour
     {
         startPoint = playerPos;
         originPoint = playerPos;
+        GameObject muzzle = FlashPool.flashPool.GetObject();
+        muzzle.GetComponent<ParticleLogic>().StartParticle(originPoint, 2f);
+        muzzle.transform.position = originPoint;
+        muzzle.transform.rotation = Quaternion.Euler(transform.rotation.eulerAngles.x, Mathf.Atan2(-(shootPoint - playerPos).z, (shootPoint - playerPos).x) * Mathf.Rad2Deg + 90, transform.rotation.eulerAngles.z);
         // finds the end point based on bullets trajectory and range
         endPoint = playerPos + (shootPoint - playerPos).normalized * range;
 
@@ -54,7 +58,7 @@ public class PlayerBulletLogic : MonoBehaviour
                 {
                     case 11:
                     case 13:
-                    hit.collider.GetComponent<BuildingBasic>().DamageResolution(BulletDamage);
+                        hit.collider.GetComponent<BuildingBasic>().DamageResolution(BulletDamage);
                         SparkPool.sparkPool.GetObject().GetComponent<ParticleLogic>().StartParticle(hit.point, 0.15f);
                         break;
                     case 10:

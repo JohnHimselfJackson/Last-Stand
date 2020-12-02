@@ -2,18 +2,16 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ParticleLogic : MonoBehaviour
+public class ExplosionLogic : MonoBehaviour
 {
-    private void OnDrawGizmos()
-    {
-        Gizmos.DrawSphere(transform.position, 0.2f);
-    }
-    public void StartParticle(Vector3 particalPosition, float stayTime)
+    public void BeginExplosion(Vector3 particalPosition, float size)
     {
         GetComponent<ParticleSystem>().Play();
         transform.position = particalPosition;
         gameObject.SetActive(true);
-        Invoke("Inactive", stayTime);
+        transform.localScale = new Vector3(size, size, size);
+        Invoke("Inactive", 4);
+
     }
     void Inactive()
     {

@@ -109,6 +109,7 @@ public class SkillInfoScreen : MonoBehaviour
                         break;
                 }
             }
+            print(PlayerData.playerStats.eAbility + " - " + PlayerData.playerStats.qAbility);
             SceneManager.LoadSceneAsync(sceneName);
         }
         else

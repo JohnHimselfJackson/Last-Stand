@@ -74,8 +74,8 @@ public class ArtilleryBuilding : BuildingDefence
         myAnim.SetBool("shoot", true);
         Invoke("UnsetBool", 0.1f);
         GameObject projectile = EnemyProjectilePool.enemyPool.GetObject();
-        EazySoundManager.PlaySound(fireSound, 0.3f);
-        projectile.GetComponent<EnemyBulletLogic>().StartBullet(projSpawnPoint.position, activeTarget.transform.position, attackRange, damage);
+        EazySoundManager.PlaySound(fireSound, 0.15f, false, transform);
+        projectile.GetComponent<EnemyBulletLogic>().StartBullet(projSpawnPoint.position, activeTarget.transform.position, attackRange, damage, 6);
     }
     
     void UnsetBool()

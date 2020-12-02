@@ -84,7 +84,7 @@ public class AutogunBuildings : BuildingDefence
         base.Shoot();
         shooting = true;
         myAnim.SetBool("shoot", true);
-        EazySoundManager.PlaySound(fireSound,0.2f);
+        EazySoundManager.PlaySound(fireSound,0.2f,false, transform);
         shootCount = 0;
 
     }
@@ -96,7 +96,7 @@ public class AutogunBuildings : BuildingDefence
             if (timeCheck > 0.05)
             {
                 GameObject projectile = EnemyProjectilePool.enemyPool.GetObject();
-                if (projectile != null) projectile.GetComponent<EnemyBulletLogic>().StartBullet(projSpawnPoint.position, activeTarget.transform.position +new Vector3(Random.Range(-0.5f,0.5f),0, Random.Range(-0.5f, 0.5f)), attackRange, damage);
+                if (projectile != null) projectile.GetComponent<EnemyBulletLogic>().StartBullet(projSpawnPoint.position, activeTarget.transform.position +new Vector3(Random.Range(-0.5f,0.5f),0, Random.Range(-0.5f, 0.5f)), attackRange, damage, 3);
                 shootCount++;
                 if(shootCount > 1) myAnim.SetBool("shoot", false);
                 timeCheck = 0;

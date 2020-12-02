@@ -15,10 +15,15 @@ public class EnemyBulletLogic : MonoBehaviour
     Vector3[] newLinePos;
     DamagePackage BulletDamage;
 
-    public void StartBullet(Vector3 enemyPos, Vector3 shootPoint, float range, DamagePackage myDamagePackage)
+    public void StartBullet(Vector3 enemyPos, Vector3 shootPoint, float range, DamagePackage myDamagePackage, float size)
     {
         startPoint = enemyPos;
         originPoint = enemyPos;
+        GameObject muzzle = EnemyFlashPool.flashPool.GetObject();
+        muzzle.GetComponent<EnemyFlash>().StartParticle(originPoint, 2f, size);
+        muzzle.transform.position = originPoint;
+        muzzle.transform.rotation = Quaternion.Euler(transform.rotation.eulerAngles.x, Mathf.Atan2(-(shootPoint - enemyPos).z, (shootPoint - enemyPos).x) * Mathf.Rad2Deg + 90, transform.rotation.eulerAngles.z);
+
         // finds the end point based on bullets trajectory and range
         endPoint = enemyPos + (shootPoint - enemyPos).normalized * range;
 
