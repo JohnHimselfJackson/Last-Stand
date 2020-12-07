@@ -435,7 +435,6 @@ public class PlayerManager : MonoBehaviour
     {
         if (eAbility != null)
         {
-            print(eAbility.cooldownCount);
             if(eAbility.cooldownCount > 0)
             {
                 eAbilityImage.fillAmount = (eAbility.cooldown- eAbility.cooldownCount) / eAbility.cooldown;

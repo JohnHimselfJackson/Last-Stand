@@ -237,8 +237,8 @@ public class PlayerController : MonoBehaviour
 
     private void Awake()
     {
-        EazySoundManager.GlobalVolume = 1000;
-        EazySoundManager.GlobalSoundsVolume = 100;
+        EazySoundManager.GlobalVolume = 10;
+        EazySoundManager.GlobalSoundsVolume = 10;
     }
     // Start is called before the first frame update
     void Start()
