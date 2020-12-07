@@ -1,14 +1,17 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Hellmade.Sound;
 
 public class BarracksBuilding : BuildingConstructor
 {
     public List<GameObject> fire;
+    public AudioClip ambience;
 
     // Start is called before the first frame update
     void Start()
     {
+        EazySoundManager.PlaySound(ambience,0.1f ,true, transform);
         myType = buildingType.constructor;
         myClass = unitClass.heavy;
         armour = 2;

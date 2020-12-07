@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using TMPro;
 using Hellmade.Sound;
@@ -12,7 +13,10 @@ public class PlayerController : MonoBehaviour
     public GameObject myCanvas;
     public Animator myAnim;
     public GameObject animGO;
-    public Animation reloadAnimation;
+    public Image equippedImage, swappedImage;
+    public Sprite arSprite;
+    public Sprite sniperSprite;
+
     #region Layer Masks
     int groundLayerMask = 1 << 12;
     int nonTraversableLayerMask = (1 << 8) | (1 << 10) | (1 << 11) | (1 << 12) | (1 << 13);
@@ -603,7 +607,7 @@ public class PlayerController : MonoBehaviour
                     //line cast
 
                     shot.GetComponent<PlayerBulletLogic>().StartBullet(projectielStart.position, shootPoint, rifleRange, rifleDmgPkg);
-                    EazySoundManager.PlaySound(gunShot, 0.4f, false, projectielStart);
+                    EazySoundManager.PlaySound(gunShot, 0.01f, false, projectielStart);
                     shot.SetActive(true);
                     rifleAmmoCount--;
                     rifleShootCooldown = rifleROF;
@@ -637,7 +641,7 @@ public class PlayerController : MonoBehaviour
                     //line cast
 
                     shot.GetComponent<PlayerBulletLogic>().StartBullet(projectielStart.position, shootPoint, sniperRange, sniperDmgPkg);
-                    EazySoundManager.PlaySound(gunShot, 0.6f);
+                    EazySoundManager.PlaySound(gunShot, 0.05f, false, projectielStart);
                     shot.SetActive(true);
                     sniperAmmoCount--;
                     sniperShootCooldown = sniperROF;
@@ -670,12 +674,15 @@ public class PlayerController : MonoBehaviour
                     switch (selectedWeapon)
                     {
                         case Weapon.sniper:
-                            weaponUIController.SwapWeapon("Sniper", (int)sniperAmmoMax, (int)sniperAmmoCount, sniperReloadTime, 1 / sniperROF);
+                            equippedImage.sprite = sniperSprite;
+                            swappedImage.sprite = arSprite;
                             sniperAmmoCount = sniperAmmoCount;
                             myAnim.SetFloat("shootMultiplier", 0.567f/sniperROF);
                             print("now selected sniper");
                             break;
                         case Weapon.rifle:
+                            equippedImage.sprite = arSprite;
+                            swappedImage.sprite = sniperSprite;
                             weaponUIController.SwapWeapon("Rifle", (int)rifleAmmoMax, (int)rifleAmmoCount, rifleReloadTime, 1 / rifleROF);
                             rifleAmmoCount = rifleAmmoCount;
                             myAnim.SetFloat("shootMultiplier", 0.567f / rifleROF);
