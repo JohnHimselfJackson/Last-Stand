@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Hellmade.Sound;
 
 public class ImpulseThrusters : ActiveAbility
 {
@@ -21,6 +22,7 @@ public class ImpulseThrusters : ActiveAbility
     void AbilityStart()
     {
         print("started impulse Thrusters");
+        EazySoundManager.PlaySound(PlayerPrefabReferences.PPR.abilityAudio, 0.2f, false, transform);
         PlayerManager.pM.pC.ImpulseThusterChange(2, -0.2f, 1);
         cooldownCount = cooldown;
         Invoke("AbilityEnd", 10);
@@ -28,6 +30,7 @@ public class ImpulseThrusters : ActiveAbility
 
     void AbilityEnd()
     {
+        EazySoundManager.PlaySound(PlayerPrefabReferences.PPR.abilityOverAudio, 0.2f, false, transform);
         PlayerManager.pM.pC.ImpulseThusterChange(-2, 0.2f, -1);
     }
 

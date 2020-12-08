@@ -27,7 +27,7 @@ public class PlayerController : MonoBehaviour
 
     #region Movement Variables
     public bool diving;
-    public enum diveState {not, started, end }
+    public enum diveState { not, started, end }
     public diveState currentDiveState = diveState.not;
     Vector3 diveStartPos;
     Vector3 divePos;
@@ -69,7 +69,7 @@ public class PlayerController : MonoBehaviour
         set
         {
             _sniperAmmoCount = value;
-            if(selectedWeapon == Weapon.sniper) ammoTB.text = "Sniper:  " + _sniperAmmoCount.ToString() + "/" + sniperAmmoMax.ToString();
+            if (selectedWeapon == Weapon.sniper) ammoTB.text = "Sniper:  " + _sniperAmmoCount.ToString() + "/" + sniperAmmoMax.ToString();
         }
     }
     private float sniperShootCooldown;
@@ -94,7 +94,7 @@ public class PlayerController : MonoBehaviour
     private bool reloadingSword;
     #endregion
 
-    private enum Weapon {sword, rifle, sniper }
+    private enum Weapon { sword, rifle, sniper }
     private Weapon selectedWeapon;
 
     List<Weapon> availableWeapons = new List<Weapon>();
@@ -140,8 +140,10 @@ public class PlayerController : MonoBehaviour
 
     #region Audio
     private AudioClip gunShot;
+    [SerializeField]
+    AudioClip reloadAudio;
     #endregion
-       
+
     /// <summary>
     /// call sparingly
     /// </summary>
@@ -619,6 +621,7 @@ public class PlayerController : MonoBehaviour
                     reloadingRifle = true;
                     myAnim.SetFloat("reloadMultiplier", 3.3f / rifleReload);
                     myAnim.SetBool("reloading", true);
+                    EazySoundManager.PlaySound(reloadAudio, 0.01f);
                     StartCoroutine(ReloadRifleCoro());
                 }
                 else
@@ -652,6 +655,7 @@ public class PlayerController : MonoBehaviour
                     reloadingSniper = true;
                     myAnim.SetFloat("reloadMultiplier", 3.3f / sniperReload);
                     myAnim.SetBool("reloading", true);
+                    EazySoundManager.PlaySound(reloadAudio, 0.01f);
                     StartCoroutine(ReloadSniperCoro());
                 }
                 else
@@ -709,6 +713,7 @@ public class PlayerController : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.R))
         {
+            EazySoundManager.PlaySound(reloadAudio, 0.01f);
             switch (selectedWeapon)
             {
                 case Weapon.rifle:

@@ -14,6 +14,8 @@ public class PlayerPrefabReferences : MonoBehaviour
     public GameObject shield;
     public GameObject laser;
     public AudioClip shotAudio;
+    public AudioClip abilityAudio;
+    public AudioClip abilityOverAudio;
     public void Start()
     {
         

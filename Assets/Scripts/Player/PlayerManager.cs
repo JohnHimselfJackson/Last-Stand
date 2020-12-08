@@ -32,6 +32,10 @@ public class PlayerManager : MonoBehaviour
     #region Active Abilities    
     public ActiveAbility eAbility, qAbility;
     public Image eAbilityImage, qAbilityImage;
+    public Image eAbilityBackgroundImage, qAbilityBackgroundImage;
+    public Sprite[] abilityMainImages;
+    public Sprite[] abilityBackgrounds;
+
     public GameObject eHolder, qHolder;
     #endregion 
 
@@ -101,15 +105,23 @@ public class PlayerManager : MonoBehaviour
         {
             case 0: //impulse thrusters
                 qAbility = GetComponent<ImpulseThrusters>();
+                qAbilityBackgroundImage.sprite = abilityBackgrounds[0];
+                qAbilityImage.sprite = abilityMainImages[0];
                 break;
             case 1: //shield
                 qAbility = GetComponent<Shield>();
+                qAbilityBackgroundImage.sprite = abilityBackgrounds[1];
+                qAbilityImage.sprite = abilityMainImages[1];
                 break;
             case 2: //juggernaught
                 qAbility = GetComponent<JuggernaughtMode>();
+                qAbilityBackgroundImage.sprite = abilityBackgrounds[2];
+                qAbilityImage.sprite = abilityMainImages[2];
                 break;
             case 3: //overcharge
                 qAbility = GetComponent<SuitOvercharge>();
+                qAbilityBackgroundImage.sprite = abilityBackgrounds[3];
+                qAbilityImage.sprite = abilityMainImages[3];
                 break;
             default:
                 qAbility = null;
@@ -119,15 +131,23 @@ public class PlayerManager : MonoBehaviour
         {
             case 0: //impulse thrusters
                 eAbility = GetComponent<ImpulseThrusters>();
+                eAbilityBackgroundImage.sprite = abilityBackgrounds[0];
+                eAbilityImage.sprite = abilityMainImages[0];
                 break;
             case 1: //shield
                 eAbility = GetComponent<Shield>();
+                eAbilityBackgroundImage.sprite = abilityBackgrounds[1];
+                eAbilityImage.sprite = abilityMainImages[1];
                 break;
             case 2: //juggernaught
                 eAbility = GetComponent<JuggernaughtMode>();
+                eAbilityBackgroundImage.sprite = abilityBackgrounds[2];
+                eAbilityImage.sprite = abilityMainImages[2];
                 break;
             case 3: //overcharge
                 eAbility = GetComponent<SuitOvercharge>();
+                eAbilityBackgroundImage.sprite = abilityBackgrounds[3];
+                eAbilityImage.sprite = abilityMainImages[3];
                 break;
             default:
                 eAbility = null;
