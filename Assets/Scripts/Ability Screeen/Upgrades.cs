@@ -39,7 +39,7 @@ public class Upgrades : MonoBehaviour
         /*------------------------------------*/
         newUpgrade = new Upgrade();
         newUpgrade.SetName("Hardend Plating");
-        newUpgrade.SetDescription("Research into advanced materials has led to breakthoughs in metals used for armor plating.");
+        newUpgrade.SetDescription("Improves armour strength.");
         newUpgrade.myType = Upgrade.type.stats;
         #region stat Changes
         list1 = new float[] { 0, 0, 0, 0, 0, 0 }; // sword stat changes
@@ -62,7 +62,7 @@ public class Upgrades : MonoBehaviour
         /*------------------------------------*/
         newUpgrade = new Upgrade();
         newUpgrade.SetName("Enhanced Motors");
-        newUpgrade.SetDescription("Due to the miniaturization of numerous part used in the production motors and improvements in overall efficiency the motors in your suit are substantially better.");
+        newUpgrade.SetDescription("Increases agility and suit movement.");
         newUpgrade.myType = Upgrade.type.stats;
         #region stat Changes
         list1 = new float[] { 0, 0, 0, 0, 0, 0 }; // sword stat changes
@@ -85,7 +85,7 @@ public class Upgrades : MonoBehaviour
         /*------------------------------------*/
         newUpgrade = new Upgrade();
         newUpgrade.SetName("Inhertial Dampeners");
-        newUpgrade.SetDescription("Through highly advanced R&D into star fighter systems a possibility was found to shrink the size of inertial dampeners. This has meant that the once instanteous changes in direction only possible by star fighter are now possibe for you.");
+        newUpgrade.SetDescription("Increase movement persicion and stopping time, while overall increase agility.");
         newUpgrade.myType = Upgrade.type.stats;
         #region stat Changes
         list1 = new float[] { 0, 0, 0, 0, 0, 0 }; // sword stat changes
@@ -108,7 +108,7 @@ public class Upgrades : MonoBehaviour
         /*------------------------------------*/
         newUpgrade = new Upgrade();
         newUpgrade.SetName("Self Sufficient Impulse Thrusters");
-        newUpgrade.SetDescription("New power recycling and new hyper conductive alloys the power needed to use Impulse thrusters is now feasible.");
+        newUpgrade.SetDescription("Gain access to suit mounted impulse thrusters.");
         newUpgrade.myType = Upgrade.type.multi;
         #region stat Changes
         list1 = new float[] { 0, 0, 0, 0, 0, 0 }; // sword stat changes
@@ -131,7 +131,7 @@ public class Upgrades : MonoBehaviour
         /*------------------------------------*/
         newUpgrade = new Upgrade();
         newUpgrade.SetName("Percision Movement");
-        newUpgrade.SetDescription("A combination between the new onboard super computer, inhertial dampeners and impulse thrusters mean the suit is now able to preform actions with percision down to micrometer. this combines with the threat detection system to allow the player to dodge attacks that would be impossible for anyone else.");
+        newUpgrade.SetDescription("Massively charge the suits dodign ability.");
         newUpgrade.myType = Upgrade.type.stats;
         #region stat Changes
         list1 = new float[] { 0, 0, 0, 0, 0, 0 }; // sword stat changes
@@ -154,7 +154,7 @@ public class Upgrades : MonoBehaviour
         /*------------------------------------*/
         newUpgrade = new Upgrade();
         newUpgrade.SetName("Onboard Super Computer");
-        newUpgrade.SetDescription("the itnergration of a super computer allows the suit to make hyper precise and near insant computations");
+        newUpgrade.SetDescription("Improved calculation allow better projectile evasion.");
         newUpgrade.myType = Upgrade.type.stats;
         #region stat Changes
         list1 = new float[] { 0, 0, 0, 0, 0, 0 }; // sword stat changes
@@ -200,7 +200,7 @@ public class Upgrades : MonoBehaviour
         /*------------------------------------*/
         newUpgrade = new Upgrade();
         newUpgrade.SetName("Threat Detection System");
-        newUpgrade.SetDescription("A mix of various sensor arrays and systems allows the suits onboard to calculate incoming attacks. This combined with a threat ranking allows the suit to prioritize incoming attacks and allow you to dodge more effectively ");
+        newUpgrade.SetDescription("Increase evasion and attack range.");
         newUpgrade.myType = Upgrade.type.stats;
         #region stat Changes
         list1 = new float[] { 0, 0, 0, 0, 0, 0 }; // sword stat changes
@@ -223,7 +223,7 @@ public class Upgrades : MonoBehaviour
         /*------------------------------------*/
         newUpgrade = new Upgrade();
         newUpgrade.SetName("Advanced Threat Detection");
-        newUpgrade.SetDescription("Improvements to sensors and the calculations of projectiles allows greater precision. its systems has also been expanded to factor in the terrain and surroundings to optimize movement patterns");
+        newUpgrade.SetDescription("Improvements to the prior threat detection.");
         newUpgrade.myType = Upgrade.type.stats;
         #region stat Changes
         list1 = new float[] { 0, 0, 0, 0, 0, 0 }; // sword stat changes
@@ -246,7 +246,7 @@ public class Upgrades : MonoBehaviour
         /*------------------------------------*/
         newUpgrade = new Upgrade();
         newUpgrade.SetName("Optics Manipulation");
-        newUpgrade.SetDescription("Thanks to new lightbending polymers it is possible to alter the shape and sillouhete of your armour. This increases the enemies difficult in hitting you ");
+        newUpgrade.SetDescription("Your suit appears smaller, making its harder to aim at you. ");
         newUpgrade.myType = Upgrade.type.stats;
         #region stat Changes
         list1 = new float[] { 0, 0, 0, 0, 0, 0 }; // sword stat changes
@@ -269,7 +269,7 @@ public class Upgrades : MonoBehaviour
         /*------------------------------------*/
         newUpgrade = new Upgrade();
         newUpgrade.SetName("Advanced Optic Manipulation");
-        newUpgrade.SetDescription("The major implementation of Ghost suit technology now allows the armor to render its wearer completely invisible to the eye");
+        newUpgrade.SetDescription("");
         newUpgrade.myType = Upgrade.type.multi;
         #region stat Changes
         list1 = new float[] { 0, 0, 0, 0, 0, 0 }; // sword stat changes
@@ -315,7 +315,7 @@ public class Upgrades : MonoBehaviour
         /*------------------------------------*/
         newUpgrade = new Upgrade();
         newUpgrade.SetName("Reinforced Lining");
-        newUpgrade.SetDescription("A highly flexible and incredibly strong under layer, while it cannot compare to the stronger plate portions it instead acts to cover the weakspots and allows the user a full range of montion.");
+        newUpgrade.SetDescription("A nanoweave armour to cover your suits weakspots, increases armour.");
         newUpgrade.myType = Upgrade.type.stats;
         #region stat Changes
         list1 = new float[] { 0, 0, 0, 0, 0, 0 }; // sword stat changes
@@ -338,7 +338,7 @@ public class Upgrades : MonoBehaviour
         /*------------------------------------*/
         newUpgrade = new Upgrade();
         newUpgrade.SetName("Adaptive Lining");
-        newUpgrade.SetDescription("With excessive budget increases allow the engineers to add a complete layer of controlling circuits under the armor layers. this gives the suit more precise controls as well as the ability to adapt the position of armor plates while also strengthing the user");
+        newUpgrade.SetDescription("All-round defence increases.");
         newUpgrade.myType = Upgrade.type.stats;
         #region stat Changes
         list1 = new float[] { 0, 0, 0, 0, 0, 0 }; // sword stat changes
@@ -361,7 +361,7 @@ public class Upgrades : MonoBehaviour
         /*------------------------------------*/
         newUpgrade = new Upgrade();
         newUpgrade.SetName("Advanced Corite Refinement");
-        newUpgrade.SetDescription("New mining and refinement procedures now allow the practical use or Corite in non Macro productions");
+        newUpgrade.SetDescription("Super heavy metal increase armour strength drastically");
         newUpgrade.myType = Upgrade.type.stats;
         #region stat Changes
         list1 = new float[] { 0, 0, 0, 0, 0, 0 }; // sword stat changes
@@ -384,7 +384,7 @@ public class Upgrades : MonoBehaviour
         /*------------------------------------*/
         newUpgrade = new Upgrade();
         newUpgrade.SetName("Adaptive Plating");
-        newUpgrade.SetDescription("Advancements in chemistry have given the ability for more dynamic armor based off less rigid and more advanced nano weaves");
+        newUpgrade.SetDescription("Dynamic armour allows all round armour increases.");
         newUpgrade.myType = Upgrade.type.stats;
         #region stat Changes
         list1 = new float[] { 0, 0, 0, 0, 0, 0 }; // sword stat changes
@@ -407,7 +407,7 @@ public class Upgrades : MonoBehaviour
         /*------------------------------------*/
         newUpgrade = new Upgrade();
         newUpgrade.SetName("Cobium Intergration");
-        newUpgrade.SetDescription("The invention of atomic printers has allowed engineers to both fabricate and work with materials once thought impossible due to their durability. This has meant that they can be now intergrated into new alloy for use in the suit");
+        newUpgrade.SetDescription("Intergration of experimental metals allow massive armour increases");
         newUpgrade.myType = Upgrade.type.stats;
         #region stat Changes
         list1 = new float[] { 0, 0, 0, 0, 0, 0 }; // sword stat changes
@@ -430,7 +430,7 @@ public class Upgrades : MonoBehaviour
         /*------------------------------------*/
         newUpgrade = new Upgrade();
         newUpgrade.SetName("Compartementalized Design");
-        newUpgrade.SetDescription("thgrough planning of the suits subsystems combines with the creation of various subsystems vastly increase the suits durability as well as improving some of its base features");
+        newUpgrade.SetDescription("Compartmentalization of armour components massivelt increases armour durability");
         newUpgrade.myType = Upgrade.type.stats;
         #region stat Changes
         list1 = new float[] { 0, 0, 0, 0, 0, 0 }; // sword stat changes
@@ -453,7 +453,7 @@ public class Upgrades : MonoBehaviour
         /*------------------------------------*/
         newUpgrade = new Upgrade();
         newUpgrade.SetName("Juggernaught Mode");
-        newUpgrade.SetDescription("Through  smart design and dynamic plate armor the suit gains the ability to enter a armored combat mode that allows it gain un paralleled armor");
+        newUpgrade.SetDescription("Armour plates interlock to temporaily give the suit a massive defencive increase");
         newUpgrade.myType = Upgrade.type.active;
         #region stat Changes
         list1 = new float[] { 0, 0, 0, 0, 0, 0 }; // sword stat changes
@@ -476,7 +476,7 @@ public class Upgrades : MonoBehaviour
         /*------------------------------------*/
         newUpgrade = new Upgrade();
         newUpgrade.SetName("Regenerative Materials");
-        newUpgrade.SetDescription("implementation of nano repiar bots allows armor to repair without needing to travel to a repair station");
+        newUpgrade.SetDescription("Allows armour to naturally repair");
         newUpgrade.myType = Upgrade.type.passive;
         #region stat Changes
         list1 = new float[] { 0, 0, 0, 0, 0, 0 }; // sword stat changes
@@ -499,7 +499,7 @@ public class Upgrades : MonoBehaviour
         /*------------------------------------*/
         newUpgrade = new Upgrade();
         newUpgrade.SetName("Built in Med Suite");
-        newUpgrade.SetDescription("Medical gear is now fitted into the suit that allows healing in active combat situaations through the complex use of advanced medical equipment and chemicals.");
+        newUpgrade.SetDescription("Built in med gear allows the player to heal.");
         newUpgrade.myType = Upgrade.type.passive;
         #region stat Changes
         list1 = new float[] { 0, 0, 0, 0, 0, 0 }; // sword stat changes

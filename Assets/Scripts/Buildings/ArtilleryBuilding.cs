@@ -38,6 +38,7 @@ public class ArtilleryBuilding : BuildingDefence
 
     private void Update()
     {
+        GenericUpdate();
         // What happens at each damage state
         switch (damageState)
         {

@@ -97,6 +97,7 @@ public class PlayerManager : MonoBehaviour
         gotMedSuite = PlayerData.playerStats.gotMedSuite;
         pC.gotGL = PlayerData.playerStats.gotGrenade;
         pC.gotSL = PlayerData.playerStats.gotLaser;
+        pC.gotSL = true;
         switch (PlayerData.playerStats.qAbility)
         {
             case 0: //impulse thrusters
