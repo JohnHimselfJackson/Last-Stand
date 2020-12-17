@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Hellmade.Sound;
 
 public class Shield : ActiveAbility
 {
@@ -29,6 +30,7 @@ public class Shield : ActiveAbility
     void AbilityStart()
     {
         print("started shield");
+        EazySoundManager.PlaySound(PlayerPrefabReferences.PPR.abilityAudio, 0.2f, false, transform);
         shieldInstance = Instantiate(shieldPrefab, transform);
         cooldownCount = cooldown;
         Invoke("AbilityEnd", 10);
@@ -36,6 +38,7 @@ public class Shield : ActiveAbility
 
     void AbilityEnd()
     {
+        EazySoundManager.PlaySound(PlayerPrefabReferences.PPR.abilityOverAudio, 0.2f, false, transform);
         Destroy(shieldInstance);
     }
 }

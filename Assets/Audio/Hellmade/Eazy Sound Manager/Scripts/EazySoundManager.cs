@@ -701,6 +701,7 @@ namespace Hellmade.Sound
         /// <returns>The ID of the created Audio object</returns>
         public static int PlaySound(AudioClip clip, float volume, bool loop, Transform sourceTransform)
         {
+            print(clip + sourceTransform.gameObject.name);
             return PlayAudio(Audio.AudioType.Sound, clip, volume, loop, false, 0f, 0f, -1f, sourceTransform);
         }
 

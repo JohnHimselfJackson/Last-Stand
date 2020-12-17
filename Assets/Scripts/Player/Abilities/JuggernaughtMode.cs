@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Hellmade.Sound;
 
 public class JuggernaughtMode : ActiveAbility
 {
@@ -21,6 +22,7 @@ public class JuggernaughtMode : ActiveAbility
     void AbilityStart()
     {
         print("started jugger");
+        EazySoundManager.PlaySound(PlayerPrefabReferences.PPR.abilityAudio, 0.2f, false, transform);
         PlayerManager.pM.pC.JuggernaughtChange(2,0.5f);
         PlayerManager.pM.JuggernaughtChange(6, 200,6);
         cooldownCount = cooldown;
@@ -29,6 +31,7 @@ public class JuggernaughtMode : ActiveAbility
 
     void AbilityEnd()
     {
+        EazySoundManager.PlaySound(PlayerPrefabReferences.PPR.abilityOverAudio, 0.2f, false, transform);
         PlayerManager.pM.pC.JuggernaughtChange(-2, -0.5f);
         PlayerManager.pM.JuggernaughtOver(6, 200, 6);
     }

@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using TMPro;
 using Hellmade.Sound;
@@ -12,7 +13,10 @@ public class PlayerController : MonoBehaviour
     public GameObject myCanvas;
     public Animator myAnim;
     public GameObject animGO;
-    public Animation reloadAnimation;
+    public Image equippedImage, swappedImage;
+    public Sprite arSprite;
+    public Sprite sniperSprite;
+
     #region Layer Masks
     int groundLayerMask = 1 << 12;
     int nonTraversableLayerMask = (1 << 8) | (1 << 10) | (1 << 11) | (1 << 12) | (1 << 13);
@@ -23,7 +27,7 @@ public class PlayerController : MonoBehaviour
 
     #region Movement Variables
     public bool diving;
-    public enum diveState {not, started, end }
+    public enum diveState { not, started, end }
     public diveState currentDiveState = diveState.not;
     Vector3 diveStartPos;
     Vector3 divePos;
@@ -65,7 +69,7 @@ public class PlayerController : MonoBehaviour
         set
         {
             _sniperAmmoCount = value;
-            if(selectedWeapon == Weapon.sniper) ammoTB.text = "Sniper:  " + _sniperAmmoCount.ToString() + "/" + sniperAmmoMax.ToString();
+            if (selectedWeapon == Weapon.sniper) ammoTB.text = "Sniper:  " + _sniperAmmoCount.ToString() + "/" + sniperAmmoMax.ToString();
         }
     }
     private float sniperShootCooldown;
@@ -90,7 +94,7 @@ public class PlayerController : MonoBehaviour
     private bool reloadingSword;
     #endregion
 
-    private enum Weapon {sword, rifle, sniper }
+    private enum Weapon { sword, rifle, sniper }
     private Weapon selectedWeapon;
 
     List<Weapon> availableWeapons = new List<Weapon>();
@@ -136,8 +140,10 @@ public class PlayerController : MonoBehaviour
 
     #region Audio
     private AudioClip gunShot;
+    [SerializeField]
+    AudioClip reloadAudio;
     #endregion
-       
+
     /// <summary>
     /// call sparingly
     /// </summary>
@@ -603,7 +609,7 @@ public class PlayerController : MonoBehaviour
                     //line cast
 
                     shot.GetComponent<PlayerBulletLogic>().StartBullet(projectielStart.position, shootPoint, rifleRange, rifleDmgPkg);
-                    EazySoundManager.PlaySound(gunShot, 0.4f, false, projectielStart);
+                    EazySoundManager.PlaySound(gunShot, 0.01f, false, projectielStart);
                     shot.SetActive(true);
                     rifleAmmoCount--;
                     rifleShootCooldown = rifleROF;
@@ -615,6 +621,7 @@ public class PlayerController : MonoBehaviour
                     reloadingRifle = true;
                     myAnim.SetFloat("reloadMultiplier", 3.3f / rifleReload);
                     myAnim.SetBool("reloading", true);
+                    EazySoundManager.PlaySound(reloadAudio, 0.01f);
                     StartCoroutine(ReloadRifleCoro());
                 }
                 else
@@ -637,7 +644,7 @@ public class PlayerController : MonoBehaviour
                     //line cast
 
                     shot.GetComponent<PlayerBulletLogic>().StartBullet(projectielStart.position, shootPoint, sniperRange, sniperDmgPkg);
-                    EazySoundManager.PlaySound(gunShot, 0.6f);
+                    EazySoundManager.PlaySound(gunShot, 0.05f, false, projectielStart);
                     shot.SetActive(true);
                     sniperAmmoCount--;
                     sniperShootCooldown = sniperROF;
@@ -648,6 +655,7 @@ public class PlayerController : MonoBehaviour
                     reloadingSniper = true;
                     myAnim.SetFloat("reloadMultiplier", 3.3f / sniperReload);
                     myAnim.SetBool("reloading", true);
+                    EazySoundManager.PlaySound(reloadAudio, 0.01f);
                     StartCoroutine(ReloadSniperCoro());
                 }
                 else
@@ -670,12 +678,15 @@ public class PlayerController : MonoBehaviour
                     switch (selectedWeapon)
                     {
                         case Weapon.sniper:
-                            weaponUIController.SwapWeapon("Sniper", (int)sniperAmmoMax, (int)sniperAmmoCount, sniperReloadTime, 1 / sniperROF);
+                            equippedImage.sprite = sniperSprite;
+                            swappedImage.sprite = arSprite;
                             sniperAmmoCount = sniperAmmoCount;
                             myAnim.SetFloat("shootMultiplier", 0.567f/sniperROF);
                             print("now selected sniper");
                             break;
                         case Weapon.rifle:
+                            equippedImage.sprite = arSprite;
+                            swappedImage.sprite = sniperSprite;
                             weaponUIController.SwapWeapon("Rifle", (int)rifleAmmoMax, (int)rifleAmmoCount, rifleReloadTime, 1 / rifleROF);
                             rifleAmmoCount = rifleAmmoCount;
                             myAnim.SetFloat("shootMultiplier", 0.567f / rifleROF);
@@ -702,6 +713,7 @@ public class PlayerController : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.R))
         {
+            EazySoundManager.PlaySound(reloadAudio, 0.01f);
             switch (selectedWeapon)
             {
                 case Weapon.rifle:

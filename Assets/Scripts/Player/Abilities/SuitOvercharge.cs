@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Hellmade.Sound;
 
 public class SuitOvercharge : ActiveAbility
 {
@@ -21,6 +22,7 @@ public class SuitOvercharge : ActiveAbility
     void AbilityStart()
     {
         print("started over");
+        EazySoundManager.PlaySound(PlayerPrefabReferences.PPR.abilityAudio, 0.2f, false, transform);
         PlayerManager.pM.pC.OverchargeChange(3, -0.3f, 1);
         PlayerManager.pM.OverchargeChange(12,15);
         cooldownCount = cooldown;
@@ -29,6 +31,7 @@ public class SuitOvercharge : ActiveAbility
 
     void AbilityEnd()
     {
+        EazySoundManager.PlaySound(PlayerPrefabReferences.PPR.abilityOverAudio, 0.2f, false, transform);
         PlayerManager.pM.pC.OverchargeChange(-3, 0.3f, -1);
         PlayerManager.pM.OverchargeOver(12, 15);
     }
