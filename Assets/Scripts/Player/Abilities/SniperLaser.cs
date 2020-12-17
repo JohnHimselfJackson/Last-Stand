@@ -58,7 +58,7 @@ public class SniperLaser : ActiveAbility
         }
         shootPoint = shootPoint + Vector3.up;
         Vector3 laserEndPoint = transform.position + (shootPoint - transform.position).normalized * laserRange;
-        activeLaser.GetComponent<LaserComponent>().LaserFunction(transform.position, laserEndPoint);
+        activeLaser.GetComponent<LaserComponent>().LaserFunction(pC.projectielStart.position, laserEndPoint);
     }
 
     public void EndLaser()

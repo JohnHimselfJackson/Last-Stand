@@ -687,7 +687,6 @@ public class PlayerController : MonoBehaviour
                         case Weapon.rifle:
                             equippedImage.sprite = arSprite;
                             swappedImage.sprite = sniperSprite;
-                            weaponUIController.SwapWeapon("Rifle", (int)rifleAmmoMax, (int)rifleAmmoCount, rifleReloadTime, 1 / rifleROF);
                             rifleAmmoCount = rifleAmmoCount;
                             myAnim.SetFloat("shootMultiplier", 0.567f / rifleROF);
                             sL.EndLaser();
