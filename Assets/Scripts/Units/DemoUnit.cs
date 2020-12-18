@@ -15,8 +15,8 @@ public class DemoUnit : UnitMaster
         armour = 1;
         myClass = unitClass.light;
         movespeed = 4;
-        lineOfSight = 15;
-        attackRange = 10;
+        lineOfSight = 20;
+        attackRange = 20;
         attackCooldown = 1;
         damage = new DamagePackage(DamagePackage.damageClass.light, DamagePackage.damageType.standard, 7, attackCooldown *1.2f );
 

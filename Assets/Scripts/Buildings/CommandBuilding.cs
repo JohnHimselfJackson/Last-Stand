@@ -84,7 +84,11 @@ public class CommandBuilding : BuildingBasic
     public override void BuildingDestroyed()
     {
         print("you won the game");
-        SceneManager.LoadScene(0);
+        Invoke("LoadMainMenu", 4);
         base.BuildingDestroyed();
+    }
+    public void LoadMainMenu()
+    {
+        SceneManager.LoadSceneAsync("MainMenu");
     }
 }

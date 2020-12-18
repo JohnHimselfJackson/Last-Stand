@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 using VulpineAlice.TooltipUI;
 
 public class PlayerManager : MonoBehaviour
@@ -366,6 +367,7 @@ public class PlayerManager : MonoBehaviour
         pC.myAnim.SetBool("dead", true);
         pC.LockPlayer();
         print("get gud fuckboi");
+        Invoke("LoadMainMenu", 1.5f);
     }
 
     #region abilities
@@ -485,5 +487,9 @@ public class PlayerManager : MonoBehaviour
         {
             qHolder.SetActive(false);
         }
+    }
+    public void LoadMainMenu()
+    {
+        SceneManager.LoadSceneAsync("MainMenu");
     }
 }
