@@ -10,7 +10,7 @@ public class PlayerManager : MonoBehaviour
     #region Health and Armour
 
     private float healthTotal;
-    private float healthCurrent;
+    public float healthCurrent;
 
     private float evasionChance;
     private float grazeChance;
@@ -56,6 +56,7 @@ public class PlayerManager : MonoBehaviour
     void Start()
     {
         LoadPlayer();
+        print(deflectionValue + "  " + armourDecrease);
     }
 
     // Update is called once per frame
@@ -342,21 +343,30 @@ public class PlayerManager : MonoBehaviour
     //used within the damage resolution function to help calculate the damage dealt to player based on their armour
     int ArmourCalc(int damage)
     {
-        //saves initial damage for later reference
-        int startingDamage =damage;
-        //checks if damage is less than defelction value and returns 0 if so
-        if(damage <= deflectionValue)
+        int temp = damage;
+        if (armourCurrent > 0)
         {
-            return 0;
-        }
-        //calculates the damage that will be dealt after armour
-        int temp = damage - armourDecrease;
-        //subtracts the damage dealt from the armour
-        armourCurrent -= startingDamage - temp;
-        //if the remaining armour is less than 0 make it = o
-        if (armourCurrent < 0)
-        {
-            armourCurrent = 0;
+            //saves initial damage for later reference
+            int startingDamage = damage;
+            //checks if damage is less than defelction value and returns 0 if so
+            if (damage <= deflectionValue)
+            {
+                print(temp);
+                return 0;
+            }
+            //calculates the damage that will be dealt after armour
+            temp = damage - armourDecrease;
+            //subtracts the damage dealt from the armour
+            armourCurrent -= startingDamage - temp;
+            //if the remaining armour is less than 0 make it = o
+            if (armourCurrent < 0)
+            {
+                armourCurrent = 0;
+            }
+            if (temp < 1)
+            {
+                temp = 1;
+            }
         }
         //returns final damage
         return temp;

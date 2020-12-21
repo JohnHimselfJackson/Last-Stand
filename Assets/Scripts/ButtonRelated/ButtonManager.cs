@@ -12,7 +12,7 @@ public class ButtonManager : MonoBehaviour
     public Image upgradeIcon;
     public static ButtonManager bM;
     int pointsLeft;
-    int startingPoints = 20;
+    int startingPoints = 10;
     public Color standradColor;
     public UpgradeLogic currentQ, currentE;
 

@@ -1080,7 +1080,11 @@ public class Upgrades : MonoBehaviour
 
     void Start()
     {
-
+        foreach(Upgrade uu in upgradeList)
+        {
+            uu.upgraded = false;
+            PlayerData.playerStats.NewStatBlock();
+        }
     }
 }
 
